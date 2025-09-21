@@ -9,7 +9,7 @@ import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
 import java.util.List;
 
 @Entity
-@Table(name = "user_tbl")
+@Table(name = "tbl_user")
 @NoArgsConstructor
 @Getter
 public class User {
