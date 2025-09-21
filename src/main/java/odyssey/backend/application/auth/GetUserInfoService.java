@@ -13,7 +13,7 @@ public class GetUserInfoService {
     private final FindUserService findUserService;
 
     public UserResponse getUserInfo(User user) {
-        return UserResponse.from(findUserService.findUserByUuid(user.getUuid()));
+        return UserResponse.from(findUserService.findUserByEmail(user.getEmail()));
     }
 
 }

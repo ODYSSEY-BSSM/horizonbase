@@ -4,11 +4,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.auth.exception.InvalidPasswordException;
-import odyssey.backend.domain.auth.exception.UserNotFoundException;
+import odyssey.backend.domain.auth.service.FindUserService;
 import odyssey.backend.infrastructure.cookie.CookieUtil;
 import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
 import odyssey.backend.infrastructure.jwt.service.TokenService;
-import odyssey.backend.infrastructure.persistence.auth.UserRepository;
 import odyssey.backend.presentation.auth.dto.request.LoginRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,14 +16,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginService {
 
-    private final UserRepository userRepository;
+    private final FindUserService findUserService;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final TokenService tokenService;
     private final CookieUtil cookieUtil;
 
     public TokenResponse login(LoginRequest request, HttpServletResponse response) {
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(UserNotFoundException::new);
+        User user = findUserService.findUserByEmail(request.getEmail());
 
         if(!checkPassword(request.getPassword(), user.getPassword())){
             throw new InvalidPasswordException();
