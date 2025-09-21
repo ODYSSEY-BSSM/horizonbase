@@ -51,7 +51,9 @@ public class DirectoryService {
 
 
     public void deleteDirectory(Long id) {
-        directoryRepository.deleteById(id);
+        Directory directory = findDirectoryById(id);
+
+        directoryRepository.delete(directory);
     }
 
     public Directory findDirectoryById(Long id) {
