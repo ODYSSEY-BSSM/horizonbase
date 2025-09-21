@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.auth.exception.UserNotFoundException;
 import odyssey.backend.infrastructure.cookie.CookieUtil;
 import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
 import odyssey.backend.infrastructure.jwt.service.TokenService;
@@ -33,7 +34,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String email = oAuth2User.getAttribute("email");
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("저장되지 않을 이메일입니다"));
+                .orElseThrow(UserNotFoundException::new);
 
         String accessToken = tokenService.generateAccessToken(user);
         String refreshToken = tokenService.generateRefreshToken(user);
