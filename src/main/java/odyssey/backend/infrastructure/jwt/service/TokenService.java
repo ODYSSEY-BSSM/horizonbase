@@ -7,13 +7,14 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.Role;
 import odyssey.backend.domain.auth.User;
-import odyssey.backend.domain.auth.service.FindUserService;
+import odyssey.backend.domain.auth.exception.UserNotFoundException;
 import odyssey.backend.infrastructure.jwt.domain.RefreshToken;
 import odyssey.backend.infrastructure.jwt.domain.RefreshTokenRepository;
 import odyssey.backend.infrastructure.jwt.domain.TokenType;
 import odyssey.backend.infrastructure.jwt.exception.InvalidTokenException;
 import odyssey.backend.infrastructure.jwt.exception.InvalidTokenTypeException;
 import odyssey.backend.infrastructure.jwt.exception.TokenNotFoundException;
+import odyssey.backend.infrastructure.persistence.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ import java.util.Date;
 public class TokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
-    private final FindUserService findUserService;
+    private final UserRepository userRepository;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -77,7 +78,7 @@ public class TokenService {
             throw new InvalidTokenException();
         }
 
-        User user = findUserService.findUserByUuid(uuid);
+        User user = getUserByUuid(uuid);
 
         return generateAccessToken(user);
     }
@@ -96,6 +97,7 @@ public class TokenService {
     }
 
     public User getUserByUuid(Long uuid) {
-        return findUserService.findUserByUuid(uuid);
+        return userRepository.findUserByUuid(uuid)
+                .orElseThrow(UserNotFoundException::new);
     }
 }
