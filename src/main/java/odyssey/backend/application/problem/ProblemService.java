@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.exception.NodeNotFoundException;
 import odyssey.backend.domain.problem.Problem;
+import odyssey.backend.domain.problem.exception.ProblemNotFoundException;
 import odyssey.backend.infrastructure.persistence.node.NodeRepository;
 import odyssey.backend.infrastructure.persistence.problem.ProblemRepository;
 import odyssey.backend.presentation.problem.dto.request.ProblemRequest;
@@ -22,7 +23,7 @@ public class ProblemService {
     @Transactional
     public ProblemResponse solveProblem(Long id, SolveProblemRequest request) {
         Problem problem = problemRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 문제입니다."));
+                .orElseThrow(ProblemNotFoundException::new);
 
         Node node = problem.getNode();
 

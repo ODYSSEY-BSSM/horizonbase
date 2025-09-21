@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.domain.problem.Problem;
+import odyssey.backend.domain.problem.exception.CantCreateProblemException;
+import odyssey.backend.domain.problem.exception.MaxOfProblemException;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 
@@ -126,10 +128,10 @@ public class Node {
 
     public void validate(){
         if(this.type != NodeType.BOTTOM){
-            throw new IllegalArgumentException("해당 노드에 문제를 만들 수 없습니다");
+            throw new CantCreateProblemException();
         }
         if(problems.size() == 3){
-            throw new IllegalStateException("문제는 3개가 최대입니다.");
+            throw new MaxOfProblemException();
         }
     }
 
