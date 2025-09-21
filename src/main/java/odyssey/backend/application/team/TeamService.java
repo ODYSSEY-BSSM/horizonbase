@@ -41,10 +41,7 @@ public class TeamService {
     }
 
     public boolean isUserMemberOfTeam(Long userId, Long teamId) {
-        Team team = teamRepository.findById(teamId).orElse(null);
-        if (team == null) {
-            return false;
-        }
+        Team team = findByTeamId(teamId);
         
         return team.getMembers().stream()
                    .anyMatch(member -> member.getUuid().equals(userId));
