@@ -12,7 +12,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "tbl_team")
+@Entity
+@Table(name = "tbl_team")
 public class Team {
 
     @Id

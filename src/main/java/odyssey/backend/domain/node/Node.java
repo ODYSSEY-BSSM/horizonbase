@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "node_tbl")
+@Table(name = "tbl_node")
 public class Node {
 
     @Id
