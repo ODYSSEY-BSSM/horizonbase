@@ -44,7 +44,7 @@ public class MailUtil {
             javaMailSender.send(mimeMessage);
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new FailedSendMailException();
         }
     }
 
