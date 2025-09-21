@@ -6,7 +6,6 @@ import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.team.Team;
 import odyssey.backend.domain.team.TeamApply;
 import odyssey.backend.domain.team.exception.ApplyNotFoundException;
-import odyssey.backend.domain.team.exception.NotLeaderException;
 import odyssey.backend.domain.team.exception.TeamNotFoundException;
 import odyssey.backend.infrastructure.persistence.team.TeamApplyRepository;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
@@ -52,9 +51,7 @@ public class TeamApplyService {
     }
 
     private void validateLeader(Team team, User user){
-        if(!team.isLeader(user)){
-            throw new NotLeaderException();
-        }
+        team.validateLeader(user);
     }
 
     private TeamApply findById(Long applyId){
