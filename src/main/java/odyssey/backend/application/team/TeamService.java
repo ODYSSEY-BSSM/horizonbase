@@ -1,11 +1,12 @@
 package odyssey.backend.application.team;
 
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.team.Team;
+import odyssey.backend.domain.team.exception.TeamNotFoundException;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
 import odyssey.backend.presentation.team.dto.response.TeamResponse;
-import odyssey.backend.domain.auth.User;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -28,14 +29,14 @@ public class TeamService {
     }
 
     public TeamResponse findById(Long teamId) {
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 팀입니다."));
+        Team team = findByTeamId(teamId);
+
         return TeamResponse.from(team);
     }
 
     public Team findByTeamId(Long teamId){
         return teamRepository.findById(teamId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 팀입니다."));
+                .orElseThrow(TeamNotFoundException::new);
     }
 
     public boolean isUserMemberOfTeam(Long userId, Long teamId) {
