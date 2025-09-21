@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.auth.exception.UserNotFoundException;
 import odyssey.backend.infrastructure.jwt.service.TokenService;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -11,10 +12,9 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
-import org.springframework.stereotype.Component;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
                     User user = tokenService.getUserByUuid(uuid);
                     if (user == null) {
                         log.error("WebSocket 인증 실패: DB에서 uuid '{}'에 해당하는 사용자를 찾을 수 없습니다.", uuid);
-                        throw new IllegalArgumentException("User not found in DB");
+                        throw new UserNotFoundException();
                     }
 
                     UsernamePasswordAuthenticationToken authentication =
