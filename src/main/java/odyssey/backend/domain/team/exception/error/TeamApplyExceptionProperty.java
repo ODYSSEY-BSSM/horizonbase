@@ -7,9 +7,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum TeamExceptionProperty implements ErrorProperty {
-    TEAM_NOT_FOUND(HttpStatus.NOT_FOUND, "팀이 존재하지 않습니다"),
-    IS_NOT_LEADER(HttpStatus.FORBIDDEN, "팀장이 아닙니다.");
+public enum TeamApplyExceptionProperty implements ErrorProperty {
+    APPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 신청입니다.");
 
     private final HttpStatus status;
     private final String message;

@@ -2,7 +2,7 @@ package odyssey.backend.application.auth;
 
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
-import odyssey.backend.infrastructure.persistence.auth.UserRepository;
+import odyssey.backend.domain.auth.service.FindUserService;
 import odyssey.backend.presentation.auth.dto.response.UserResponse;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetUserInfoService {
 
-    private final UserRepository userRepository;
+    private final FindUserService findUserService;
 
     public UserResponse getUserInfo(User user) {
-        return UserResponse.from(userRepository.findUserByUuid(user.getUuid()));
+        return UserResponse.from(findUserService.findUserByUuid(user.getUuid()));
     }
+
 }
 

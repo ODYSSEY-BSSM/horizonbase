@@ -2,6 +2,8 @@ package odyssey.backend.application.auth;
 
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.SignUpVerification;
+import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
+import odyssey.backend.domain.auth.exception.InvalidVerificationCodeException;
 import odyssey.backend.infrastructure.persistence.auth.SignUpVerificationRepository;
 import odyssey.backend.presentation.auth.dto.request.VerifyRequest;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,10 @@ public class VerificationValidUseCase {
 
     public void verify(VerifyRequest request){
         SignUpVerification signUpVerification = signUpVerificationRepository.findById(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않음"));
+                .orElseThrow(InvalidRequestEmailException::new);
 
         if(!signUpVerification.getCode().equals(request.getCode())){
-            throw new IllegalArgumentException("인증코드 불일치");
+            throw new InvalidVerificationCodeException();
         }
 
         signUpVerification.verify();

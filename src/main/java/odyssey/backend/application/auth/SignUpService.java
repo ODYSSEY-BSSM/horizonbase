@@ -4,6 +4,8 @@
     import odyssey.backend.domain.auth.Role;
     import odyssey.backend.domain.auth.SignUpVerification;
     import odyssey.backend.domain.auth.User;
+    import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
+    import odyssey.backend.domain.auth.exception.NotVerificationUserException;
     import odyssey.backend.infrastructure.persistence.auth.SignUpVerificationRepository;
     import odyssey.backend.infrastructure.persistence.auth.UserRepository;
     import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
@@ -33,10 +35,10 @@
 
         public void validate(String email) {
             SignUpVerification signUpVerification = signUpVerificationRepository.findById(email)
-                    .orElseThrow(() -> new IllegalArgumentException("잘못된 이메일"));
+                    .orElseThrow(InvalidRequestEmailException::new);
 
             if(!signUpVerification.isVerified()){
-                throw new IllegalArgumentException("인증되지 않은 사용자입니다.");
+                throw new NotVerificationUserException();
             }
 
             signUpVerificationRepository.delete(signUpVerification);
