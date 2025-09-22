@@ -1,14 +1,19 @@
 package odyssey.backend.infrastructure.cookie;
 
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.http.ResponseCookie;
+
+import odyssey.backend.infrastructure.cookie.exception.FailedSaveCookieException;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class CookieUtil {
 
     public void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
-        ResponseCookie cookie = ResponseCookie.from(name, value)
+        try {
+            ResponseCookie cookie = ResponseCookie.from(name, value)
                 .path("/")
                 .maxAge(maxAge)
                 .httpOnly(false)
@@ -16,7 +21,10 @@ public class CookieUtil {
                 .sameSite("None")
                 .build();
 
-        response.addHeader("Set-Cookie", cookie.toString());
+            response.addHeader("Set-Cookie", cookie.toString());
+        }catch(Exception e){
+            throw new FailedSaveCookieException();
+        }
     }
 
 }

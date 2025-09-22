@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "directory_tbl")
+@Table(name = "tbl_directory")
 public class Directory {
 
     @Id

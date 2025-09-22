@@ -4,6 +4,7 @@ import odyssey.backend.application.team.TeamService;
 import odyssey.backend.domain.auth.Role;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.team.Team;
+import odyssey.backend.domain.team.exception.TeamNotFoundException;
 import odyssey.backend.infrastructure.persistence.team.TeamApplyRepository;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,15 +83,12 @@ class TeamServiceTest {
     }
 
     @Test
-    void 존재하지_않는_팀의_경우_false를_반환한다() {
-        // given
+    void 존재하지_않는_팀의_경우_예외가_발생한다() {
         given(teamRepository.findById(999L)).willReturn(Optional.empty());
 
-        // when
-        boolean result = teamService.isUserMemberOfTeam(1L, 999L);
-
-        // then
-        assertThat(result).isFalse();
+        assertThatThrownBy(() -> teamService.isUserMemberOfTeam(1L, 999L))
+                .isInstanceOf(TeamNotFoundException.class)
+                .hasMessage("팀이 존재하지 않습니다");
     }
 
     private User createUser(Long uuid, String username) {

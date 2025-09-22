@@ -3,6 +3,8 @@ package odyssey.backend.domain.auth;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.domain.auth.exception.InvalidVerificationCodeException;
+import odyssey.backend.domain.auth.exception.NotVerificationUserException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -34,6 +36,19 @@ public class SignUpVerification {
 
     public void verify(){
         isVerified = true;
+    }
+
+
+    public void validateCode(String requestCode){
+        if(!code.equals(requestCode)){
+            throw new InvalidVerificationCodeException();
+        }
+    }
+
+    public void validateVerified(){
+        if(!isVerified){
+            throw new NotVerificationUserException();
+        }
     }
 
 }

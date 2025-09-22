@@ -12,8 +12,8 @@ public class FindUserService {
 
     private final UserRepository userRepository;
 
-    public User findUserByUuid(Long uuid) {
-        return userRepository.findUserByUuid(uuid)
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);
     }
 

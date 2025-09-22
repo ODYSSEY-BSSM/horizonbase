@@ -8,6 +8,7 @@ import odyssey.backend.domain.auth.User;
 @Entity
 @NoArgsConstructor
 @Getter
+@Table(name = "tbl_teamApply")
 public class TeamApply {
 
     @Id

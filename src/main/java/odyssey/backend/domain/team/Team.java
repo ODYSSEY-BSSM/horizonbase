@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.team.exception.NotLeaderException;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
 
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "tbl_team")
+@Entity
+@Table(name = "tbl_team")
 public class Team {
 
     @Id
@@ -52,6 +54,12 @@ public class Team {
 
     public boolean isLeader(User user){
         return this.leader.getUuid().equals(user.getUuid());
+    }
+
+    public void validateLeader(User user){
+        if(!isLeader(user)){
+            throw new NotLeaderException();
+        }
     }
 
     public String getLeaderUsername(){

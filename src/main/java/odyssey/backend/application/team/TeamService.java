@@ -22,8 +22,9 @@ public class TeamService {
     }
 
     public void delete(Long id, User user){
-        Team team = teamRepository.findByLeader(user)
-                .orElseThrow(() -> new IllegalArgumentException("팀은 팀장만 삭제할 수 있읍니다."));
+        Team team = findByTeamId(id);
+
+        team.validateLeader(user);
 
         teamRepository.delete(team);
     }
@@ -40,10 +41,7 @@ public class TeamService {
     }
 
     public boolean isUserMemberOfTeam(Long userId, Long teamId) {
-        Team team = teamRepository.findById(teamId).orElse(null);
-        if (team == null) {
-            return false;
-        }
+        Team team = findByTeamId(teamId);
         
         return team.getMembers().stream()
                    .anyMatch(member -> member.getUuid().equals(userId));

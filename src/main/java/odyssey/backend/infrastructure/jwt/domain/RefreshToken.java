@@ -2,12 +2,14 @@ package odyssey.backend.infrastructure.jwt.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(name = "tbl_refreshToken")
 public class RefreshToken {
 
     @Id
