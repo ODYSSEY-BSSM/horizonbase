@@ -32,16 +32,17 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-            String token = accessor.getFirstNativeHeader("Authorization");
+            // 여러 방법으로 토큰 추출 시도
+            String token = extractToken(accessor);
 
-            if (token != null && token.startsWith("Bearer ")) {
-                token = token.substring(7);
+            if (token != null) {
                 try {
                     Claims claims = tokenService.parseToken(token);
                     Long uuid = claims.get("uuid", Long.class);
                     User user = tokenService.getUserByUuid(uuid);
+
                     if (user == null) {
-                        log.error("WebSocket 인증 실패: DB에서 uuid '{}'에 해당하는 사용자를 찾을 수 없습니다.", uuid);
+                        log.error("WebSocket 인증 실패: uuid '{}'에 해당하는 사용자 없음", uuid);
                         throw new UserNotFoundException();
                     }
 
@@ -54,15 +55,50 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
 
                     accessor.setUser(authentication);
                 } catch (Exception e) {
-                    log.error("WebSocket 토큰 파싱 실패: {} - {}", e.getClass().getSimpleName(), e.getMessage());
+                    log.error("WebSocket 토큰 파싱 실패: {}", e.getMessage());
                     throw new InvalidTokenException();
                 }
             } else {
-                log.error("WebSocket 연결 시 토큰이 없거나 Bearer로 시작하지 않음: '{}'", token);
+                log.error("WebSocket 연결 시 토큰을 찾을 수 없음");
                 throw new TokenNotFoundException();
             }
         }
 
         return message;
+    }
+
+    private String extractToken(StompHeaderAccessor accessor) {
+        // 1. Cookie 헤더에서 추출
+        String cookieHeader = accessor.getFirstNativeHeader("Cookie");
+
+        if (cookieHeader != null) {
+            String token = extractJwtFromCookie(cookieHeader);
+            if (token != null) {
+                return token;
+            }
+        }
+
+        // 2. Authorization 헤더에서 추출 (fallback)
+        String authHeader = accessor.getFirstNativeHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+
+        return null;
+    }
+
+    private String extractJwtFromCookie(String cookieHeader) {
+        if (cookieHeader == null) {
+            return null;
+        }
+
+        String[] cookies = cookieHeader.split(";");
+        for (String cookie : cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith("accessToken=")) {
+                return cookie.substring("accessToken=".length());
+            }
+        }
+        return null;
     }
 }
