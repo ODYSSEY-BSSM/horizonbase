@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.domain.team.Team;
-import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
+import odyssey.backend.presentation.user.dto.request.SignUpRequest;
 
 import java.util.List;
 

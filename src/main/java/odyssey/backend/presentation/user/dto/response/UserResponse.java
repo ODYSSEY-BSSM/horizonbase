@@ -1,7 +1,7 @@
-package odyssey.backend.presentation.auth.dto.response;
+package odyssey.backend.presentation.user.dto.response;
 
-import odyssey.backend.domain.team.Team;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.team.Team;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package odyssey.backend.application.auth;
+package odyssey.backend.application.user;
 
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.SignUpVerification;
 import odyssey.backend.infrastructure.mail.MailUtil;
 import odyssey.backend.infrastructure.persistence.auth.SignUpVerificationRepository;
-import odyssey.backend.presentation.auth.dto.request.SendVerificationRequest;
+import odyssey.backend.presentation.user.dto.request.SendVerificationRequest;
 import org.springframework.stereotype.Service;
 
 @Service

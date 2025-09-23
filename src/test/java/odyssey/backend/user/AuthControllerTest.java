@@ -5,9 +5,9 @@ import odyssey.backend.domain.auth.Role;
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
 import odyssey.backend.presentation.auth.dto.request.LoginRequest;
-import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
 import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
-import odyssey.backend.presentation.auth.dto.response.UserResponse;
+import odyssey.backend.presentation.user.dto.request.SignUpRequest;
+import odyssey.backend.presentation.user.dto.response.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -35,7 +35,7 @@ public class AuthControllerTest extends RestDocsSupport {
         given(signUpService.signUp(any(SignUpRequest.class)))
                 .willReturn(fakeResponse);
 
-        mvc.perform(post("/auth")
+        mvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signUpRequest))
                         .with(csrf()))
@@ -69,7 +69,7 @@ public class AuthControllerTest extends RestDocsSupport {
         given(loginService.login(any(LoginRequest.class), any(HttpServletResponse.class)))
                 .willReturn(fakeTokenResponse);
 
-        mvc.perform(post("/auth/login")
+        mvc.perform(post("/auth")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
@@ -120,7 +120,7 @@ public class AuthControllerTest extends RestDocsSupport {
 
         willDoNothing().given(logoutService).logout(any());
 
-        mvc.perform(delete("/auth/logout")
+        mvc.perform(delete("/auth")
                         .header("Authorization", fakeAccessToken)
                         .with(csrf()))
                 .andExpect(status().isOk())
@@ -146,7 +146,7 @@ public class AuthControllerTest extends RestDocsSupport {
         given(getUserInfoService.getUserInfo(any()))
                 .willReturn(fakeResponse);
 
-        mvc.perform(get("/auth/info")
+        mvc.perform(get("/users")
                         .header("Authorization", "Bearer fakeAccessToken"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.username").value("gunwoo"))

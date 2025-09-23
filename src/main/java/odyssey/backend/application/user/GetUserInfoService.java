@@ -1,9 +1,9 @@
-package odyssey.backend.application.auth;
+package odyssey.backend.application.user;
 
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.auth.service.FindUserService;
-import odyssey.backend.presentation.auth.dto.response.UserResponse;
+import odyssey.backend.presentation.user.dto.response.UserResponse;
 import org.springframework.stereotype.Service;
 
 @Service

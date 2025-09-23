@@ -1,8 +1,8 @@
 package odyssey.backend.user;
 
 import odyssey.backend.global.RestDocsSupport;
-import odyssey.backend.presentation.auth.dto.request.SendVerificationRequest;
-import odyssey.backend.presentation.auth.dto.request.VerifyRequest;
+import odyssey.backend.presentation.user.dto.request.SendVerificationRequest;
+import odyssey.backend.presentation.user.dto.request.VerifyRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
