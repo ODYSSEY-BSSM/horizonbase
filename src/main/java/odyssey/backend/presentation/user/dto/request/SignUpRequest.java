@@ -1,4 +1,4 @@
-package odyssey.backend.presentation.auth.dto.request;
+package odyssey.backend.presentation.user.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

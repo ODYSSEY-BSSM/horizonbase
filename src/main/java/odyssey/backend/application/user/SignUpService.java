@@ -1,4 +1,4 @@
-    package odyssey.backend.application.auth;
+    package odyssey.backend.application.user;
 
     import lombok.RequiredArgsConstructor;
     import odyssey.backend.domain.auth.Role;
@@ -7,8 +7,8 @@
     import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
     import odyssey.backend.infrastructure.persistence.auth.SignUpVerificationRepository;
     import odyssey.backend.infrastructure.persistence.auth.UserRepository;
-    import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
     import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
+    import odyssey.backend.presentation.user.dto.request.SignUpRequest;
     import org.springframework.security.crypto.password.PasswordEncoder;
     import org.springframework.stereotype.Service;
 

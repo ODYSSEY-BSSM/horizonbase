@@ -11,8 +11,10 @@
 
 이 문서는 Horizon 프로젝트의 REST API 명세서입니다.
 
-== User API
+== Auth API
+include::auth.adoc[]
 
+== User API
 include::user.adoc[]
 
 == Roadmap API

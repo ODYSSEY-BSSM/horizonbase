@@ -2,7 +2,9 @@
 
     import com.fasterxml.jackson.core.JsonProcessingException;
     import com.fasterxml.jackson.databind.ObjectMapper;
-    import odyssey.backend.application.auth.*;
+    import odyssey.backend.application.auth.LoginService;
+    import odyssey.backend.application.auth.LogoutService;
+    import odyssey.backend.application.auth.RefreshService;
     import odyssey.backend.application.directory.DirectoryService;
     import odyssey.backend.application.node.NodeService;
     import odyssey.backend.application.problem.ProblemService;
@@ -11,10 +13,13 @@
     import odyssey.backend.application.root.RootUseCase;
     import odyssey.backend.application.team.TeamApplyService;
     import odyssey.backend.application.team.TeamService;
+    import odyssey.backend.application.user.GetUserInfoService;
+    import odyssey.backend.application.user.SendVerificationCodeService;
+    import odyssey.backend.application.user.SignUpService;
+    import odyssey.backend.application.user.VerificationValidUseCase;
     import odyssey.backend.domain.auth.User;
     import odyssey.backend.infrastructure.jwt.service.TokenService;
     import odyssey.backend.presentation.auth.AuthController;
-    import odyssey.backend.presentation.auth.VerificationController;
     import odyssey.backend.presentation.directory.DirectoryController;
     import odyssey.backend.presentation.node.NodeController;
     import odyssey.backend.presentation.problem.ProblemController;
@@ -23,6 +28,8 @@
     import odyssey.backend.presentation.root.RootController;
     import odyssey.backend.presentation.team.TeamApplyController;
     import odyssey.backend.presentation.team.TeamController;
+    import odyssey.backend.presentation.user.UserController;
+    import odyssey.backend.presentation.user.VerificationController;
     import org.junit.jupiter.api.Disabled;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,7 +48,8 @@
                  RootController.class,
                  TeamRoadmapController.class,
                  ProblemController.class,
-            VerificationController.class,})
+            VerificationController.class,
+    UserController.class,})
     public abstract class ControllerTest {
 
         @Autowired

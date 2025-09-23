@@ -1,7 +1,7 @@
 package odyssey.backend.shared.test;
 import odyssey.backend.domain.auth.Role;
 import odyssey.backend.domain.auth.User;
-import odyssey.backend.presentation.auth.dto.request.SignUpRequest;
+import odyssey.backend.presentation.user.dto.request.SignUpRequest;
 
 public class UserCreate {
     public static User createUser() {
