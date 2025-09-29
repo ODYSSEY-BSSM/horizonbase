@@ -1,6 +1,5 @@
 package odyssey.backend.infrastructure.websocket;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -9,7 +8,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-@Slf4j
 public class WebSocketSessionManager {
 
     private final Map<String, Long> sessionToUserId = new ConcurrentHashMap<>();
