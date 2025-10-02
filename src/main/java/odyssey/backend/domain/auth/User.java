@@ -31,6 +31,10 @@ public class User {
     @ManyToMany(mappedBy = "members")
     private List<Team> teams;
 
+    private String school;
+
+    private Boolean isConnectedSchool;
+
     public static User from(SignUpRequest request, String password, Role role) {
         return new User(request.getEmail(), request.getUsername(), password, role);
     }
@@ -40,6 +44,13 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.school = "";
+        this.isConnectedSchool = false;
+    }
+
+    private void connectSchool(){
+        this.school = "부산소프트웨어마이스터고등학교";
+        this.isConnectedSchool = true;
     }
 
 }
