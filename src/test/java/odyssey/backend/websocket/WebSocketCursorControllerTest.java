@@ -12,13 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.security.Principal;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WebSocketCursorControllerTest {
@@ -30,12 +31,12 @@ class WebSocketCursorControllerTest {
     private WebSocketCursorController controller;
 
     private User testUser;
-    private Principal testPrincipal;
+    private UsernamePasswordAuthenticationToken testPrincipal;
 
     @BeforeEach
     void setUp() {
         testUser = createTestUser(1L, "testUser");
-        testPrincipal = createMockPrincipal(testUser);
+        testPrincipal = createMockAuthenticationToken(testUser);
     }
 
     private User createTestUser(Long uuid, String username) {
@@ -50,10 +51,12 @@ class WebSocketCursorControllerTest {
         return user;
     }
 
-    private Principal createMockPrincipal(User user) {
-        Principal principal = org.mockito.Mockito.mock(Principal.class);
-        when(principal.getName()).thenReturn(user.getUsername());
-        return principal;
+    private UsernamePasswordAuthenticationToken createMockAuthenticationToken(User user) {
+        return new UsernamePasswordAuthenticationToken(
+                user,
+                null,
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+        );
     }
 
     @Test
@@ -132,8 +135,8 @@ class WebSocketCursorControllerTest {
         // given
         User user1 = createTestUser(1L, "user1");
         User user2 = createTestUser(2L, "user2");
-        Principal principal1 = createMockPrincipal(user1);
-        Principal principal2 = createMockPrincipal(user2);
+        UsernamePasswordAuthenticationToken principal1 = createMockAuthenticationToken(user1);
+        UsernamePasswordAuthenticationToken principal2 = createMockAuthenticationToken(user2);
         Long roadmapId = 1L;
 
         CursorPositionDto cursor1 = CursorPositionDto.builder()
