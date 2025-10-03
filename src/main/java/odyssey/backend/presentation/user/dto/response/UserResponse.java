@@ -9,7 +9,9 @@ public record UserResponse(
         String username,
         String email,
         String role,
-        List<String> teams
+        List<String> teams,
+        String school,
+        Boolean isConnectedSchool
 ) {
     public static UserResponse from(User user) {
         return new UserResponse(
@@ -19,7 +21,9 @@ public record UserResponse(
                 user.getTeams()
                         .stream()
                         .map(Team::getName)
-                        .toList()
+                        .toList(),
+                user.getSchool(),
+                user.getIsConnectedSchool()
         );
     }
 }

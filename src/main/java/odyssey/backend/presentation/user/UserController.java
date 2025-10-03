@@ -2,6 +2,7 @@ package odyssey.backend.presentation.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.application.user.ConnectSchoolUseCase;
 import odyssey.backend.application.user.GetUserInfoService;
 import odyssey.backend.application.user.SignUpService;
 import odyssey.backend.domain.auth.User;
@@ -21,6 +22,7 @@ public class UserController {
 
     private final SignUpService signUpService;
     private final GetUserInfoService getUserInfoService;
+    private final ConnectSchoolUseCase  connectSchoolUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,4 +39,13 @@ public class UserController {
     ){
         return CommonResponse.ok(getUserInfoService.getUserInfo(user));
     }
+
+    @PutMapping("/school")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<UserResponse> connectSchool(
+            @AuthenticationPrincipal User user
+    ){
+        return CommonResponse.ok(connectSchoolUseCase.ConnectSchool(user));
+    }
+
 }
