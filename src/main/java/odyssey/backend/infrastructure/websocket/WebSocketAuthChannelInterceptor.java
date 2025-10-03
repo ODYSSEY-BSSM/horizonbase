@@ -32,7 +32,6 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-            // 여러 방법으로 토큰 추출 시도
             String token = extractToken(accessor);
 
             if (token != null) {
@@ -68,7 +67,6 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
     }
 
     private String extractToken(StompHeaderAccessor accessor) {
-        // 1. Cookie 헤더에서 추출
         String cookieHeader = accessor.getFirstNativeHeader("Cookie");
 
         if (cookieHeader != null) {
@@ -78,7 +76,6 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
             }
         }
 
-        // 2. Authorization 헤더에서 추출 (fallback)
         String authHeader = accessor.getFirstNativeHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7);

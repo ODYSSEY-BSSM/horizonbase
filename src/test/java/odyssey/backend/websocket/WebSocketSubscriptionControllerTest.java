@@ -12,6 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
@@ -30,10 +34,12 @@ class WebSocketSubscriptionControllerTest {
     private WebSocketSubscriptionController controller;
 
     private User testUser;
+    private UsernamePasswordAuthenticationToken testPrincipal;
 
     @BeforeEach
     void setUp() {
         testUser = createTestUser(1L, "testUser");
+        testPrincipal = createMockAuthenticationToken(testUser);
     }
 
     private User createTestUser(Long uuid, String username) {
@@ -48,12 +54,20 @@ class WebSocketSubscriptionControllerTest {
         return user;
     }
 
+    private UsernamePasswordAuthenticationToken createMockAuthenticationToken(User user) {
+        return new UsernamePasswordAuthenticationToken(
+                user,
+                null,
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+        );
+    }
+
     @Test
     void 팀_멤버는_팀_구독이_가능하다() {
         Long teamId = 1L;
         given(teamService.isUserMemberOfTeam(testUser.getUuid(), teamId)).willReturn(true);
 
-        controller.subscribeToTeam(teamId, testUser);
+        controller.subscribeToTeam(teamId, testPrincipal);
 
         verify(sessionManager).subscribeToTeam(testUser.getUuid(), teamId);
     }
@@ -64,7 +78,7 @@ class WebSocketSubscriptionControllerTest {
         given(teamService.isUserMemberOfTeam(testUser.getUuid(), teamId)).willReturn(false);
 
         assertThrows(AccessDeniedException.class, () -> {
-            controller.subscribeToTeam(teamId, testUser);
+            controller.subscribeToTeam(teamId, testPrincipal);
         });
 
         verify(sessionManager, never()).subscribeToTeam(any(), any());
@@ -74,7 +88,7 @@ class WebSocketSubscriptionControllerTest {
     void 팀_구독_해제는_항상_가능하다() {
         Long teamId = 1L;
 
-        controller.unsubscribeFromTeam(teamId, testUser);
+        controller.unsubscribeFromTeam(teamId, testPrincipal);
 
         verify(sessionManager).unsubscribeFromTeam(testUser.getUuid(), teamId);
     }
@@ -83,7 +97,7 @@ class WebSocketSubscriptionControllerTest {
     void 로드맵_구독은_권한_검증_없이_가능하다() {
         Long roadmapId = 1L;
 
-        controller.subscribeToRoadmap(roadmapId, testUser);
+        controller.subscribeToRoadmap(roadmapId, testPrincipal);
 
         verify(sessionManager).subscribeToRoadmap(testUser.getUuid(), roadmapId);
     }
@@ -92,7 +106,7 @@ class WebSocketSubscriptionControllerTest {
     void 로드맵_구독_해제는_권한_검증_없이_가능하다() {
         Long roadmapId = 1L;
 
-        controller.unsubscribeFromRoadmap(roadmapId, testUser);
+        controller.unsubscribeFromRoadmap(roadmapId, testPrincipal);
 
         verify(sessionManager).unsubscribeFromRoadmap(testUser.getUuid(), roadmapId);
     }
