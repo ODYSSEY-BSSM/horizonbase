@@ -48,7 +48,7 @@ public class User {
         this.isConnectedSchool = false;
     }
 
-    private void connectSchool(){
+    public void connectSchool(){
         this.school = "부산소프트웨어마이스터고등학교";
         this.isConnectedSchool = true;
     }
