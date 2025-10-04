@@ -140,7 +140,9 @@ public class AuthControllerTest extends RestDocsSupport {
                 "gunwoo",
                 "fakeEmail@gmail.com",
                 Role.USER.name(),
-                List.of("팀1", "팀2")
+                List.of("팀1", "팀2"),
+                "",
+                Boolean.TRUE
         );
 
         given(getUserInfoService.getUserInfo(any()))
@@ -160,7 +162,9 @@ public class AuthControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.username").description("사용자 이름"),
                                 fieldWithPath("data.email").description("사용자 이메일"),
                                 fieldWithPath("data.role").description("사용자 권한"),
-                                fieldWithPath("data.teams").description("사용자가 속한 팀 목록")
+                                fieldWithPath("data.teams").description("사용자가 속한 팀 목록"),
+                                fieldWithPath("data.school").description("연동된 학교 이름"),
+                                fieldWithPath("data.isConnectedSchool").description("연동 여부")
                         )
                 ));
     }
