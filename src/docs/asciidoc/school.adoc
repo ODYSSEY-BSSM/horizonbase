@@ -1,0 +1,10 @@
+=== 학교 연동
+
+==== 요청 메시지
+include::{snippets}/user-connect-school/http-request.adoc[]
+
+==== 응답 메시지
+include::{snippets}/user-connect-school/http-response.adoc[]
+
+==== 응답 필드
+include::{snippets}/user-connect-school/response-fields.adoc[]

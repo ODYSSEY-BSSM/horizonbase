@@ -2,6 +2,8 @@ package odyssey.backend.user;
 
 import jakarta.servlet.http.HttpServletResponse;
 import odyssey.backend.domain.auth.Role;
+import odyssey.backend.domain.auth.User;
+import odyssey.backend.global.ControllerTest;
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
 import odyssey.backend.presentation.auth.dto.request.LoginRequest;
@@ -140,7 +142,9 @@ public class AuthControllerTest extends RestDocsSupport {
                 "gunwoo",
                 "fakeEmail@gmail.com",
                 Role.USER.name(),
-                List.of("팀1", "팀2")
+                List.of("팀1", "팀2"),
+                "",
+                Boolean.TRUE
         );
 
         given(getUserInfoService.getUserInfo(any()))
@@ -160,10 +164,53 @@ public class AuthControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.username").description("사용자 이름"),
                                 fieldWithPath("data.email").description("사용자 이메일"),
                                 fieldWithPath("data.role").description("사용자 권한"),
-                                fieldWithPath("data.teams").description("사용자가 속한 팀 목록")
+                                fieldWithPath("data.teams").description("사용자가 속한 팀 목록"),
+                                fieldWithPath("data.school").description("연동된 학교 이름"),
+                                fieldWithPath("data.isConnectedSchool").description("연동 여부")
                         )
                 ));
     }
+
+    @Test
+    void 학교_연동을_한다() throws Exception {
+        User fakeUser = new User();
+        UserResponse fakeResponse = new UserResponse(
+                "gunwoo",
+                "fakeEmail@gmail.com",
+                Role.USER.name(),
+                List.of("팀1", "팀2"),
+                "부산소프트웨어마이스터고등학교",
+                true
+        );
+
+        given(connectSchoolUseCase.ConnectSchool(any()))
+                .willReturn(fakeResponse);
+
+        mvc.perform(put("/users/school")
+                        .header("Authorization", "Bearer fakeAccessToken")
+                        .with(csrf())
+                        .with(ControllerTest.authenticationPrincipal(fakeUser)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.username").value("gunwoo"))
+                .andExpect(jsonPath("$.data.email").value("fakeEmail@gmail.com"))
+                .andExpect(jsonPath("$.data.role").value("USER"))
+                .andExpect(jsonPath("$.data.teams[0]").value("팀1"))
+                .andExpect(jsonPath("$.data.school").value("부산소프트웨어마이스터고등학교"))
+                .andExpect(jsonPath("$.data.isConnectedSchool").value(true))
+                .andDo(document("user-connect-school",
+                        responseFields(
+                                fieldWithPath("code").description("응답 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.username").description("사용자 이름"),
+                                fieldWithPath("data.email").description("사용자 이메일"),
+                                fieldWithPath("data.role").description("사용자 권한"),
+                                fieldWithPath("data.teams").description("사용자가 속한 팀 목록"),
+                                fieldWithPath("data.school").description("연동된 학교 이름"),
+                                fieldWithPath("data.isConnectedSchool").description("학교 연동 여부")
+                        )
+                ));
+    }
+
 
 
 }
