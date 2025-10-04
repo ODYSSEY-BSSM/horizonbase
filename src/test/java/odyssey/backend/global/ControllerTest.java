@@ -13,10 +13,7 @@
     import odyssey.backend.application.root.RootUseCase;
     import odyssey.backend.application.team.TeamApplyService;
     import odyssey.backend.application.team.TeamService;
-    import odyssey.backend.application.user.GetUserInfoService;
-    import odyssey.backend.application.user.SendVerificationCodeService;
-    import odyssey.backend.application.user.SignUpService;
-    import odyssey.backend.application.user.VerificationValidUseCase;
+    import odyssey.backend.application.user.*;
     import odyssey.backend.domain.auth.User;
     import odyssey.backend.infrastructure.jwt.service.TokenService;
     import odyssey.backend.presentation.auth.AuthController;
@@ -105,6 +102,9 @@
 
         @MockBean
         protected SendVerificationCodeService sendVerificationCodeService;
+
+        @MockBean
+        protected ConnectSchoolUseCase connectSchoolUseCase;
 
         public static RequestPostProcessor authenticationPrincipal(final User user) {
             return new RequestPostProcessor() {
