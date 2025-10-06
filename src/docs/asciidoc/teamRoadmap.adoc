@@ -1,4 +1,5 @@
 === 팀 로드맵 생성
+팀에 속한 유저는 팀에 로드맵을 생성할 수 있습니다
 
 ==== 요청 메시지
 include::{snippets}/roadmap-create-team/http-request.adoc[]
@@ -13,6 +14,7 @@ include::{snippets}/roadmap-create-team/http-response.adoc[]
 include::{snippets}/roadmap-create-team/response-fields.adoc[]
 
 === 팀 로드맵 조회
+팀에 속한 유저는 팀 로드맵을 조회할 수 있습니다
 
 ==== 요청 메시지
 include::{snippets}/roadmap-get-team/http-request.adoc[]

@@ -1,4 +1,5 @@
 === 로그인
+회원가입을 한 유저는 로그인을 할 수 있습니다.
 
 ==== 요청 메시지
 include::{snippets}/user-login/http-request.adoc[]
@@ -13,6 +14,7 @@ include::{snippets}/user-login/http-response.adoc[]
 include::{snippets}/user-login/response-fields.adoc[]
 
 === 액세스 토큰 재발급
+유저는 액세스 토큰을 재발급할 수 있습니다.
 
 ==== 요청 메시지
 include::{snippets}/user-refresh/http-request.adoc[]
@@ -24,6 +26,7 @@ include::{snippets}/user-refresh/http-response.adoc[]
 include::{snippets}/user-refresh/response-fields.adoc[]
 
 === 로그아웃
+유저는 로그아웃할 수 있습니다.
 
 ==== 요청 메시지
 include::{snippets}/user-logout/http-request.adoc[]
