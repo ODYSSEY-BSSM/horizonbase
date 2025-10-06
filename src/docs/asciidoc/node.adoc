@@ -1,5 +1,6 @@
 
 === 생성
+유저는 로드맵에 노드를 생성할 수 있습니다.
 
 ==== 요청 메시지
 include::{snippets}/node-create/http-request.adoc[]
@@ -14,6 +15,7 @@ include::{snippets}/node-create/http-response.adoc[]
 include::{snippets}/node-create/response-fields.adoc[]
 
 === 단일 조회
+유저는 자신의 노드 하나에 대한 정보를 상세조회할 수 있습니다.
 
 ==== 요청 파라미터 & 헤더
 include::{snippets}/node-get-one/http-request.adoc[]
@@ -25,6 +27,7 @@ include::{snippets}/node-get-one/http-response.adoc[]
 include::{snippets}/node-get-one/response-fields.adoc[]
 
 === 전체 조회
+유저는 자신의 노드들을 모두 조회할 수 있습니다.
 
 ==== 요청 파라미터 & 헤더
 include::{snippets}/node-get-all/http-request.adoc[]
@@ -36,6 +39,7 @@ include::{snippets}/node-get-all/http-response.adoc[]
 include::{snippets}/node-get-all/response-fields.adoc[]
 
 === 수정
+유저는 노드에 대한 정보를 수정할 수 있습니다.
 
 ==== 요청 메시지
 include::{snippets}/node-update/http-request.adoc[]
@@ -48,7 +52,9 @@ include::{snippets}/node-update/http-response.adoc[]
 
 ==== 응답 필드
 include::{snippets}/node-update/response-fields.adoc[]
+
 === 삭제
+유저는 노드를 삭제할 수 있습니다.
 
 ==== 요청 파라미터
 include::{snippets}/node-delete/http-request.adoc[]
