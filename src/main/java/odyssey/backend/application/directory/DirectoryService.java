@@ -48,8 +48,6 @@ public class DirectoryService {
         return DirectoryResponse.from(directory);
     }
 
-
-
     public void deleteDirectory(Long id) {
         Directory directory = findDirectoryById(id);
 
