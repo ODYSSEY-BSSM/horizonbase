@@ -1,7 +1,6 @@
 package odyssey.backend.application.node;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.exception.NodeNotFoundException;
 import odyssey.backend.domain.roadmap.Roadmap;
@@ -90,10 +89,6 @@ public class NodeService {
                 request.getCategory());
 
         NodeResponse response = NodeResponse.from(node);
-        
-        if (roadmap.getTeam() != null) {
-            messagingTemplate.convertAndSend("/topic/node/roadmap/" + roadmapId + "/updated", response);
-        }
 
         return response;
     }
