@@ -1,10 +1,12 @@
 package odyssey.backend.user;
 
 import odyssey.backend.global.RestDocsSupport;
+import odyssey.backend.infrastructure.persistence.auth.UpdatePasswordVerificationRepository;
 import odyssey.backend.presentation.user.dto.request.SendVerificationRequest;
 import odyssey.backend.presentation.user.dto.request.UpdatePasswordVerifyRequest;
 import odyssey.backend.presentation.user.dto.request.VerifyRequest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import static org.mockito.BDDMockito.willDoNothing;
@@ -16,6 +18,10 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class VerificationControllerTest extends RestDocsSupport {
+
+    @MockBean
+    private UpdatePasswordVerificationRepository updatePasswordVerificationRepository;
+
 
     @Test
     void 인증_메일을_전송한다() throws Exception {
