@@ -3,6 +3,7 @@ package odyssey.backend.application.user;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.UpdatePasswordVerification;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
 import odyssey.backend.infrastructure.persistence.auth.UpdatePasswordVerificationRepository;
 import odyssey.backend.infrastructure.persistence.auth.UserRepository;
 import odyssey.backend.presentation.user.dto.request.UpdatePasswordRequest;
@@ -25,7 +26,7 @@ public class UpdatePasswordUseCase {
 
     private void validate(User user, UpdatePasswordRequest request) {
         UpdatePasswordVerification updatePasswordVerification = updatePasswordVerificationRepository.findById(user.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("집가고싶다."));
+                .orElseThrow(InvalidRequestEmailException::new);
 
         updatePasswordVerification.validateVerified();
 
