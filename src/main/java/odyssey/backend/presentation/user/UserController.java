@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.user.ConnectSchoolUseCase;
 import odyssey.backend.application.user.GetUserInfoService;
 import odyssey.backend.application.user.SignUpService;
+import odyssey.backend.application.user.UpdatePasswordUseCase;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
 import odyssey.backend.presentation.user.dto.request.SignUpRequest;
+import odyssey.backend.presentation.user.dto.request.UpdatePasswordRequest;
 import odyssey.backend.presentation.user.dto.response.UserResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
@@ -23,6 +25,7 @@ public class UserController {
     private final SignUpService signUpService;
     private final GetUserInfoService getUserInfoService;
     private final ConnectSchoolUseCase  connectSchoolUseCase;
+    private final UpdatePasswordUseCase updatePasswordUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,6 +49,14 @@ public class UserController {
             @AuthenticationPrincipal User user
     ){
         return CommonResponse.ok(connectSchoolUseCase.ConnectSchool(user));
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePassword(
+            @Valid @RequestBody UpdatePasswordRequest request,
+            @AuthenticationPrincipal User user){
+        updatePasswordUseCase.updatePassword(user ,request);
     }
 
 }

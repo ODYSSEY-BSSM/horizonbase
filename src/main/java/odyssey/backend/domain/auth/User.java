@@ -53,6 +53,10 @@ public class User {
         this.isConnectedSchool = true;
     }
 
+    public void updatePassword(String password){
+        this.password = password;
+    }
+
 }
 
 

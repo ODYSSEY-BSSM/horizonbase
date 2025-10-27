@@ -1,7 +1,9 @@
 package odyssey.backend;
 
 import odyssey.backend.infrastructure.jwt.service.TokenService;
+import odyssey.backend.infrastructure.mail.MailUtil;
 import odyssey.backend.infrastructure.persistence.auth.SignUpVerificationRepository;
+import odyssey.backend.infrastructure.persistence.auth.UpdatePasswordVerificationRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -24,6 +26,11 @@ class BackendApplicationTests {
     @MockBean
     private SignUpVerificationRepository signUpVerificationRepository;
 
+    @MockBean
+    private UpdatePasswordVerificationRepository updatePasswordVerificationRepository;
+
+    @MockBean
+    private MailUtil mailUtil;
 
     @Test
     void contextLoads() {
