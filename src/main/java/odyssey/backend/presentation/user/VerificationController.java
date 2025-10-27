@@ -2,6 +2,7 @@ package odyssey.backend.presentation.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.application.user.SendUpdatePasswordUseCase;
 import odyssey.backend.application.user.SendVerificationCodeService;
 import odyssey.backend.application.user.VerificationValidUseCase;
 import odyssey.backend.presentation.user.dto.request.SendVerificationRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class VerificationController {
 
     private final SendVerificationCodeService sendVerificationCodeService;
+    private final SendUpdatePasswordUseCase sendUpdatePasswordUseCase;
     private final VerificationValidUseCase verificationValidUseCase;
 
     @PostMapping
@@ -22,6 +24,13 @@ public class VerificationController {
             @Valid @RequestBody SendVerificationRequest request
     ) {
         sendVerificationCodeService.sendVerificationCode(request);
+    }
+
+    @PostMapping("/password")
+    public void sendUpdatePasswordCode(
+            @Valid @RequestBody SendVerificationRequest request
+    ){
+        sendUpdatePasswordUseCase.sendUpdatePasswordVerificationMail(request);
     }
 
     @PatchMapping
