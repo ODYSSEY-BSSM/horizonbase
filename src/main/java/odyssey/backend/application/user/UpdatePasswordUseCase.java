@@ -5,7 +5,6 @@ import odyssey.backend.domain.auth.UpdatePasswordVerification;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
 import odyssey.backend.infrastructure.persistence.auth.UpdatePasswordVerificationRepository;
-import odyssey.backend.infrastructure.persistence.auth.UserRepository;
 import odyssey.backend.presentation.user.dto.request.UpdatePasswordRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ public class UpdatePasswordUseCase {
 
     private final UpdatePasswordVerificationRepository updatePasswordVerificationRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
     @Transactional
     public void updatePassword(User user, UpdatePasswordRequest request) {
