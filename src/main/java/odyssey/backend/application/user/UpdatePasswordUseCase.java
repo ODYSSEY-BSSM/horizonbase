@@ -21,6 +21,7 @@ public class UpdatePasswordUseCase {
 
     @Transactional
     public void updatePassword(User user, UpdatePasswordRequest request) {
+        validate(user, request);
         user.updatePassword(passwordEncoder.encode(request.getPassword()));
     }
 
