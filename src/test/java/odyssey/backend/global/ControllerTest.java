@@ -106,6 +106,12 @@
         @MockBean
         protected ConnectSchoolUseCase connectSchoolUseCase;
 
+        @MockBean
+        protected UpdatePasswordUseCase updatePasswordUseCase;
+
+        @MockBean
+        protected SendUpdatePasswordUseCase sendUpdatePasswordUseCase;
+
         public static RequestPostProcessor authenticationPrincipal(final User user) {
             return new RequestPostProcessor() {
                 @Override

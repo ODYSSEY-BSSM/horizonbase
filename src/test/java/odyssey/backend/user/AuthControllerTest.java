@@ -1,5 +1,6 @@
 package odyssey.backend.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import odyssey.backend.domain.auth.Role;
 import odyssey.backend.domain.auth.User;
@@ -9,6 +10,7 @@ import odyssey.backend.infrastructure.jwt.dto.response.TokenResponse;
 import odyssey.backend.presentation.auth.dto.request.LoginRequest;
 import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
 import odyssey.backend.presentation.user.dto.request.SignUpRequest;
+import odyssey.backend.presentation.user.dto.request.UpdatePasswordRequest;
 import odyssey.backend.presentation.user.dto.response.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -211,6 +214,25 @@ public class AuthControllerTest extends RestDocsSupport {
                 ));
     }
 
+    @Test
+    void 비밀번호를_변경한다() throws Exception {
+        User fakeUser = new User();
+        UpdatePasswordRequest request = new UpdatePasswordRequest("newPassword123!");
 
+        doNothing().when(updatePasswordUseCase).updatePassword(any(User.class), any(UpdatePasswordRequest.class));
+
+        mvc.perform(put("/users")
+                        .header("Authorization", "Bearer fakeAccessToken")
+                        .with(csrf())
+                        .with(ControllerTest.authenticationPrincipal(fakeUser))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(request)))
+                .andExpect(status().isNoContent())
+                .andDo(document("user-update-password",
+                        requestFields(
+                                fieldWithPath("password").description("새로 변경할 비밀번호")
+                        )
+                ));
+    }
 
 }
