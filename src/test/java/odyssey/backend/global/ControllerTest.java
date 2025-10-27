@@ -16,6 +16,8 @@
     import odyssey.backend.application.user.*;
     import odyssey.backend.domain.auth.User;
     import odyssey.backend.infrastructure.jwt.service.TokenService;
+    import odyssey.backend.infrastructure.mail.MailUtil;
+    import odyssey.backend.infrastructure.persistence.auth.UpdatePasswordVerificationRepository;
     import odyssey.backend.presentation.auth.AuthController;
     import odyssey.backend.presentation.directory.DirectoryController;
     import odyssey.backend.presentation.node.NodeController;
@@ -111,6 +113,12 @@
 
         @MockBean
         protected SendUpdatePasswordUseCase sendUpdatePasswordUseCase;
+
+        @MockBean
+        private UpdatePasswordVerificationRepository updatePasswordVerificationRepository;
+
+        @MockBean
+        private MailUtil mailUtil;
 
         public static RequestPostProcessor authenticationPrincipal(final User user) {
             return new RequestPostProcessor() {
