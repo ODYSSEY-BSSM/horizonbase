@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.user.SendVerificationCodeService;
 import odyssey.backend.application.user.VerificationValidUseCase;
 import odyssey.backend.presentation.user.dto.request.SendVerificationRequest;
+import odyssey.backend.presentation.user.dto.request.UpdatePasswordVerifyRequest;
 import odyssey.backend.presentation.user.dto.request.VerifyRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,13 @@ public class VerificationController {
     @PatchMapping
     public void verification(
             @Valid @RequestBody VerifyRequest request
+    ){
+        verificationValidUseCase.verify(request);
+    }
+
+    @PutMapping
+    public void verification(
+            @Valid @RequestBody UpdatePasswordVerifyRequest request
     ){
         verificationValidUseCase.verify(request);
     }

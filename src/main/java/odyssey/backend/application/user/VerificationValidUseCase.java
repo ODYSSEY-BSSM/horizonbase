@@ -6,6 +6,7 @@ import odyssey.backend.domain.auth.UpdatePasswordVerification;
 import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
 import odyssey.backend.infrastructure.persistence.auth.SignUpVerificationRepository;
 import odyssey.backend.infrastructure.persistence.auth.UpdatePasswordVerificationRepository;
+import odyssey.backend.presentation.user.dto.request.UpdatePasswordVerifyRequest;
 import odyssey.backend.presentation.user.dto.request.VerifyRequest;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class VerificationValidUseCase {
         signUpVerificationRepository.save(signUpVerification);
     }
 
-    public void verify(UpdatePasswordVerification request){
+    public void verify(UpdatePasswordVerifyRequest request){
         UpdatePasswordVerification updatePasswordVerification = updatePasswordVerificationRepository.findById(request.getEmail())
                 .orElseThrow(InvalidRequestEmailException::new);
 
