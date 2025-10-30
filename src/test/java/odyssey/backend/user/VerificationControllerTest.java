@@ -83,7 +83,7 @@ public class VerificationControllerTest extends RestDocsSupport {
                         .content(objectMapper.writeValueAsString(request))
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andDo(document("verify-code",
+                .andDo(document("pverify-code",
                         requestFields(
                                 fieldWithPath("email").description("인증 이메일"),
                                 fieldWithPath("code").description("전송받은 인증 코드")
