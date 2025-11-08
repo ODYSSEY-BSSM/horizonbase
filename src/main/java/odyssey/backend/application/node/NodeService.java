@@ -59,7 +59,7 @@ public class NodeService {
         List<Node> nodes = nodeRepository.findByRoadmapId(roadmapId);
 
         return nodes.stream()
-                .filter(node -> node.getParent() == null)
+                .filter(Node::isNotHaveParent)
                 .map(NodeResponse::from)
                 .toList();
     }
@@ -88,9 +88,7 @@ public class NodeService {
                 request.getY(),
                 request.getCategory());
 
-        NodeResponse response = NodeResponse.from(node);
-
-        return response;
+        return NodeResponse.from(node);
     }
 
     @Transactional

@@ -135,4 +135,8 @@ public class Node {
         }
     }
 
+    public boolean isNotHaveParent(){
+        return this.getParent() == null;
+    }
+
 }
