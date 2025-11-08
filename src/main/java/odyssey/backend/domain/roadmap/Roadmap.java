@@ -71,11 +71,14 @@ public class Roadmap {
     @Column(nullable = false)
     private int progress = 0;
 
+    @Column(nullable = false)
+    private boolean isEducation;
+
     public static Roadmap from(RoadmapRequest request, Directory directory, User user, Team team) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), directory, user, team);
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), request.getIsEducation(), directory, user, team);
     }
 
-    Roadmap(String title, String description, List<String> categories, Color color, Icon icon, Directory directory, User user, Team team) {
+    Roadmap(String title, String description, List<String> categories, Color color, Icon icon, Boolean isEducation, Directory directory, User user, Team team) {
         this.title = title;
         this.description = description;
         this.categories = categories;
@@ -87,6 +90,7 @@ public class Roadmap {
         this.team = team;
         this.color = color;
         this.icon = icon;
+        this.isEducation = isEducation;
     }
 
     public void update(String title, String description, List<String> categories) {
