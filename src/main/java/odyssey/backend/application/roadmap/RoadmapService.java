@@ -26,7 +26,7 @@
         }
 
         public List<TeamRoadmapResponse> findTeamRoadmaps(User user, Long teamId) {
-            return roadmapRepository.findByTeam_IdOrderByLastAccessedAtDesc(teamId)
+            return roadmapRepository.findByTeamIdOrderByLastAccessedAtDesc(teamId)
                     .stream()
                     .map(roadmap -> TeamRoadmapResponse.from(roadmap, user.getUuid()))
                     .toList();
