@@ -44,7 +44,8 @@ public class TeamService {
         Team team = findByTeamId(teamId);
         
         return team.getMembers().stream()
-                   .anyMatch(member -> member.getUuid().equals(userId));
+                .map(User::getUuid)
+                .anyMatch(userId::equals);
     }
 
 }

@@ -24,9 +24,7 @@ public class LoginService {
     public TokenResponse login(LoginRequest request, HttpServletResponse response) {
         User user = findUserService.findUserByEmail(request.getEmail());
 
-        if(!checkPassword(request.getPassword(), user.getPassword())){
-            throw new InvalidPasswordException();
-        }
+        valid(request.getPassword(), user.getPassword());
 
         String accessToken = tokenService.generateAccessToken(user);
 
@@ -39,7 +37,9 @@ public class LoginService {
         return TokenResponse.create(accessToken, refreshToken);
     }
 
-    public boolean checkPassword(String rawPassword, String encodedPassword) {
-        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
+    public void valid(String rawPassword, String encodedPassword) {
+        if(!bCryptPasswordEncoder.matches(rawPassword, encodedPassword)){
+            throw new InvalidPasswordException();
+        }
     }
 }

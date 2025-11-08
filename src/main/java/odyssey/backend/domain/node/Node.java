@@ -135,4 +135,12 @@ public class Node {
         }
     }
 
+    public boolean isNotHaveParent(){
+        return this.getParent() == null;
+    }
+
+    public int problemCount(){
+        return this.problems.size();
+    }
+
 }

@@ -29,9 +29,7 @@ public class ProblemService {
 
         String answer = request.getAnswer();
 
-        if(problem.isCorrect(answer)){
-            node.solveProblem(problem, answer);
-        }
+        solve(answer, problem, node);
 
         return ProblemResponse.from(problem);
     }
@@ -46,6 +44,12 @@ public class ProblemService {
         Problem problem = problemRepository.save(Problem.from(request, node));
 
         return ProblemResponse.from(problem);
+    }
+
+    private void solve(String answer, Problem problem, Node node){
+        if(problem.isCorrect(answer)){
+            node.solveProblem(problem, answer);
+        }
     }
 
 }
