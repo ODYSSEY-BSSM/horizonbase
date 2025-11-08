@@ -120,7 +120,7 @@ public class Roadmap {
 
         int totalProblems = nodes.stream()
                 .filter(n -> n.getType() == NodeType.BOTTOM)
-                .mapToInt(n -> n.getProblems().size())
+                .mapToInt(Node::problemCount)
                 .sum();
 
 

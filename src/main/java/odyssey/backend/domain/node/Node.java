@@ -139,4 +139,8 @@ public class Node {
         return this.getParent() == null;
     }
 
+    public int problemCount(){
+        return this.problems.size();
+    }
+
 }
