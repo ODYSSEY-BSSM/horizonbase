@@ -49,8 +49,6 @@ public class RoadmapFacade {
 
     @Transactional
     public void deleteRoadmapById(Long id) {
-        Roadmap roadmap = findRoadmapById(id);
-
         roadmapRepository.deleteById(id);
     }
 
