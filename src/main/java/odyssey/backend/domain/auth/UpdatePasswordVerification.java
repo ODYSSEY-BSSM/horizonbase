@@ -1,11 +1,11 @@
 package odyssey.backend.domain.auth;
 
-import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.domain.auth.exception.InvalidVerificationCodeException;
 import odyssey.backend.domain.auth.exception.NotVerificationUserException;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Random;
