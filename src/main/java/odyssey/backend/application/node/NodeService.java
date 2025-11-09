@@ -8,6 +8,7 @@ import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
 import odyssey.backend.infrastructure.persistence.node.NodeRepository;
 import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
+import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -114,6 +115,19 @@ public class NodeService {
     private Node findByIdAndRoadmapId(Long nodeId, Long roadmapId) {
         return nodeRepository.findByIdAndRoadmapId(nodeId, roadmapId)
                 .orElseThrow(NodeNotFoundException::new);
+    }
+
+    @Transactional
+    public NodeResponse changeEducation(Long nodeId, Long roadmapId, SubjectRequest request){
+        Roadmap roadmap = getRoadmapById(roadmapId);
+
+        roadmap.updateLastModifiedAt();
+
+        Node node = findByIdAndRoadmapId(nodeId, roadmapId);
+
+        node.changeEducation(request.getSubject());
+
+        return NodeResponse.from(node);
     }
 
 }

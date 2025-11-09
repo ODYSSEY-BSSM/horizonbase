@@ -18,7 +18,9 @@ public record NodeResponse(
         Long roadmapId,
         Long parentNodeId,
         List<NodeResponse> childNode,
-        Integer progress
+        Integer progress,
+        boolean isEducation,
+        String subject
 ) {
     public static NodeResponse from(Node node) {
         List<NodeResponse> children = node.getChildren() != null
@@ -28,6 +30,8 @@ public record NodeResponse(
                 : List.of();
 
         Integer progress = node.getType() == NodeType.BOTTOM ? node.getProgress() : null;
+
+        String subject = node.getSubject() == null ? null : node.getSubject().getDescription();
 
         return new NodeResponse(
                 node.getId(),
@@ -42,7 +46,9 @@ public record NodeResponse(
                 node.getRoadmap().getId(),
                 node.getParent() != null ? node.getParent().getId() : null,
                 children,
-                progress
+                progress,
+                node.isEducation(),
+                subject
         );
     }
 }
