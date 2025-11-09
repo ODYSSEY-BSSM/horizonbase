@@ -7,7 +7,6 @@ import odyssey.backend.domain.problem.Problem;
 import odyssey.backend.domain.problem.exception.CantCreateProblemException;
 import odyssey.backend.domain.problem.exception.MaxOfProblemException;
 import odyssey.backend.domain.roadmap.Roadmap;
-import odyssey.backend.domain.roadmap.Subject;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 
 import java.util.ArrayList;

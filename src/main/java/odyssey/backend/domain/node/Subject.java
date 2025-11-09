@@ -1,4 +1,4 @@
-package odyssey.backend.domain.roadmap;
+package odyssey.backend.domain.node;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
