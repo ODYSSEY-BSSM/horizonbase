@@ -7,6 +7,7 @@ import odyssey.backend.domain.problem.Problem;
 import odyssey.backend.domain.problem.exception.CantCreateProblemException;
 import odyssey.backend.domain.problem.exception.MaxOfProblemException;
 import odyssey.backend.domain.roadmap.Roadmap;
+import odyssey.backend.domain.roadmap.Subject;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 
 import java.util.ArrayList;
@@ -64,6 +65,13 @@ public class Node {
 
     @Column(nullable = false)
     private Integer progress = 0;
+
+    @Column(nullable = false)
+    private boolean isEducation = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Subject subject;
 
     public static Node from(NodeRequest request, Roadmap roadmap, Node parent) {
         return new Node(
@@ -142,5 +150,11 @@ public class Node {
     public int problemCount(){
         return this.problems.size();
     }
+
+    public void changeEducation(Subject subject) {
+        this.subject = subject;
+        this.isEducation = true;
+    }
+
 
 }

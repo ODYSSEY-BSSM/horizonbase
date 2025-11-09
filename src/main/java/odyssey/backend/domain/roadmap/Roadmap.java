@@ -71,13 +71,6 @@ public class Roadmap {
     @Column(nullable = false)
     private int progress = 0;
 
-    @Column(nullable = false)
-    private boolean isEducation = false;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
-    private Subject subject;
-
     public static Roadmap from(RoadmapRequest request, Directory directory, User user, Team team) {
         return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), directory, user, team);
     }
@@ -149,14 +142,6 @@ public class Roadmap {
 
     public Long getTeamId(){
         return this.team.getId();
-    }
-
-    public String getTeamName(){
-        return this.team.getName();
-    }
-
-    public void changeEducation(){
-        this.isEducation = !this.isEducation;
     }
 
 }
