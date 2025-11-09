@@ -31,7 +31,7 @@ public record NodeResponse(
 
         Integer progress = node.getType() == NodeType.BOTTOM ? node.getProgress() : null;
 
-        String subject = node.getSubject() == null ? null : node.getSubject().getDescription();
+        String subject = node.getSubject() == null ? null : node.getSubject().getTitle();
 
         return new NodeResponse(
                 node.getId(),
