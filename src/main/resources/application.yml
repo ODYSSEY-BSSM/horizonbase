@@ -18,6 +18,8 @@ spring:
       host: ${REDIS_USER}
       port: ${REDIS_PORT}
       password: ${REDIS_PASSWORD}
+      ssl:
+        enabled: true
 
   management:
     endpoints:
