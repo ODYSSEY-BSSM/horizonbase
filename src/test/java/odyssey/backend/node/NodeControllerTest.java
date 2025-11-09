@@ -1,8 +1,10 @@
 package odyssey.backend.node;
 
 import odyssey.backend.domain.node.NodeType;
+import odyssey.backend.domain.node.Subject;
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
+import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -32,7 +34,7 @@ class NodeControllerTest extends RestDocsSupport {
 
         NodeResponse response = new NodeResponse(1L, request.getTitle(), request.getDescription(),
                 request.getHeight(), request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
-                roadmapId, null, null, 12);
+                roadmapId, null, null, 12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.createNode(eq(roadmapId), any(NodeRequest.class)))
                 .willReturn(response);
@@ -72,7 +74,9 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").optional().description("부모 노드 ID"),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
+                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)"),
+                                fieldWithPath("data.isEducation").optional().description("교육과정 노드인지 아닌지 구분"),
+                                fieldWithPath("data.subject").optional().description("어떤 교과인지(enum)")
                         )
                 ));
     }
@@ -84,7 +88,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long nodeId = 2L;
 
         NodeResponse childNode = new NodeResponse(
-                2L, "자식 노드 제목", "설명", 1, 2, NodeType.TOP, 50, 60, "java", roadmapId, 1L, null,12
+                2L, "자식 노드 제목", "설명", 1, 2, NodeType.TOP, 50, 60, "java", roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription()
         );
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(childNode);
@@ -111,7 +115,9 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID"),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
+                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)"),
+                                fieldWithPath("data.isEducation").optional().description("교육과정 노드인지 아닌지 구분"),
+                                fieldWithPath("data.subject").optional().description("어떤 교과인지(enum)")
                         )
                 ));
     }
@@ -121,8 +127,8 @@ class NodeControllerTest extends RestDocsSupport {
     void 노드를_전체조회한다() throws Exception {
         Long roadmapId = 1L;
 
-        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.TOP, 50, 60, "java", roadmapId, null, List.of(),12);
-        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12);
+        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.TOP, 50, 60, "java", roadmapId, null, List.of(),12, false, Subject.AI_GENERAL.getDescription());
+        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.getNodesByRoadmapId(roadmapId)).willReturn(List.of(parentNode, childNode));
 
@@ -147,7 +153,9 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data[].roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data[].parentNodeId").optional().description("부모 노드 ID"),
                                 fieldWithPath("data[].childNode").optional().description("자식 노드 목록"),
-                                fieldWithPath(("data[].progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
+                                fieldWithPath(("data[].progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)"),
+                                fieldWithPath("data[].isEducation").optional().description("교육과정 노드인지 아닌지 구분"),
+                                fieldWithPath("data[].subject").optional().description("어떤 교과인지(enum)")
                         )
                 ));
     }
@@ -158,7 +166,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12);
+        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(node);
 
@@ -184,7 +192,9 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID"),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
+                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)"),
+                                fieldWithPath("data.isEducation").optional().description("교육과정 노드인지 아닌지 구분"),
+                                fieldWithPath("data.subject").optional().description("어떤 교과인지(enum)")
                         )
                 ));
     }
@@ -198,7 +208,7 @@ class NodeControllerTest extends RestDocsSupport {
         NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.TOP, 70, 80, "java", 1L);
         NodeResponse response = new NodeResponse(nodeId, request.getTitle(), request.getDescription(), request.getHeight(),
                 request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
-                roadmapId, request.getParentNodeId(), null,12);
+                roadmapId, request.getParentNodeId(), null,12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.updateNode(eq(nodeId), eq(roadmapId), any(NodeRequest.class))).willReturn(response);
 
@@ -238,7 +248,9 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID").optional(),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
-                                fieldWithPath(("data.progress")).optional().description("진행도(최하단 노드가 아닐 경우 null)")
+                                fieldWithPath("data.progress").optional().description("진행도(최하단 노드가 아닐 경우 null)"),
+                                fieldWithPath("data.isEducation").optional().description("교육과정 노드인지 아닌지 구분"),
+                                fieldWithPath("data.subject").optional().description("어떤 교과인지(enum)")
                         )
                 ));
     }
@@ -259,4 +271,69 @@ class NodeControllerTest extends RestDocsSupport {
                         )
                 ));
     }
+
+    @WithMockUser
+    @Test
+    void 교육과정_노드로_전환한다() throws Exception {
+        Long roadmapId = 1L;
+        Long nodeId = 2L;
+
+        SubjectRequest request = new SubjectRequest(Subject.AI_GENERAL);
+
+        NodeResponse response = new NodeResponse(
+                nodeId,
+                "노드 제목",
+                "노드 설명",
+                100,
+                200,
+                NodeType.BOTTOM,
+                50,
+                60,
+                "Java",
+                roadmapId,
+                null,
+                null,
+                0,
+                true,
+                Subject.AI_GENERAL.getDescription()
+        );
+
+        given(nodeService.changeEducation(eq(nodeId), eq(roadmapId), any(SubjectRequest.class)))
+                .willReturn(response);
+
+        mvc.perform(patch("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andDo(document("node-change-education",
+                        pathParameters(
+                                parameterWithName("roadmapId").description("로드맵 ID"),
+                                parameterWithName("nodeId").description("노드 ID")
+                        ),
+                        requestFields(
+                                fieldWithPath("subject").description("전환할 교과명(enum)")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").description("상태 코드"),
+                                fieldWithPath("message").description("응답 메시지"),
+                                fieldWithPath("data.id").description("노드 ID"),
+                                fieldWithPath("data.title").description("노드 제목"),
+                                fieldWithPath("data.description").description("노드 설명"),
+                                fieldWithPath("data.height").description("노드 높이"),
+                                fieldWithPath("data.width").description("노드 너비"),
+                                fieldWithPath("data.type").description("노드 타입"),
+                                fieldWithPath("data.x").description("노드 X 좌표"),
+                                fieldWithPath("data.y").description("노드 Y 좌표"),
+                                fieldWithPath("data.category").description("카테고리"),
+                                fieldWithPath("data.roadmapId").description("로드맵 ID"),
+                                fieldWithPath("data.parentNodeId").optional().description("부모 노드 ID"),
+                                fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
+                                fieldWithPath("data.progress").optional().description("진행도"),
+                                fieldWithPath("data.isEducation").description("교육과정 노드 여부"),
+                                fieldWithPath("data.subject").description("교과명(enum)")
+                        )
+                ));
+    }
+
 }
