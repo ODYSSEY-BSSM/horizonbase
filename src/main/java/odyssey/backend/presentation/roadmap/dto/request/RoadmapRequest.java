@@ -35,7 +35,4 @@ public class RoadmapRequest {
     @NotNull(message = "필수값입니다.")
     private Icon icon;
 
-    @NotNull(message = "필수값입니다.")
-    private Boolean isEducation;
-
 }

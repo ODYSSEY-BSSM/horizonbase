@@ -72,13 +72,13 @@ public class Roadmap {
     private int progress = 0;
 
     @Column(nullable = false)
-    private boolean isEducation;
+    private boolean isEducation = false;
 
     public static Roadmap from(RoadmapRequest request, Directory directory, User user, Team team) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), request.getIsEducation(), directory, user, team);
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), directory, user, team);
     }
 
-    Roadmap(String title, String description, List<String> categories, Color color, Icon icon, Boolean isEducation, Directory directory, User user, Team team) {
+    Roadmap(String title, String description, List<String> categories, Color color, Icon icon, Directory directory, User user, Team team) {
         this.title = title;
         this.description = description;
         this.categories = categories;
@@ -90,7 +90,6 @@ public class Roadmap {
         this.team = team;
         this.color = color;
         this.icon = icon;
-        this.isEducation = isEducation;
     }
 
     public void update(String title, String description, List<String> categories) {
@@ -150,6 +149,10 @@ public class Roadmap {
 
     public String getTeamName(){
         return this.team.getName();
+    }
+
+    public void changeEducation(){
+        this.isEducation = !this.isEducation;
     }
 
 }
