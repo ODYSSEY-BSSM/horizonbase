@@ -34,7 +34,7 @@ public record TeamRoadmapResponse(
                 roadmap.getColorCode(),
                 roadmap.getIconCode(),
                 roadmap.getTeamId(),
-                roadmap.getTeamName(),
+                roadmap.getTeam().getName(),
                 roadmap.getProgress()
         );
     }

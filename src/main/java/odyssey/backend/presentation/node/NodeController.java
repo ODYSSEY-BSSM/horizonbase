@@ -2,13 +2,14 @@ package odyssey.backend.presentation.node;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.application.node.NodeService;
+import odyssey.backend.domain.auth.User;
+import odyssey.backend.presentation.node.dto.request.NodeRequest;
+import odyssey.backend.presentation.node.dto.request.SubjectRequest;
+import odyssey.backend.presentation.node.dto.response.NodeResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
-import odyssey.backend.presentation.node.dto.request.NodeRequest;
-import odyssey.backend.presentation.node.dto.response.NodeResponse;
-import odyssey.backend.application.node.NodeService;
-import odyssey.backend.domain.auth.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -67,4 +68,15 @@ public class NodeController {
 
         return CommonResponse.ok("삭제되었습니다.");
     }
+
+    @PatchMapping("/{nodeId}")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<NodeResponse> updateEducation(
+            @PathVariable Long nodeId,
+            @PathVariable Long roadmapId,
+            @Valid @RequestBody SubjectRequest request,
+            @AuthenticationPrincipal User user) {
+        return CommonResponse.ok(nodeService.changeEducation(nodeId, roadmapId, request));
+    }
+
 }

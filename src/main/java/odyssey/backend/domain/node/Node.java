@@ -65,6 +65,13 @@ public class Node {
     @Column(nullable = false)
     private Integer progress = 0;
 
+    @Column(nullable = false)
+    private boolean isEducation = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Subject subject;
+
     public static Node from(NodeRequest request, Roadmap roadmap, Node parent) {
         return new Node(
                 request.getTitle(),
@@ -142,5 +149,11 @@ public class Node {
     public int problemCount(){
         return this.problems.size();
     }
+
+    public void changeEducation(Subject subject) {
+        this.subject = subject;
+        this.isEducation = true;
+    }
+
 
 }
