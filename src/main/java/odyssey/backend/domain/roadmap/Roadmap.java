@@ -74,6 +74,10 @@ public class Roadmap {
     @Column(nullable = false)
     private boolean isEducation = false;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Subject subject;
+
     public static Roadmap from(RoadmapRequest request, Directory directory, User user, Team team) {
         return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), directory, user, team);
     }
