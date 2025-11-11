@@ -10,6 +10,7 @@ import odyssey.backend.domain.node.NodeType;
 import odyssey.backend.domain.problem.Problem;
 import odyssey.backend.domain.team.Team;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.shared.color.Color;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

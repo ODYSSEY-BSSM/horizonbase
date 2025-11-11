@@ -87,7 +87,7 @@ public class NodeService {
                 request.getType(),
                 request.getX(),
                 request.getY(),
-                request.getCategory());
+                request.getColor());
 
         return NodeResponse.from(node);
     }

@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import odyssey.backend.domain.roadmap.Color;
 import odyssey.backend.domain.roadmap.Icon;
+import odyssey.backend.shared.color.Color;
 
 import java.util.List;
 

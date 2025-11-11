@@ -2,6 +2,7 @@ package odyssey.backend.presentation.node.dto.response;
 
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.NodeType;
+import odyssey.backend.shared.color.Color;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public record NodeResponse(
         NodeType type,
         Integer x,
         Integer y,
-        String category,
+        Color color,
         Long roadmapId,
         Long parentNodeId,
         List<NodeResponse> childNode,
@@ -42,7 +43,7 @@ public record NodeResponse(
                 node.getType(),
                 node.getX(),
                 node.getY(),
-                node.getCategory(),
+                node.getColor(),
                 node.getRoadmap().getId(),
                 node.getParent() != null ? node.getParent().getId() : null,
                 children,

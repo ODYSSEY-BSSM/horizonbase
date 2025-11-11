@@ -1,10 +1,11 @@
 package odyssey.backend.roadmap;
+
 import odyssey.backend.domain.auth.User;
-import odyssey.backend.domain.roadmap.Color;
 import odyssey.backend.domain.roadmap.Icon;
 import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
+import odyssey.backend.shared.color.Color;
 import odyssey.backend.shared.test.UserCreate;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

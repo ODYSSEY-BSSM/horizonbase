@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import odyssey.backend.domain.node.NodeType;
+import odyssey.backend.shared.color.Color;
 
 @Getter
 @AllArgsConstructor
@@ -34,8 +35,8 @@ public class NodeRequest {
     @NotNull(message = "필수값입니다.")
     private Integer y;
 
-    @NotBlank(message = "필수값입니다.")
-    private String category;
+    @NotNull(message = "필수값입니다.")
+    private Color color;
 
     private Long parentNodeId;
 }
