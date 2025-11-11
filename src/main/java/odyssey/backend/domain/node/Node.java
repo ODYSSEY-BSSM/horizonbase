@@ -8,6 +8,7 @@ import odyssey.backend.domain.problem.exception.CantCreateProblemException;
 import odyssey.backend.domain.problem.exception.MaxOfProblemException;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
+import odyssey.backend.shared.color.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +46,9 @@ public class Node {
     @Column(nullable = false)
     private Integer y;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String category;
+    private Color color;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roadmap_id")
@@ -81,14 +83,14 @@ public class Node {
                 request.getType(),
                 request.getX(),
                 request.getY(),
-                request.getCategory(),
+                request.getColor(),
                 roadmap,
                 parent
         );
     }
 
     Node(
-            String title, String description, int height, int width, NodeType type, int x, int y, String category, Roadmap roadmap, Node parent) {
+            String title, String description, int height, int width, NodeType type, int x, int y, Color color, Roadmap roadmap, Node parent) {
         this.title = title;
         this.description = description;
         this.height = height;
@@ -96,13 +98,13 @@ public class Node {
         this.type = type;
         this.x = x;
         this.y = y;
-        this.category = category;
+        this.color = color;
         this.roadmap = roadmap;
         this.parent = parent;
     }
 
     public void update(
-            String title, String description, Integer height, Integer width, NodeType type, Integer x, Integer y, String category
+            String title, String description, Integer height, Integer width, NodeType type, Integer x, Integer y, Color color
     ){
         this.title = title;
         this.description = description;
@@ -111,7 +113,7 @@ public class Node {
         this.type = type;
         this.x = x;
         this.y = y;
-        this.category = category;
+        this.color = color;
     }
 
     private void updateProgress(){
