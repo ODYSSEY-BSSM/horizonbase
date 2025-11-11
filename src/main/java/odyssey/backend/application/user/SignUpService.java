@@ -4,7 +4,7 @@
     import odyssey.backend.domain.auth.Role;
     import odyssey.backend.domain.auth.SignUpVerification;
     import odyssey.backend.domain.auth.User;
-    import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
+    import odyssey.backend.domain.auth.exception.NotVerificationUserException;
     import odyssey.backend.infrastructure.persistence.auth.SignUpVerificationRepository;
     import odyssey.backend.infrastructure.persistence.auth.UserRepository;
     import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
@@ -34,7 +34,7 @@
 
         public void validate(String email) {
             SignUpVerification signUpVerification = signUpVerificationRepository.findById(email)
-                    .orElseThrow(InvalidRequestEmailException::new);
+                    .orElseThrow(NotVerificationUserException::new);
 
             signUpVerification.validateVerified();
 

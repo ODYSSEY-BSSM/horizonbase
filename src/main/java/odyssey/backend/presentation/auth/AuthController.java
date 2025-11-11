@@ -1,6 +1,5 @@
 package odyssey.backend.presentation.auth;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.auth.LoginService;
@@ -27,10 +26,9 @@ public class AuthController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<TokenResponse> login(
-            @RequestBody @Valid LoginRequest request,
-            HttpServletResponse response
+            @RequestBody @Valid LoginRequest request
     ){
-        return CommonResponse.ok(loginService.login(request, response));
+        return CommonResponse.ok(loginService.login(request));
     }
 
     @PutMapping("/token")
