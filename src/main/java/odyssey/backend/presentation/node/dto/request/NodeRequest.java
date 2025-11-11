@@ -35,7 +35,7 @@ public class NodeRequest {
     @NotNull(message = "필수값입니다.")
     private Integer y;
 
-    @NotBlank(message = "필수값입니다.")
+    @NotNull(message = "필수값입니다.")
     private Color color;
 
     private Long parentNodeId;

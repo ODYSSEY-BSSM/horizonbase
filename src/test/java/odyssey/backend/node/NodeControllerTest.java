@@ -6,6 +6,7 @@ import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
+import odyssey.backend.shared.color.Color;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -30,10 +31,10 @@ class NodeControllerTest extends RestDocsSupport {
     void 노드를_생성한다() throws Exception {
         Long roadmapId = 1L;
         NodeRequest request = new NodeRequest("노드 제목", "노드 설명", 100, 200,
-                NodeType.TOP, 50, 60, "Java", null);
+                NodeType.TOP, 50, 60, Color.BLUE, null);
 
         NodeResponse response = new NodeResponse(1L, request.getTitle(), request.getDescription(),
-                request.getHeight(), request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
+                request.getHeight(), request.getWidth(), request.getType(), request.getX(), request.getY(), request.getColor(),
                 roadmapId, null, null, 12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.createNode(eq(roadmapId), any(NodeRequest.class)))
@@ -56,7 +57,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("type").description("노드 타입"),
                                 fieldWithPath("x").description("x 좌표"),
                                 fieldWithPath("y").description("y 좌표"),
-                                fieldWithPath("category").description("카테고리"),
+                                fieldWithPath("color").description("노드의 색"),
                                 fieldWithPath("parentNodeId").optional().description("부모 노드 ID")
                         ),
                         responseFields(
@@ -70,7 +71,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.type").description("노드 타입"),
                                 fieldWithPath("data.x").description("노드 X 좌표"),
                                 fieldWithPath("data.y").description("노드 Y 좌표"),
-                                fieldWithPath("data.category").description("카테고리"),
+                                fieldWithPath("data.color").description("노드의 색"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").optional().description("부모 노드 ID"),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
@@ -88,7 +89,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long nodeId = 2L;
 
         NodeResponse childNode = new NodeResponse(
-                2L, "자식 노드 제목", "설명", 1, 2, NodeType.TOP, 50, 60, "java", roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription()
+                2L, "자식 노드 제목", "설명", 1, 2, NodeType.TOP, 50, 60, Color.BLUE, roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription()
         );
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(childNode);
@@ -111,7 +112,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.type").description("노드 타입"),
                                 fieldWithPath("data.x").description("노드 X 좌표"),
                                 fieldWithPath("data.y").description("노드 Y 좌표"),
-                                fieldWithPath("data.category").description("카테고리"),
+                                fieldWithPath("data.color").description("노드의 색"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID"),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
@@ -127,8 +128,8 @@ class NodeControllerTest extends RestDocsSupport {
     void 노드를_전체조회한다() throws Exception {
         Long roadmapId = 1L;
 
-        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.TOP, 50, 60, "java", roadmapId, null, List.of(),12, false, Subject.AI_GENERAL.getDescription());
-        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription());
+        NodeResponse parentNode = new NodeResponse(1L, "부모 노드", "부모 설명", 100, 200, NodeType.TOP, 50, 60, Color.BLUE, roadmapId, null, List.of(),12, false, Subject.AI_GENERAL.getDescription());
+        NodeResponse childNode = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, Color.BLUE, roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.getNodesByRoadmapId(roadmapId)).willReturn(List.of(parentNode, childNode));
 
@@ -149,7 +150,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data[].type").description("노드 타입"),
                                 fieldWithPath("data[].x").description("노드 X 좌표"),
                                 fieldWithPath("data[].y").description("노드 Y 좌표"),
-                                fieldWithPath("data[].category").description("카테고리"),
+                                fieldWithPath("data[].color").description("노드의 색"),
                                 fieldWithPath("data[].roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data[].parentNodeId").optional().description("부모 노드 ID"),
                                 fieldWithPath("data[].childNode").optional().description("자식 노드 목록"),
@@ -166,7 +167,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, "java", roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription());
+        NodeResponse node = new NodeResponse(2L, "자식 노드", "자식 설명", 110, 210, NodeType.TOP, 60, 70, Color.BLUE, roadmapId, 1L, null,12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.getNodeByIdAndRoadmapId(nodeId, roadmapId)).willReturn(node);
 
@@ -188,7 +189,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.type").description("노드 타입"),
                                 fieldWithPath("data.x").description("노드 X 좌표"),
                                 fieldWithPath("data.y").description("노드 Y 좌표"),
-                                fieldWithPath("data.category").description("카테고리"),
+                                fieldWithPath("data.color").description("노드의 색"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID"),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
@@ -205,9 +206,9 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.TOP, 70, 80, "java", 1L);
+        NodeRequest request = new NodeRequest("수정된 노드", "수정 설명", 120, 220, NodeType.TOP, 70, 80, Color.BLUE, 1L);
         NodeResponse response = new NodeResponse(nodeId, request.getTitle(), request.getDescription(), request.getHeight(),
-                request.getWidth(), request.getType(), request.getX(), request.getY(), request.getCategory(),
+                request.getWidth(), request.getType(), request.getX(), request.getY(), request.getColor(),
                 roadmapId, request.getParentNodeId(), null,12, false, Subject.AI_GENERAL.getDescription());
 
         given(nodeService.updateNode(eq(nodeId), eq(roadmapId), any(NodeRequest.class))).willReturn(response);
@@ -230,7 +231,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("type").description("노드 타입"),
                                 fieldWithPath("x").description("x 좌표"),
                                 fieldWithPath("y").description("y 좌표"),
-                                fieldWithPath("category").description("카테고리"),
+                                fieldWithPath("color").description("노드의 색"),
                                 fieldWithPath("parentNodeId").description("부모 노드 ID").optional()
                         ),
                         responseFields(
@@ -244,7 +245,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.type").description("노드 타입"),
                                 fieldWithPath("data.x").description("노드 X 좌표"),
                                 fieldWithPath("data.y").description("노드 Y 좌표"),
-                                fieldWithPath("data.category").description("카테고리"),
+                                fieldWithPath("data.color").description("노드의 색"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").description("부모 노드 ID").optional(),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
@@ -289,7 +290,7 @@ class NodeControllerTest extends RestDocsSupport {
                 NodeType.BOTTOM,
                 50,
                 60,
-                "Java",
+                Color.BLUE,
                 roadmapId,
                 null,
                 null,
@@ -325,7 +326,7 @@ class NodeControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.type").description("노드 타입"),
                                 fieldWithPath("data.x").description("노드 X 좌표"),
                                 fieldWithPath("data.y").description("노드 Y 좌표"),
-                                fieldWithPath("data.category").description("카테고리"),
+                                fieldWithPath("data.color").description("노드의 색"),
                                 fieldWithPath("data.roadmapId").description("로드맵 ID"),
                                 fieldWithPath("data.parentNodeId").optional().description("부모 노드 ID"),
                                 fieldWithPath("data.childNode").optional().description("자식 노드 목록"),
