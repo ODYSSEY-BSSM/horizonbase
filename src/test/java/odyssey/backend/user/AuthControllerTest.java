@@ -1,7 +1,6 @@
 package odyssey.backend.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletResponse;
 import odyssey.backend.domain.auth.Role;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.global.ControllerTest;
@@ -71,7 +70,7 @@ public class AuthControllerTest extends RestDocsSupport {
 
         MockHttpServletResponse mockResponse = new MockHttpServletResponse();
 
-        given(loginService.login(any(LoginRequest.class), any(HttpServletResponse.class)))
+        given(loginService.login(any(LoginRequest.class)))
                 .willReturn(fakeTokenResponse);
 
         mvc.perform(post("/auth")

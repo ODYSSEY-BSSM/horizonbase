@@ -11,9 +11,6 @@
 
 이 문서는 Horizon 프로젝트의 REST API 명세서입니다.
 
-== Csrf
-include::csrf.adoc[]
-
 == Auth API
 include::auth.adoc[]
 
