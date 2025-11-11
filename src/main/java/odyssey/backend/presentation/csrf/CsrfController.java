@@ -1,5 +1,7 @@
 package odyssey.backend.presentation.csrf;
 
+import odyssey.backend.shared.response.CommonResponse;
+import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CsrfController {
 
     @GetMapping
-    public CsrfToken getCsrfToken(CsrfToken token) {
-        return token;
+    public SingleCommonResponse<CsrfToken> getCsrfToken(CsrfToken token) {
+        return CommonResponse.ok(token);
     }
 
 }
