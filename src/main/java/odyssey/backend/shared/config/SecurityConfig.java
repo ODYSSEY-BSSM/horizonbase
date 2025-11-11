@@ -57,8 +57,6 @@ public class SecurityConfig {
                         .successHandler(oAuth2LoginSuccessHandler)
                 );
 
-        http.cors();
-
         return http.build();
     }
 
