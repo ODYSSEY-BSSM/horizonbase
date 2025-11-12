@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.auth.exception.UserNotFoundException;
 import odyssey.backend.infrastructure.jwt.exception.InvalidTokenTypeException;
+import odyssey.backend.infrastructure.jwt.exception.TokenExpiredException;
 import odyssey.backend.infrastructure.jwt.service.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,11 +48,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 User user = tokenService.getUserByUuid(uuid);
 
                 if (user == null) {
-                    SecurityContextHolder.clearContext();
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().write("사용자를 찾을 수 없음");
-                    response.getWriter().flush();
-                    return;
+                    throw new UserNotFoundException();
                 }
 
                 List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(roleString));
@@ -61,9 +59,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (ExpiredJwtException e) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("만료된 토큰");
-                return;
+                throw new TokenExpiredException();
             } catch (Exception e) {
                 logger.error("JWT parsing error", e);
             }
