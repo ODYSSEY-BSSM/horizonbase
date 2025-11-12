@@ -27,9 +27,13 @@ jobs:
             --targets "Key=tag:Environment,Values=dev" \
             --parameters 'commands=[
               "cd /home/ubuntu",
+              "pkill -f java || true",
+              "sleep 5",
               "git pull origin develop",
               "chmod +x gradlew",
-              "./gradlew :bootJar",
-              "pkill -f java || true",
-              "nohup java -jar build/libs/*.jar > app.log 2>&1 &"
-            ]'
+              "./gradlew clean :bootJar",
+              "setsid nohup java -jar build/libs/backend-0.0.1-SNAPSHOT.jar > app.log 2>&1 < /dev/null &",
+              "sleep 3",
+              "pgrep -f java && echo \"✅ Server started\" || echo \"❌ Failed\""
+            ]' \
+            --timeout-seconds 600
