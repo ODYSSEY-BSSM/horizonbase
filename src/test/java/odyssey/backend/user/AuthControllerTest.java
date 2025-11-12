@@ -75,8 +75,7 @@ public class AuthControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/auth")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.accessToken").value("fakeAccessToken"))
                 .andExpect(jsonPath("$.data.refreshToken").value("fakeRefreshToken"))
@@ -125,8 +124,7 @@ public class AuthControllerTest extends RestDocsSupport {
         willDoNothing().given(logoutService).logout(any());
 
         mvc.perform(delete("/auth")
-                        .header("Authorization", fakeAccessToken)
-                        .with(csrf()))
+                        .header("Authorization", fakeAccessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value("로그아웃되었습니다."))
                 .andDo(document("user-logout",
@@ -190,7 +188,6 @@ public class AuthControllerTest extends RestDocsSupport {
 
         mvc.perform(put("/users/school")
                         .header("Authorization", "Bearer fakeAccessToken")
-                        .with(csrf())
                         .with(ControllerTest.authenticationPrincipal(fakeUser)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.username").value("gunwoo"))
@@ -222,7 +219,6 @@ public class AuthControllerTest extends RestDocsSupport {
 
         mvc.perform(put("/users")
                         .header("Authorization", "Bearer fakeAccessToken")
-                        .with(csrf())
                         .with(ControllerTest.authenticationPrincipal(fakeUser))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))

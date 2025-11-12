@@ -17,7 +17,6 @@
     import odyssey.backend.domain.auth.User;
     import odyssey.backend.infrastructure.jwt.service.TokenService;
     import odyssey.backend.presentation.auth.AuthController;
-    import odyssey.backend.presentation.csrf.CsrfController;
     import odyssey.backend.presentation.directory.DirectoryController;
     import odyssey.backend.presentation.node.NodeController;
     import odyssey.backend.presentation.problem.ProblemController;
@@ -47,8 +46,7 @@
                  TeamRoadmapController.class,
                  ProblemController.class,
             VerificationController.class,
-    UserController.class,
-    CsrfController.class,})
+    UserController.class,})
     public abstract class ControllerTest {
 
         @Autowired
