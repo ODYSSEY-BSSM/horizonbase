@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.auth.exception.UserNotFoundException;
 import odyssey.backend.domain.team.Team;
+import odyssey.backend.domain.team.exception.InviteCodeNotFoundException;
 import odyssey.backend.domain.team.exception.TeamNotFoundException;
 import odyssey.backend.infrastructure.persistence.auth.UserRepository;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
+import odyssey.backend.presentation.team.dto.request.TeamInviteRequest;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
 import odyssey.backend.presentation.team.dto.response.TeamListResponse;
 import odyssey.backend.presentation.team.dto.response.TeamResponse;
@@ -58,6 +60,18 @@ public class TeamService {
         User findTeamUser = userRepository.findById(user.getUuid())
                 .orElseThrow(UserNotFoundException::new);
         return TeamListResponse.from(findTeamUser);
+    }
+
+    @Transactional
+    public TeamListResponse inviteTeam(TeamInviteRequest request, User user){
+        Team team = teamRepository.findByInviteCode(request.getInviteCode())
+                .orElseThrow(InviteCodeNotFoundException::new);
+
+        team.validateInviteCode(request.getInviteCode());
+
+        team.addMember(user);
+
+        return TeamListResponse.from(user);
     }
 
 }
