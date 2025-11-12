@@ -10,6 +10,7 @@ import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,8 @@ public class TeamRoadmapController {
     private final RoadmapFacade roadmapFacade;
     private final RoadmapService roadmapService;
 
-    @PostMapping()
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public SingleCommonResponse<TeamRoadmapResponse> createTeamRoadmap(
             @PathVariable("teamId") Long teamId,
             @RequestBody @Valid RoadmapRequest request,
@@ -31,6 +33,7 @@ public class TeamRoadmapController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ListCommonResponse<TeamRoadmapResponse> getTeamRoadmaps(
             @AuthenticationPrincipal User user,
             @PathVariable("teamId") Long teamId

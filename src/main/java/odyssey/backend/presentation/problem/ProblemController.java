@@ -9,6 +9,7 @@ import odyssey.backend.presentation.problem.dto.request.SolveProblemRequest;
 import odyssey.backend.presentation.problem.dto.response.ProblemResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class ProblemController {
     private final ProblemService problemService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public SingleCommonResponse<ProblemResponse> createProblem(
             @Valid @RequestBody ProblemRequest request,
             @PathVariable Long nodeId,
@@ -29,6 +31,7 @@ public class ProblemController {
     }
 
     @PatchMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public SingleCommonResponse<ProblemResponse> solveProblem(
             @RequestParam Long problemId,
             @Valid @RequestBody SolveProblemRequest request,

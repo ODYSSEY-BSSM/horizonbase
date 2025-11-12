@@ -12,7 +12,6 @@ import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +37,6 @@ public class RoadmapController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('USER')")
     public SingleCommonResponse<PersonalRoadmapResponse> createRoadmap(
             @RequestBody @Valid RoadmapRequest request,
             @AuthenticationPrincipal User user){
@@ -55,13 +53,11 @@ public class RoadmapController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<String> deleteRoadmap(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRoadmap(
             @PathVariable Long id,
             @AuthenticationPrincipal User user) {
         roadmapFacade.deleteRoadmapById(id);
-
-        return CommonResponse.ok("삭제되었습니다.");
     }
 
     @PostMapping("/{id}/favorite")
