@@ -17,4 +17,9 @@ public class UserFacade {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
 }
