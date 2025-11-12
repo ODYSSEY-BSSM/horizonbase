@@ -1,6 +1,7 @@
 package odyssey.backend.application.user;
 
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.application.auth.UserFacade;
 import odyssey.backend.domain.auth.UpdatePasswordVerification;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.auth.exception.InvalidRequestEmailException;
@@ -14,13 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UpdatePasswordUseCase {
 
+    private final UserFacade userFacade;
     private final UpdatePasswordVerificationRepository updatePasswordVerificationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void updatePassword(User user, UpdatePasswordRequest request) {
-        validate(user, request);
-        user.updatePassword(passwordEncoder.encode(request.getPassword()));
+        User currentUser = userFacade.getUserByUuid(user.getUuid());
+        validate(currentUser, request);
+        currentUser.updatePassword(passwordEncoder.encode(request.getPassword()));
     }
 
     private void validate(User user, UpdatePasswordRequest request) {
