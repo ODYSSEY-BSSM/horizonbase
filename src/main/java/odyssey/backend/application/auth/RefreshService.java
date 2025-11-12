@@ -12,8 +12,9 @@ public class RefreshService {
     private final TokenService tokenService;
 
     public TokenResponse refreshToken(String refreshToken) {
-        String accessToken = tokenService.refreshAccessToken(refreshToken);
-
-        return TokenResponse.create(accessToken, refreshToken);
+        return TokenResponse.create(
+                tokenService.refreshAccessToken(refreshToken),
+                refreshToken
+        );
     }
 }

@@ -6,18 +6,14 @@ import odyssey.backend.domain.team.Team;
 import java.util.List;
 
 public record UserResponse(
-        String username,
-        String email,
-        String role,
+        UserInfo userInfo,
         List<String> teams,
         String school,
         Boolean isConnectedSchool
 ) {
     public static UserResponse from(User user) {
         return new UserResponse(
-                user.getUsername(),
-                user.getEmail(),
-                user.getRole().toString(),
+                UserInfo.from(user),
                 user.getTeams()
                         .stream()
                         .map(Team::getName)
