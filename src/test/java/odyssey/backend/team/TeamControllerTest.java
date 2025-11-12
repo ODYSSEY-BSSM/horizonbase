@@ -8,15 +8,13 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 
-import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class TeamControllerTest extends RestDocsSupport {
@@ -33,8 +31,7 @@ public class TeamControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/teams")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(teamRequest))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(teamRequest)))
                 .andExpect(status().isOk())
                 .andDo(document("team-create",
                         requestFields(
@@ -55,8 +52,7 @@ public class TeamControllerTest extends RestDocsSupport {
     void 팀을_삭제한다() throws Exception {
         Long teamId = 1L;
 
-        mvc.perform(delete("/teams/{id}", teamId)
-                        .with(csrf()))
+        mvc.perform(delete("/teams/{id}", teamId))
                 .andExpect(status().isOk())
                 .andDo(document("team-delete",
                         pathParameters(

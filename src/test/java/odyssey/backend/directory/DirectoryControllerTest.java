@@ -15,9 +15,8 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,8 +32,7 @@ class DirectoryControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/directories")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.id").value(1L))
                 .andExpect(jsonPath("$.data.name").value("새 디렉토리"))
@@ -66,8 +64,7 @@ class DirectoryControllerTest extends RestDocsSupport {
 
         mvc.perform(put("/directories/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id").value(id))
                 .andExpect(jsonPath("$.data.name").value("수정된 디렉토리"))
@@ -91,8 +88,7 @@ class DirectoryControllerTest extends RestDocsSupport {
     void 디렉토리를_삭제한다() throws Exception {
         Long id = 1L;
 
-        mvc.perform(delete("/directories/{id}", id)
-                        .with(csrf()))
+        mvc.perform(delete("/directories/{id}", id))
                 .andExpect(status().isNoContent())
         .andDo(document("directory-delete",
                 pathParameters(
@@ -112,8 +108,7 @@ class DirectoryControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/directories/team/{teamId}", teamId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.id").value(2L))
                 .andExpect(jsonPath("$.data.name").value("팀 디렉토리"))
@@ -149,8 +144,7 @@ class DirectoryControllerTest extends RestDocsSupport {
 
         mvc.perform(put("/directories/{id}/team/{teamId}", id, teamId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.id").value(id))
                 .andExpect(jsonPath("$.data.name").value("수정된 팀 디렉토리"))
@@ -180,8 +174,7 @@ class DirectoryControllerTest extends RestDocsSupport {
         Long id = 2L;
         Long teamId = 1L;
 
-        mvc.perform(delete("/directories/{id}/team/{teamId}", id, teamId)
-                        .with(csrf()))
+        mvc.perform(delete("/directories/{id}/team/{teamId}", id, teamId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value("팀 디렉토리가 삭제되었습니다."))
                 .andDo(document("delete-team-directory",

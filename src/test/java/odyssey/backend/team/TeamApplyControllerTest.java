@@ -1,7 +1,7 @@
 package odyssey.backend.team;
 
-import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.domain.team.TeamApply;
+import odyssey.backend.global.RestDocsSupport;
 import odyssey.backend.presentation.team.dto.response.ApplyResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -10,13 +10,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class TeamApplyControllerTest extends RestDocsSupport {
 
@@ -26,8 +26,7 @@ public class TeamApplyControllerTest extends RestDocsSupport {
         given(teamApplyService.apply(eq(1L), any())).willReturn(response);
 
         mvc.perform(post("/apply/{teamId}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .with(csrf()))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.applyStatus").value(TeamApply.Status.SUBMITTED.name()))
                 .andDo(document("team-apply",
@@ -50,8 +49,7 @@ public class TeamApplyControllerTest extends RestDocsSupport {
         given(teamApplyService.approve(eq(1L), any())).willReturn(response);
 
         mvc.perform(put("/apply/{applyId}/approve", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .with(csrf()))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.applyStatus").value(TeamApply.Status.SUBMITTED.name()))
                 .andDo(document("team-apply-approve",
@@ -72,8 +70,7 @@ public class TeamApplyControllerTest extends RestDocsSupport {
     void 팀_신청을_거절한다() throws Exception {
 
         mvc.perform(patch("/apply/{applyId}/reject", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .with(csrf()))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").value("삭제되었습니다."))
                 .andDo(document("team-apply-reject",

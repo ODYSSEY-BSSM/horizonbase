@@ -24,7 +24,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,8 +40,7 @@ public class AuthControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(signUpRequest))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(signUpRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.uuid").value(1L))
                 .andExpect(jsonPath("$.data.email").value("fakeEmail@gmail.com"))

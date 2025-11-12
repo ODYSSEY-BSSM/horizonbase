@@ -21,7 +21,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class NodeControllerTest extends RestDocsSupport {
@@ -42,8 +41,7 @@ class NodeControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/roadmap/{roadmapId}/nodes", roadmapId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andDo(document("node-create",
                         pathParameters(
@@ -215,8 +213,7 @@ class NodeControllerTest extends RestDocsSupport {
 
         mvc.perform(put("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andDo(document("node-update",
                         pathParameters(
@@ -262,8 +259,7 @@ class NodeControllerTest extends RestDocsSupport {
         Long roadmapId = 1L;
         Long nodeId = 2L;
 
-        mvc.perform(delete("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId)
-                        .with(csrf()))
+        mvc.perform(delete("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId))
                 .andExpect(status().isOk())
                 .andDo(document("node-delete",
                         pathParameters(
@@ -304,8 +300,7 @@ class NodeControllerTest extends RestDocsSupport {
 
         mvc.perform(patch("/roadmap/{roadmapId}/nodes/{nodeId}", roadmapId, nodeId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andDo(document("node-change-education",
                         pathParameters(

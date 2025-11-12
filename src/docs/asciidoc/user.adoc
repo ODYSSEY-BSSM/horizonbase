@@ -41,13 +41,13 @@ include::{snippets}/user-signup/response-fields.adoc[]
 유저는 비밀번호를 변경하기 위해 인증코드를 통하여 인증하여여야합니다.
 
 ==== 요청 메시지
-include::{snippets}/send-verification-code/http-request.adoc[]
+include::{snippets}/send-password-verification-code/http-request.adoc[]
 
 ==== 요청 필드
-include::{snippets}/send-verification-code/request-fields.adoc[]
+include::{snippets}/send-password-verification-code/request-fields.adoc[]
 
 ==== 응답 HTTP 메시지
-include::{snippets}/send-verification-code/http-response.adoc[]
+include::{snippets}/send-password-verification-code/http-response.adoc[]
 
 === 비밀번호 인증 코드 인증
 비밀번호를 변경하기 위해선 이메일로 온 인증코드를 인증하여야합니다.
