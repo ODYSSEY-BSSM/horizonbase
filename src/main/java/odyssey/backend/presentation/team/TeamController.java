@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.team.TeamService;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.presentation.team.dto.request.TeamInviteRequest;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
 import odyssey.backend.presentation.team.dto.response.TeamListResponse;
 import odyssey.backend.presentation.team.dto.response.TeamResponse;
@@ -47,6 +48,14 @@ public class TeamController {
             @AuthenticationPrincipal User user
     ){
         return CommonResponse.ok(teamService.teamList(user));
+    }
+
+    @PatchMapping
+    public SingleCommonResponse<TeamListResponse> inviteTeam(
+            @AuthenticationPrincipal User user,
+            @RequestBody @Valid TeamInviteRequest request
+    ){
+        return CommonResponse.ok(teamService.inviteTeam(request, user));
     }
 
 }
