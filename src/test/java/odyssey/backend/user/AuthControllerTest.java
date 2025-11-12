@@ -211,9 +211,9 @@ public class AuthControllerTest extends RestDocsSupport {
     @Test
     void 비밀번호를_변경한다() throws Exception {
         User fakeUser = new User();
-        UpdatePasswordRequest request = new UpdatePasswordRequest("newPassword123!");
+        UpdatePasswordRequest request = new UpdatePasswordRequest("24.040@bssm.hs.kr", "newPassword123!");
 
-        doNothing().when(updatePasswordUseCase).updatePassword(any(User.class), any(UpdatePasswordRequest.class));
+        doNothing().when(updatePasswordUseCase).updatePassword(any(UpdatePasswordRequest.class));
 
         mvc.perform(put("/users")
                         .header("Authorization", "Bearer fakeAccessToken")
@@ -223,6 +223,7 @@ public class AuthControllerTest extends RestDocsSupport {
                 .andExpect(status().isNoContent())
                 .andDo(document("user-update-password",
                         requestFields(
+                                fieldWithPath("email").description("이메일"),
                                 fieldWithPath("password").description("새로 변경할 비밀번호")
                         )
                 ));

@@ -20,8 +20,8 @@ public class UpdatePasswordUseCase {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void updatePassword(User user, UpdatePasswordRequest request) {
-        User currentUser = userFacade.getUserByUuid(user.getUuid());
+    public void updatePassword(UpdatePasswordRequest request) {
+        User currentUser = userFacade.getUserByEmail(request.getEmail());
         validate(currentUser, request);
         currentUser.updatePassword(passwordEncoder.encode(request.getPassword()));
     }

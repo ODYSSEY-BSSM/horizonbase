@@ -54,9 +54,8 @@ public class UserController {
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePassword(
-            @Valid @RequestBody UpdatePasswordRequest request,
-            @AuthenticationPrincipal User user){
-        updatePasswordUseCase.updatePassword(user ,request);
+            @Valid @RequestBody UpdatePasswordRequest request){
+        updatePasswordUseCase.updatePassword(request);
     }
 
 }
