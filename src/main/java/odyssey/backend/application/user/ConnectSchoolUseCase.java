@@ -1,9 +1,9 @@
 package odyssey.backend.application.user;
 
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.application.auth.UserFacade;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.auth.exception.NotSchoolEmailException;
-import odyssey.backend.domain.auth.service.FindUserService;
 import odyssey.backend.presentation.user.dto.response.UserResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ConnectSchoolUseCase {
 
-    private final FindUserService findUserService;
+    private final UserFacade userFacade;
 
     @Transactional
     public UserResponse ConnectSchool(User user) {
-        User student = findUserService.findUserByEmail(user.getEmail());
+        User student = userFacade.getUserByEmail(user.getEmail());
         validate(student);
         student.connectSchool();
         return UserResponse.from(student);

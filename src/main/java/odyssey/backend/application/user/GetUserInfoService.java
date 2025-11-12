@@ -1,8 +1,8 @@
 package odyssey.backend.application.user;
 
 import lombok.RequiredArgsConstructor;
+import odyssey.backend.application.auth.UserFacade;
 import odyssey.backend.domain.auth.User;
-import odyssey.backend.domain.auth.service.FindUserService;
 import odyssey.backend.presentation.user.dto.response.UserResponse;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetUserInfoService {
 
-    private final FindUserService findUserService;
+    private final UserFacade userFacade;
 
     public UserResponse getUserInfo(User user) {
-        return UserResponse.from(findUserService.findUserByEmail(user.getEmail()));
+        return UserResponse.from(userFacade.getUserByEmail(user.getEmail()));
     }
 
 }
