@@ -9,7 +9,7 @@ public record DirectoryResponse(
         Long id,
         String name,
         Long parentId,
-        List<DirectoryResponse> directories,
+        List<SimpleDirectoryResponse> directories,
         List<SimpleRoadmapResponse> roadmaps
 ) {
     public static DirectoryResponse from(Directory directory) {
@@ -19,7 +19,7 @@ public record DirectoryResponse(
                 directory.getParent() != null ? directory.getParent().getId() : null,
                 directory.getChildren() != null
                         ? directory.getChildren().stream()
-                        .map(DirectoryResponse::from)
+                        .map(SimpleDirectoryResponse::from)
                         .toList()
                         : List.of(),
                 directory.getRoadmaps() != null
