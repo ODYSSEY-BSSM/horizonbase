@@ -24,7 +24,7 @@ public class TeamControllerTest extends RestDocsSupport {
         Long teamId = 1L;
         TeamRequest teamRequest = new TeamRequest("이건우 화이팅");
 
-        TeamResponse fakeResponse = new TeamResponse(1L, "이건우화이팅", "이건우", List.of("이건우", "삼건우"));
+        TeamResponse fakeResponse = new TeamResponse(1L, "이건우화이팅", "이건우", "dlrjsdn", List.of("이건우", "삼건우"));
 
         given(teamService.create(any(TeamRequest.class), any()))
                 .willReturn(fakeResponse);
@@ -43,6 +43,7 @@ public class TeamControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.id").description("팀 ID"),
                                 fieldWithPath("data.name").description("팀 이름"),
                                 fieldWithPath("data.leader").description("팀장 이름"),
+                                fieldWithPath("data.inviteCode").description("팀 초대코드"),
                                 fieldWithPath("data.members").description("팀 멤버")
                         )
                 ));
@@ -69,7 +70,7 @@ public class TeamControllerTest extends RestDocsSupport {
     @Test
     void 팀을_조회한다() throws Exception {
         Long teamId = 1L;
-        TeamResponse fakeResponse = new TeamResponse(1L, "이건우화이팅", "이건우", List.of("이건우", "삼건우"));
+        TeamResponse fakeResponse = new TeamResponse(1L, "이건우화이팅", "이건우", "dlrjsdn" ,List.of("이건우", "삼건우"));
         given(teamService.findById(teamId)).willReturn(fakeResponse);
 
         mvc.perform(get("/teams/{teamId}", teamId))
@@ -84,6 +85,7 @@ public class TeamControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.id").description("팀 ID"),
                                 fieldWithPath("data.name").description("팀 이름"),
                                 fieldWithPath("data.leader").description("팀장 이름"),
+                                fieldWithPath("data.inviteCode").description("팀 초대코드"),
                                 fieldWithPath("data.members").description("팀 멤버")
                         )
                 ));
