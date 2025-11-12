@@ -11,7 +11,6 @@
     import odyssey.backend.application.roadmap.RoadmapFacade;
     import odyssey.backend.application.roadmap.RoadmapService;
     import odyssey.backend.application.root.RootUseCase;
-    import odyssey.backend.application.team.TeamApplyService;
     import odyssey.backend.application.team.TeamService;
     import odyssey.backend.application.user.*;
     import odyssey.backend.domain.auth.User;
@@ -23,7 +22,6 @@
     import odyssey.backend.presentation.roadmap.RoadmapController;
     import odyssey.backend.presentation.roadmap.TeamRoadmapController;
     import odyssey.backend.presentation.root.RootController;
-    import odyssey.backend.presentation.team.TeamApplyController;
     import odyssey.backend.presentation.team.TeamController;
     import odyssey.backend.presentation.user.UserController;
     import odyssey.backend.presentation.user.VerificationController;
@@ -41,7 +39,6 @@
                  DirectoryController.class,
                  AuthController.class,
                  TeamController.class,
-                 TeamApplyController.class,
                  RootController.class,
                  TeamRoadmapController.class,
                  ProblemController.class,
@@ -84,9 +81,6 @@
 
         @MockBean
         protected TeamService teamService;
-
-        @MockBean
-        protected TeamApplyService teamApplyService;
 
         @MockBean
         protected GetUserInfoService getUserInfoService;

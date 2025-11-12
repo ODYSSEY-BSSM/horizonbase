@@ -5,7 +5,6 @@ import odyssey.backend.domain.auth.Role;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.team.Team;
 import odyssey.backend.domain.team.exception.TeamNotFoundException;
-import odyssey.backend.infrastructure.persistence.team.TeamApplyRepository;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
 import org.junit.jupiter.api.Test;
@@ -26,9 +25,6 @@ class TeamServiceTest {
 
     @Mock
     private TeamRepository teamRepository;
-
-    @Mock
-    private TeamApplyRepository teamApplyRepository;
 
     @InjectMocks
     private TeamService teamService;
