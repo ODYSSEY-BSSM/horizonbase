@@ -18,15 +18,15 @@ public record NodeResponse(
         Color color,
         Long roadmapId,
         Long parentNodeId,
-        List<NodeResponse> childNode,
+        List<SimpleNodeResponse> childNode,
         Integer progress,
         boolean isEducation,
         String subject
 ) {
     public static NodeResponse from(Node node) {
-        List<NodeResponse> children = node.getChildren() != null
+        List<SimpleNodeResponse> children = node.getChildren() != null
                 ? node.getChildren().stream()
-                .map(NodeResponse::from)
+                .map(SimpleNodeResponse::from)
                 .toList()
                 : List.of();
 
