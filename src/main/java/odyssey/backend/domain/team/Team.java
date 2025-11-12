@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.team.exception.FailedCreateInviteCode;
+import odyssey.backend.domain.team.exception.InviteCodeMismatchException;
 import odyssey.backend.domain.team.exception.NotLeaderException;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
 
@@ -23,6 +24,7 @@ public class Team {
     @Column(name = "team_id")
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -84,6 +86,12 @@ public class Team {
             return sb.toString();
         }catch(Exception e){
             throw new FailedCreateInviteCode();
+        }
+    }
+
+    public void validateInviteCode(String inviteCode){
+        if(!inviteCode.equals(this.inviteCode)){
+            throw new InviteCodeMismatchException();
         }
     }
 
