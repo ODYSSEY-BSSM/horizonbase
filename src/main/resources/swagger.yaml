@@ -1,0 +1,1472 @@
+---
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  "/verification":
+    put:
+      tags:
+        - verification-controller
+      operationId: verification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UpdatePasswordVerifyRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+    post:
+      tags:
+        - verification-controller
+      operationId: sendVerificationCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SendVerificationRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+    patch:
+      tags:
+        - verification-controller
+      operationId: verification_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/VerifyRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+  "/users":
+    get:
+      tags:
+        - user-controller
+      operationId: getUserInfo
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseUserResponse"
+    put:
+      tags:
+        - user-controller
+      operationId: updatePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/UpdatePasswordRequest"
+        required: true
+      responses:
+        '204':
+          description: No Content
+    post:
+      tags:
+        - user-controller
+      operationId: signUp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SignUpRequest"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseSignUpResponse"
+  "/users/school":
+    put:
+      tags:
+        - user-controller
+      operationId: connectSchool
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseUserResponse"
+  "/roadmap/{roadmapId}/nodes/{nodeId}":
+    get:
+      tags:
+        - node-controller
+      operationId: getNode
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: roadmapId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseNodeResponse"
+    put:
+      tags:
+        - node-controller
+      operationId: updateNode
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: roadmapId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/NodeRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseNodeResponse"
+    delete:
+      tags:
+        - node-controller
+      operationId: deleteNode
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: roadmapId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseString"
+    patch:
+      tags:
+        - node-controller
+      operationId: updateEducation
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: roadmapId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SubjectRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseNodeResponse"
+  "/roadmap/{id}":
+    put:
+      tags:
+        - roadmap-controller
+      operationId: updateRoadmap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RoadmapRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponsePersonalRoadmapResponse"
+    delete:
+      tags:
+        - roadmap-controller
+      operationId: deleteRoadmap
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseString"
+  "/directories/{directoryId}":
+    put:
+      tags:
+        - directory-controller
+      operationId: updateDirectory
+      parameters:
+        - name: directoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DirectoryRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseDirectoryResponse"
+    delete:
+      tags:
+        - directory-controller
+      operationId: deleteDirectory
+      parameters:
+        - name: directoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseString"
+  "/directories/{directoryId}/team/{teamId}":
+    put:
+      tags:
+        - directory-controller
+      operationId: updateTeamDirectory
+      parameters:
+        - name: directoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DirectoryRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseTeamDirectoryResponse"
+    delete:
+      tags:
+        - directory-controller
+      operationId: deleteTeamDirectory
+      parameters:
+        - name: directoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseString"
+  "/auth/token":
+    put:
+      tags:
+        - auth-controller
+      operationId: refreshAccessToken
+      parameters:
+        - name: Refresh-Token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseTokenResponse"
+  "/apply/{applyId}/approve":
+    put:
+      tags:
+        - team-apply-controller
+      operationId: approved
+      parameters:
+        - name: applyId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseApplyResponse"
+  "/{nodeId}/problems":
+    post:
+      tags:
+        - problem-controller
+      operationId: createProblem
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProblemRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseProblemResponse"
+    patch:
+      tags:
+        - problem-controller
+      operationId: solveProblem
+      parameters:
+        - name: problemId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SolveProblemRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseProblemResponse"
+  "/verification/password":
+    post:
+      tags:
+        - verification-controller
+      operationId: sendUpdatePasswordCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/SendVerificationRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+  "/teams":
+    post:
+      tags:
+        - team-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/TeamRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseTeamResponse"
+  "/teams/{teamId}/roadmap":
+    get:
+      tags:
+        - team-roadmap-controller
+      operationId: getTeamRoadmaps
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ListCommonResponseTeamRoadmapResponse"
+    post:
+      tags:
+        - team-roadmap-controller
+      operationId: createTeamRoadmap
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RoadmapRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseTeamRoadmapResponse"
+  "/roadmap":
+    get:
+      tags:
+        - roadmap-controller
+      operationId: getPersonalRoadmaps
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ListCommonResponsePersonalRoadmapResponse"
+    post:
+      tags:
+        - roadmap-controller
+      operationId: createRoadmap
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/RoadmapRequest"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponsePersonalRoadmapResponse"
+  "/roadmap/{roadmapId}/nodes":
+    get:
+      tags:
+        - node-controller
+      operationId: getNodesByRoadmap
+      parameters:
+        - name: roadmapId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ListCommonResponseNodeResponse"
+    post:
+      tags:
+        - node-controller
+      operationId: createNode
+      parameters:
+        - name: roadmapId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/NodeRequest"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseNodeResponse"
+  "/roadmap/{id}/favorite":
+    post:
+      tags:
+        - roadmap-controller
+      operationId: toggleFavorite
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponsePersonalRoadmapResponse"
+  "/directories":
+    post:
+      tags:
+        - directory-controller
+      operationId: createDirectory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DirectoryRequest"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseDirectoryResponse"
+  "/directories/team/{teamId}":
+    post:
+      tags:
+        - directory-controller
+      operationId: createTeamDirectory
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DirectoryRequest"
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseTeamDirectoryResponse"
+  "/auth":
+    post:
+      tags:
+        - auth-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseTokenResponse"
+    delete:
+      tags:
+        - auth-controller
+      operationId: logout
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseString"
+  "/apply/{teamId}":
+    post:
+      tags:
+        - team-apply-controller
+      operationId: apply
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseApplyResponse"
+  "/apply/{applyId}/reject":
+    patch:
+      tags:
+        - team-apply-controller
+      operationId: reject
+      parameters:
+        - name: applyId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseString"
+  "/teams/{id}":
+    get:
+      tags:
+        - team-controller
+      operationId: getTeam
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseTeamResponse"
+    delete:
+      tags:
+        - team-controller
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseString"
+  "/root":
+    get:
+      tags:
+        - root-controller
+      operationId: getContent
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseRootContentResponse"
+  "/root/team":
+    get:
+      tags:
+        - root-controller
+      operationId: getTeamContent
+      parameters:
+        - name: teamId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseRootContentResponse"
+  "/roadmap/last-accessed":
+    get:
+      tags:
+        - roadmap-controller
+      operationId: getLastAccessedRoadmap
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponsePersonalRoadmapResponse"
+  "/roadmap/count":
+    get:
+      tags:
+        - roadmap-controller
+      operationId: getRoadmapCount
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/SingleCommonResponseRoadmapCountResponse"
+components:
+  schemas:
+    UpdatePasswordVerifyRequest:
+      required:
+        - code
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+        code:
+          type: string
+    UpdatePasswordRequest:
+      required:
+        - password
+      type: object
+      properties:
+        password:
+          type: string
+    SingleCommonResponseUserResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/UserResponse"
+    UserResponse:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        teams:
+          type: array
+          items:
+            type: string
+        school:
+          type: string
+        isConnectedSchool:
+          type: boolean
+    NodeRequest:
+      required:
+        - color
+        - description
+        - height
+        - title
+        - type
+        - width
+        - x
+        - "y"
+      type: object
+      properties:
+        title:
+          maxLength: 64
+          minLength: 0
+          type: string
+        description:
+          maxLength: 1500
+          minLength: 0
+          type: string
+        height:
+          type: integer
+          format: int32
+        width:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+            - TOP
+            - MIDDLE
+            - BOTTOM
+        x:
+          type: integer
+          format: int32
+        "y":
+          type: integer
+          format: int32
+        color:
+          type: string
+          enum:
+            - RED
+            - ORANGE
+            - YELLOW
+            - GREEN
+            - BLUE
+            - PURPLE
+        parentNodeId:
+          type: integer
+          format: int64
+    NodeResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        height:
+          type: integer
+          format: int32
+        width:
+          type: integer
+          format: int32
+        type:
+          type: string
+          enum:
+            - TOP
+            - MIDDLE
+            - BOTTOM
+        x:
+          type: integer
+          format: int32
+        "y":
+          type: integer
+          format: int32
+        color:
+          type: string
+          enum:
+            - RED
+            - ORANGE
+            - YELLOW
+            - GREEN
+            - BLUE
+            - PURPLE
+        roadmapId:
+          type: integer
+          format: int64
+        parentNodeId:
+          type: integer
+          format: int64
+        childNode:
+          type: array
+          items:
+            "$ref": "#/components/schemas/NodeResponse"
+        progress:
+          type: integer
+          format: int32
+        isEducation:
+          type: boolean
+        subject:
+          type: string
+    SingleCommonResponseNodeResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/NodeResponse"
+    RoadmapRequest:
+      required:
+        - categories
+        - color
+        - description
+        - directoryId
+        - icon
+        - title
+      type: object
+      properties:
+        title:
+          maxLength: 64
+          minLength: 0
+          type: string
+        description:
+          maxLength: 150
+          minLength: 0
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        directoryId:
+          type: integer
+          format: int64
+        color:
+          type: string
+          enum:
+            - RED
+            - ORANGE
+            - YELLOW
+            - GREEN
+            - BLUE
+            - PURPLE
+        icon:
+          type: string
+          enum:
+            - LANGUAGE
+            - CODE
+            - SHIELD
+            - DATABASE
+            - HOST
+            - HTML
+            - CSS
+            - JAVASCRIPT
+            - PSYCHIATRY
+            - DEPLOYED_CODE
+            - ASTERISK
+            - EXTENSION
+            - SCHOOL
+            - FUNCTION
+            - PUBLIC
+            - NETWORK_INTELLIGENCE
+            - NETWORK_INTEL_NODE
+    PersonalRoadmapResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        lastModifiedAt:
+          type: string
+          format: date
+        lastAccessedAt:
+          type: string
+          format: date-time
+        isFavorite:
+          type: boolean
+        uuid:
+          type: integer
+          format: int64
+        color:
+          type: string
+        icon:
+          type: string
+        progress:
+          type: integer
+          format: int32
+    SingleCommonResponsePersonalRoadmapResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/PersonalRoadmapResponse"
+    DirectoryRequest:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          minLength: 0
+          type: string
+        parentId:
+          type: integer
+          format: int64
+    DirectoryResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        parentId:
+          type: integer
+          format: int64
+        directories:
+          type: array
+          items:
+            "$ref": "#/components/schemas/DirectoryResponse"
+        roadmaps:
+          type: array
+          items:
+            "$ref": "#/components/schemas/SimpleRoadmapResponse"
+    SimpleRoadmapResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+    SingleCommonResponseDirectoryResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/DirectoryResponse"
+    SingleCommonResponseTeamDirectoryResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TeamDirectoryResponse"
+    TeamDirectoryResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        teamId:
+          type: integer
+          format: int64
+        roadmaps:
+          type: array
+          items:
+            "$ref": "#/components/schemas/SimpleRoadmapResponse"
+    SingleCommonResponseTokenResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TokenResponse"
+    TokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+    ApplyResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        teamName:
+          type: string
+        applyStatus:
+          type: string
+          enum:
+            - SUBMITTED
+            - APPROVED
+    SingleCommonResponseApplyResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/ApplyResponse"
+    ProblemRequest:
+      required:
+        - answer
+        - title
+      type: object
+      properties:
+        title:
+          type: string
+        answer:
+          type: string
+    ProblemResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        status:
+          type: string
+          enum:
+            - UNRESOLVED
+            - RESOLVED
+    SingleCommonResponseProblemResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/ProblemResponse"
+    SendVerificationRequest:
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+    SignUpRequest:
+      required:
+        - email
+        - password
+        - username
+      type: object
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+    SignUpResponse:
+      type: object
+      properties:
+        uuid:
+          type: integer
+          format: int64
+        email:
+          type: string
+        username:
+          type: string
+        role:
+          type: string
+          enum:
+            - ROLE_ADMIN
+            - ROLE_USER
+    SingleCommonResponseSignUpResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/SignUpResponse"
+    TeamRequest:
+      type: object
+      properties:
+        name:
+          type: string
+    SingleCommonResponseTeamResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TeamResponse"
+    TeamResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        leader:
+          type: string
+        members:
+          type: array
+          items:
+            type: string
+    SingleCommonResponseTeamRoadmapResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/TeamRoadmapResponse"
+    TeamRoadmapResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        lastModifiedAt:
+          type: string
+          format: date
+        lastAccessedAt:
+          type: string
+          format: date-time
+        isFavorite:
+          type: boolean
+        uuid:
+          type: integer
+          format: int64
+        color:
+          type: string
+        icon:
+          type: string
+        teamId:
+          type: integer
+          format: int64
+        teamName:
+          type: string
+        progress:
+          type: integer
+          format: int32
+    LoginRequest:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    SolveProblemRequest:
+      required:
+        - answer
+      type: object
+      properties:
+        answer:
+          type: string
+    VerifyRequest:
+      required:
+        - code
+        - email
+      type: object
+      properties:
+        email:
+          type: string
+        code:
+          type: string
+    SubjectRequest:
+      required:
+        - subject
+      type: object
+      properties:
+        subject:
+          type: string
+          enum:
+            - MATH_AND_AI
+            - AI_PROGRAMMING
+            - SCREEN_IMPLEMENTATION
+            - ADVANCED_SCREEN_IMPLEMENTATION
+            - APPLICATION_PROGRAMMING
+            - WEB_PROGRAMMING
+            - WEB_PROGRAMMING_PRACTICE
+            - FRONTEND_BASIC
+            - SQL
+            - APPLICATION_DEV
+            - DATABASE_PROGRAMMING
+            - JAVA_PROGRAMMING
+            - PROGRAMMING
+            - NETWORK_PROGRAMMING
+            - AWS_BASIC
+            - MICROPROCESSOR
+            - MICROPROCESSOR_CONTROL
+            - EMBEDDED_AUTO_CONTROL
+            - STM32
+            - COMPUTER_GRAPHIC
+            - MOTION_GRAPHIC
+            - DESIGN_GENERAL
+            - ALGORITHM_DESIGN
+            - ALGORITHM_BASIC
+            - AI_GENERAL
+            - BIGDATA_ANALYSIS
+            - ROBOT_PROGRAMMING
+            - NETWORK_THEORY
+            - APP_PROGRAMMING
+            - MOBILE_PROGRAMMING
+            - BIGDATA_EXCEL
+            - PROJECT_PRACTICE
+            - SYSTEM_MANAGEMENT
+            - JAVA
+            - COMPUTER_STRUCTURE
+            - DATA_STRUCTURE
+            - IOT_AND_SENSOR
+            - AI_MATH_BASIC
+            - PROBLEM_SOLVING_BASIC
+            - ROBOT_SOFTWARE_DEV
+            - EMBEDDED_SYSTEM
+            - ELECTRONIC_CIRCUIT
+            - ELECTRONIC_CAD
+            - PCB
+    SingleCommonResponseString:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: string
+    ListCommonResponseTeamRoadmapResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/TeamRoadmapResponse"
+    RootContentResponse:
+      type: object
+      properties:
+        directories:
+          type: array
+          items:
+            "$ref": "#/components/schemas/DirectoryResponse"
+    SingleCommonResponseRootContentResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/RootContentResponse"
+    ListCommonResponsePersonalRoadmapResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/PersonalRoadmapResponse"
+    ListCommonResponseNodeResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            "$ref": "#/components/schemas/NodeResponse"
+    RoadmapCountResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+    SingleCommonResponseRoadmapCountResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          "$ref": "#/components/schemas/RoadmapCountResponse"
