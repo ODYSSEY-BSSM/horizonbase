@@ -39,11 +39,11 @@ public class AuthController {
     }
 
     @DeleteMapping
-    public SingleCommonResponse<String> logout(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(
             @AuthenticationPrincipal User user
     ) {
         logoutService.logout(user);
-        return CommonResponse.ok("로그아웃되었습니다.");
     }
 
 }

@@ -59,14 +59,12 @@ public class NodeController {
     }
 
     @DeleteMapping("/{nodeId}")
-    @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<String> deleteNode(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteNode(
             @PathVariable Long nodeId,
             @PathVariable Long roadmapId,
             @AuthenticationPrincipal User user) {
         nodeService.deleteNodeByIdAndRoadmapId(nodeId, roadmapId);
-
-        return CommonResponse.ok("삭제되었습니다.");
     }
 
     @PatchMapping("/{nodeId}")
