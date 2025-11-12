@@ -1,7 +1,7 @@
 package odyssey.backend.presentation.team.dto.response;
 
-import odyssey.backend.domain.team.Team;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.team.Team;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ public record TeamResponse(
         Long id,
         String name,
         String leader,
+        String inviteCode,
         List<String> members
 ) {
     public static TeamResponse from(Team team) {
@@ -16,7 +17,9 @@ public record TeamResponse(
                 team.getId(),
                 team.getName(),
                 team.getLeaderUsername(),
-                team.getMembers().stream()
+                team.getInviteCode(),
+                team.getMembers()
+                        .stream()
                         .map(User::getUsername)
                         .toList());
     }
