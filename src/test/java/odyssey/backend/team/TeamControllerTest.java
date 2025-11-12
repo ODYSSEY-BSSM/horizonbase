@@ -43,6 +43,7 @@ public class TeamControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.id").description("팀 ID"),
                                 fieldWithPath("data.name").description("팀 이름"),
                                 fieldWithPath("data.leader").description("팀장 이름"),
+                                fieldWithPath("data.inviteCode").description("팀 초대코드"),
                                 fieldWithPath("data.members").description("팀 멤버")
                         )
                 ));
@@ -84,6 +85,7 @@ public class TeamControllerTest extends RestDocsSupport {
                                 fieldWithPath("data.id").description("팀 ID"),
                                 fieldWithPath("data.name").description("팀 이름"),
                                 fieldWithPath("data.leader").description("팀장 이름"),
+                                fieldWithPath("data.inviteCode").description("팀 초대코드"),
                                 fieldWithPath("data.members").description("팀 멤버")
                         )
                 ));
