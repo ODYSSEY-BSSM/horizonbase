@@ -12,7 +12,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class VerificationControllerTest extends RestDocsSupport {
@@ -25,8 +24,7 @@ public class VerificationControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/verification")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andDo(document("send-verification-code",
                         requestFields(
@@ -43,8 +41,7 @@ public class VerificationControllerTest extends RestDocsSupport {
 
         mvc.perform(patch("/verification")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andDo(document("verify-code",
                         requestFields(
@@ -62,10 +59,9 @@ public class VerificationControllerTest extends RestDocsSupport {
 
         mvc.perform(post("/verification/password")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andDo(document("send-verification-code",
+                .andDo(document("send-password-verification-code",
                         requestFields(
                                 fieldWithPath("email").description("인증을 받을 이메일")
                         )
@@ -80,8 +76,7 @@ public class VerificationControllerTest extends RestDocsSupport {
 
         mvc.perform(put("/verification")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andDo(document("pverify-code",
                         requestFields(

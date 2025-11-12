@@ -21,7 +21,6 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class RoadmapControllerTest extends RestDocsSupport {
@@ -57,7 +56,6 @@ class RoadmapControllerTest extends RestDocsSupport {
                 .setAuthentication(new UsernamePasswordAuthenticationToken(testUser, null));
 
         mvc.perform(post("/roadmap")
-                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
@@ -112,8 +110,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         given(roadmapFacade.toggleFavorite(roadmapId, testUser)).willReturn(fakeResponse);
 
-        mvc.perform(post("/roadmap/{id}/favorite", roadmapId)
-                        .with(csrf()))
+        mvc.perform(post("/roadmap/{id}/favorite", roadmapId))
                 .andExpect(status().isOk());
     }
 
@@ -193,8 +190,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         mvc.perform(put("/roadmap/{id}", roadmapId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateRequest))
-                        .with(csrf()))
+                        .content(objectMapper.writeValueAsString(updateRequest)))
                 .andExpect(status().isOk());
     }
 
@@ -206,8 +202,7 @@ class RoadmapControllerTest extends RestDocsSupport {
 
         Long roadmapId = 1L;
 
-        mvc.perform(delete("/roadmap/{id}", roadmapId)
-                        .with(csrf()))
+        mvc.perform(delete("/roadmap/{id}", roadmapId))
                 .andExpect(status().isOk());
     }
 
