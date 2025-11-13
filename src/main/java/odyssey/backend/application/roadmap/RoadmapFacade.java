@@ -28,7 +28,7 @@ public class RoadmapFacade {
 
         Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
 
-        Roadmap roadmap = roadmapRepository.saveAndFlush(
+        Roadmap roadmap = roadmapRepository.save(
                 Roadmap.from(request, directory, user, null)
         );
 
@@ -43,7 +43,7 @@ public class RoadmapFacade {
 
         Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
 
-        return TeamRoadmapResponse.from(roadmapRepository.saveAndFlush(
+        return TeamRoadmapResponse.from(roadmapRepository.save(
                 Roadmap.from(request, directory, user, team)), user.getUuid());
     }
 
