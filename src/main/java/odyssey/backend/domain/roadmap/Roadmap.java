@@ -14,6 +14,7 @@ import odyssey.backend.shared.color.Color;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ public class Roadmap {
     @ElementCollection
     @CollectionTable(name = "roadmap_category", joinColumns = @JoinColumn(name = "roadmap_id"))
     @Column(name = "category")
-    private List<String> categories;
+    private List<String> categories = new ArrayList<>();
 
     @Column(name = "is_favorite", nullable = false)
     private Boolean isFavorite = false;
