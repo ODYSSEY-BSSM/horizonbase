@@ -2,11 +2,9 @@ package odyssey.backend.presentation.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import odyssey.backend.application.user.ConnectSchoolUseCase;
-import odyssey.backend.application.user.GetUserInfoService;
-import odyssey.backend.application.user.SignUpService;
-import odyssey.backend.application.user.UpdatePasswordUseCase;
+import odyssey.backend.application.user.*;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.presentation.auth.dto.request.DeleteUserRequest;
 import odyssey.backend.presentation.auth.dto.response.SignUpResponse;
 import odyssey.backend.presentation.user.dto.request.SignUpRequest;
 import odyssey.backend.presentation.user.dto.request.UpdatePasswordRequest;
@@ -26,6 +24,7 @@ public class UserController {
     private final GetUserInfoService getUserInfoService;
     private final ConnectSchoolUseCase  connectSchoolUseCase;
     private final UpdatePasswordUseCase updatePasswordUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -56,6 +55,15 @@ public class UserController {
     public void updatePassword(
             @Valid @RequestBody UpdatePasswordRequest request){
         updatePasswordUseCase.updatePassword(request);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody DeleteUserRequest request
+    ){
+        deleteUserUseCase.execute(user, request);
     }
 
 }
