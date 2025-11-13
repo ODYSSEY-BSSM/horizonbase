@@ -2,6 +2,7 @@ package odyssey.backend.infrastructure.persistence.roadmap;
 
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.roadmap.Roadmap;
+import odyssey.backend.domain.team.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
     List<Roadmap> findByUserAndTeamIsNullOrderByLastAccessedAtDesc(User user);
     List<Roadmap> findByTeam_IdOrderByLastAccessedAtDesc(Long teamId);
     Long countByUser(User user);
+    void deleteByTeam(Team team);
+    void deleteByUser(User user);
 }

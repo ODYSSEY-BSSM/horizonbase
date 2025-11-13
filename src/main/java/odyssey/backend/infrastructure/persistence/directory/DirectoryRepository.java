@@ -1,7 +1,7 @@
 package odyssey.backend.infrastructure.persistence.directory;
 
-import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.domain.directory.Directory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,4 +10,8 @@ public interface DirectoryRepository extends JpaRepository<Directory, Long> {
     List<Directory> findByParentIsNullAndUser(User user);
 
     List<Directory> findByParentIsNullAndTeamId(Long teamId);
+
+    void deleteByTeamId(Long teamId);
+
+    void deleteByUser(User user);
 }
