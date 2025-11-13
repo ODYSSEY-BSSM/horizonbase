@@ -8,6 +8,8 @@ import odyssey.backend.infrastructure.persistence.auth.UserRepository;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
 import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
+import odyssey.backend.presentation.auth.dto.request.DeleteUserRequest;
+import odyssey.backend.shared.util.PasswordUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +25,10 @@ public class DeleteUserUseCase {
     private final RoadmapRepository roadmapRepository;
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
+    private final PasswordUtil passwordUtil;
 
     @Transactional
-    public void execute(User user) {
+    public void execute(User user, DeleteUserRequest request) {
         User deleteUser = userFacade.getUserByUuid(user.getUuid());
 
         deleteTeamsWhereUserIsLeader(user);
@@ -63,4 +66,9 @@ public class DeleteUserUseCase {
     private void deleteUserDirectories(User user) {
         directoryRepository.deleteByUser(user);
     }
+
+    public void valid(String rawPassword, String encodedPassword) {
+        passwordUtil.validate(rawPassword, encodedPassword);
+    }
+
 }
