@@ -12,12 +12,12 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "tbl_directory")
+@Table(name = "directory_tbl")
 public class Directory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dir_id")
+    @Column(name = "directory_id")
     private Long id;
 
     private String name;
