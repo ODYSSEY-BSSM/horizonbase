@@ -8,15 +8,12 @@ import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.NodeType;
 import odyssey.backend.domain.problem.Problem;
-import odyssey.backend.domain.roadmap.Value.Category;
 import odyssey.backend.domain.team.Team;
-import odyssey.backend.presentation.roadmap.dto.request.CategoryRequest;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.shared.color.Color;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,10 +33,6 @@ public class Roadmap {
 
     @Column(nullable = false, length = 150)
     private String description;
-
-    @ElementCollection
-    @CollectionTable(name = "roadmap_category", joinColumns = @JoinColumn(name = "roadmap_id"))
-    private List<Category> categories = new ArrayList<>();
 
     @Column(name = "is_favorite", nullable = false)
     private Boolean isFavorite = false;
@@ -75,16 +68,12 @@ public class Roadmap {
     private int progress = 0;
 
     public static Roadmap from(RoadmapRequest request, Directory directory, User user, Team team) {
-        List<Category> categories = request.getCategories().stream()
-                .map(c -> new Category(c.getName()))
-                .toList();
-        return new Roadmap(request.getTitle(), request.getDescription(), categories, request.getColor(), request.getIcon(), directory, user, team);
+        return new Roadmap(request.getTitle(), request.getDescription(), request.getColor(), request.getIcon(), directory, user, team);
     }
 
-    Roadmap(String title, String description, List<Category> categories, Color color, Icon icon, Directory directory, User user, Team team) {
+    Roadmap(String title, String description, Color color, Icon icon, Directory directory, User user, Team team) {
         this.title = title;
         this.description = description;
-        this.categories = categories;
         this.isFavorite = false;
         this.lastAccessedAt = LocalDateTime.now();
         this.lastModifiedAt = LocalDate.now();
@@ -95,15 +84,9 @@ public class Roadmap {
         this.icon = icon;
     }
 
-    public void update(String title, String description, List<CategoryRequest> categoryRequests) {
+    public void update(String title, String description) {
         this.title = title;
         this.description = description;
-
-        this.categories.clear();
-        if (categoryRequests != null) {
-            categoryRequests.forEach(c -> this.categories.add(new Category(c.getName())));
-        }
-
         updateLastModifiedAt();
     }
 
