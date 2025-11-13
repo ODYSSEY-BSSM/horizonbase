@@ -68,7 +68,7 @@ public class RoadmapFacade {
             roadmap.updateLastModifiedAt();
         }
 
-        roadmap.update(request.getTitle(), request.getDescription(), request.getCategories());
+        roadmap.update(request.getTitle(), request.getDescription());
 
         return PersonalRoadmapResponse.from(roadmap, user.getUuid());
     }
