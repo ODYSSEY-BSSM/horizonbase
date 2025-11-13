@@ -23,7 +23,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
-@Table(name = "tbl_roadmap")
+@Table(name = "roadmap_tbl")
 public class Roadmap {
 
     @Id
