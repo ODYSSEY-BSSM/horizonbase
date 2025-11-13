@@ -8,7 +8,9 @@ import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.NodeType;
 import odyssey.backend.domain.problem.Problem;
+import odyssey.backend.domain.roadmap.Value.Category;
 import odyssey.backend.domain.team.Team;
+import odyssey.backend.presentation.roadmap.dto.request.CategoryRequest;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.shared.color.Color;
 
@@ -37,8 +39,7 @@ public class Roadmap {
 
     @ElementCollection
     @CollectionTable(name = "roadmap_category", joinColumns = @JoinColumn(name = "roadmap_id"))
-    @Column(name = "category")
-    private List<String> categories = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     @Column(name = "is_favorite", nullable = false)
     private Boolean isFavorite = false;
@@ -74,10 +75,13 @@ public class Roadmap {
     private int progress = 0;
 
     public static Roadmap from(RoadmapRequest request, Directory directory, User user, Team team) {
-        return new Roadmap(request.getTitle(), request.getDescription(), request.getCategories(), request.getColor(), request.getIcon(), directory, user, team);
+        List<Category> categories = request.getCategories().stream()
+                .map(c -> new Category(c.getName()))
+                .toList();
+        return new Roadmap(request.getTitle(), request.getDescription(), categories, request.getColor(), request.getIcon(), directory, user, team);
     }
 
-    Roadmap(String title, String description, List<String> categories, Color color, Icon icon, Directory directory, User user, Team team) {
+    Roadmap(String title, String description, List<Category> categories, Color color, Icon icon, Directory directory, User user, Team team) {
         this.title = title;
         this.description = description;
         this.categories = categories;
@@ -91,10 +95,15 @@ public class Roadmap {
         this.icon = icon;
     }
 
-    public void update(String title, String description, List<String> categories) {
+    public void update(String title, String description, List<CategoryRequest> categoryRequests) {
         this.title = title;
         this.description = description;
-        this.categories = categories;
+
+        this.categories.clear();
+        if (categoryRequests != null) {
+            categoryRequests.forEach(c -> this.categories.add(new Category(c.getName())));
+        }
+
         updateLastModifiedAt();
     }
 
