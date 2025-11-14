@@ -65,3 +65,6 @@ logging:
 
 jwt:
   secret: ${SECRET_KEY}
+
+ai:
+  base-url: ${AI_BASE_URL}
