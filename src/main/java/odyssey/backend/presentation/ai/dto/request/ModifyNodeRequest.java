@@ -6,23 +6,25 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import odyssey.backend.presentation.ai.dto.request.vo.CourseRequest;
+import odyssey.backend.presentation.ai.dto.request.vo.ModifyNodeVO;
+import odyssey.backend.presentation.ai.dto.request.vo.NodeCourseRequest;
 
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class GenerateRoadmapRequest {
+public class ModifyNodeRequest {
 
     @NotBlank(message = "필수값입니다.")
     private String description;
 
-    @NotBlank(message = "필수값입니다.")
-    private String language;
+    @Valid
+    @NotEmpty(message = "필수값입니다.")
+    private List<ModifyNodeVO> nodes;
 
     @Valid
     @NotEmpty(message = "필수값입니다.")
-    private List<CourseRequest> courses;
+    private List<NodeCourseRequest> courses;
 
 }

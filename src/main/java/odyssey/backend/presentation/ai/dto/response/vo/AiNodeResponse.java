@@ -1,4 +1,4 @@
-package odyssey.backend.presentation.ai.dto.response;
+package odyssey.backend.presentation.ai.dto.response.vo;
 
 import odyssey.backend.domain.node.NodeType;
 
