@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.node.NodeService;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.presentation.ai.dto.request.GenerateRoadmapRequest;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
@@ -75,6 +76,16 @@ public class NodeController {
             @Valid @RequestBody SubjectRequest request,
             @AuthenticationPrincipal User user) {
         return CommonResponse.ok(nodeService.changeEducation(nodeId, roadmapId, request));
+    }
+
+    @PostMapping("/ai")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ListCommonResponse<NodeResponse> createAiNodes(
+            @PathVariable Long roadmapId,
+            @RequestBody @Valid GenerateRoadmapRequest request,
+            @AuthenticationPrincipal User user
+    ){
+        return CommonResponse.ok(nodeService.generageAiNodes(roadmapId, request));
     }
 
 }
