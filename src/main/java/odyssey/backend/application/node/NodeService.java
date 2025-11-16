@@ -5,11 +5,15 @@ import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.exception.NodeNotFoundException;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
+import odyssey.backend.infrastructure.ai.AiService;
 import odyssey.backend.infrastructure.persistence.node.NodeRepository;
 import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
+import odyssey.backend.presentation.ai.dto.request.GenerateRoadmapRequest;
+import odyssey.backend.presentation.ai.dto.response.AiNodeListResponse;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
+import odyssey.backend.shared.color.Color;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +26,7 @@ public class NodeService {
 
     private final RoadmapRepository roadmapRepository;
     private final NodeRepository nodeRepository;
+    private final AiService aiService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Transactional
@@ -128,6 +133,49 @@ public class NodeService {
         node.changeEducation(request.getSubject());
 
         return NodeResponse.from(node);
+    }
+
+    @Transactional
+    public List<NodeResponse> generageAiNodes(Long roadmapId, GenerateRoadmapRequest request){
+        Roadmap roadmap = getRoadmapById(roadmapId);
+
+        roadmap.updateLastModifiedAt();
+
+        AiNodeListResponse aiResponse = aiService.generateRoadmap(request);
+
+        List<Node> nodes = aiResponse.nodes()
+                .stream()
+                .map(aiNodeResponse ->
+                    new Node(
+                            aiNodeResponse.title(),
+                            aiNodeResponse.description(),
+                            100,
+                            100,
+                            aiNodeResponse.type(),
+                            aiNodeResponse.x(),
+                            aiNodeResponse.y(),
+                            Color.BLUE,
+                            roadmap,
+                            null
+                            )
+                )
+                .toList();
+
+        nodeRepository.saveAll(nodes);
+
+        for (int i = 0; i < nodes.size(); i++){
+            Node node = nodes.get(i);
+            Long parentId = aiResponse.nodes().get(i).parentNodeId();
+            if (parentId != null){
+                Node parent = nodeRepository.findById(parentId)
+                        .orElseThrow(NodeNotFoundException::new);
+                node.setParent(parent);
+            }
+        }
+
+        return nodes.stream()
+                .map(NodeResponse::from)
+                .toList();
     }
 
 }
