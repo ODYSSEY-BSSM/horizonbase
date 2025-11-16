@@ -1,6 +1,8 @@
 package odyssey.backend.presentation.ai.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,8 @@ public class ModifyNodeRequest {
     @NotBlank(message = "필수값입니다.")
     private List<ModifyNodeVO> nodes;
 
-    @NotBlank(message = "필수값입니다.")
+    @Valid
+    @NotEmpty(message = "필수값입니다.")
     private List<NodeCourseRequest> courses;
 
 }
