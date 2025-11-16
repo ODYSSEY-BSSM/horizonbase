@@ -6,6 +6,7 @@ import odyssey.backend.application.team.TeamService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.team.dto.request.TeamInviteRequest;
 import odyssey.backend.presentation.team.dto.request.TeamRequest;
+import odyssey.backend.presentation.team.dto.response.TeamInfo;
 import odyssey.backend.presentation.team.dto.response.TeamListResponse;
 import odyssey.backend.presentation.team.dto.response.TeamResponse;
 import odyssey.backend.shared.response.CommonResponse;
@@ -56,7 +57,7 @@ public class TeamController {
 
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public SingleCommonResponse<TeamListResponse> inviteTeam(
+    public SingleCommonResponse<TeamInfo> inviteTeam(
             @AuthenticationPrincipal User user,
             @RequestBody @Valid TeamInviteRequest request
     ){
