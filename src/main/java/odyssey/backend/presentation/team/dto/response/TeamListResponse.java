@@ -1,18 +1,18 @@
 package odyssey.backend.presentation.team.dto.response;
 
-import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.team.Team;
 
 import java.util.List;
 
+
 public record TeamListResponse(
-        List<String> teams
+        List<TeamInfo> teams
 ) {
-    public static TeamListResponse from(User user) {
+    public static TeamListResponse from(List<Team> teamList) {
         return new TeamListResponse(
-                user.getTeams()
+                teamList
                         .stream()
-                        .map(Team::getName)
+                        .map(TeamInfo::from)
                         .toList()
         );
     }
