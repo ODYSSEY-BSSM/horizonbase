@@ -159,7 +159,7 @@ public class Node {
 
     public void setParent(Node parent) {
         if(parent == null){
-            throw new IllegalArgumentException("null이면 안됩니다");
+            return;
         }
         if (parent == this) {
             throw new IllegalArgumentException("자기 자신은 부모일 수 없습니다.");
