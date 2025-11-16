@@ -89,7 +89,7 @@ public class Node {
         );
     }
 
-    Node(
+    public Node(
             String title, String description, int height, int width, NodeType type, int x, int y, Color color, Roadmap roadmap, Node parent) {
         this.title = title;
         this.description = description;
@@ -157,5 +157,15 @@ public class Node {
         this.isEducation = true;
     }
 
+    public void setParent(Node parent) {
+        if(parent == null){
+            throw new IllegalArgumentException("null이면 안됩니다");
+        }
+        if (parent == this) {
+            throw new IllegalArgumentException("자기 자신은 부모일 수 없습니다.");
+        }
+        this.parent = parent;
+        parent.children.add(this);
+    }
 
 }
