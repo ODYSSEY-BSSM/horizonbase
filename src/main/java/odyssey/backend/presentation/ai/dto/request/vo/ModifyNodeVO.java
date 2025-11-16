@@ -33,7 +33,7 @@ public class ModifyNodeVO {
     @NotBlank(message = "필수값입니다.")
     private String category;
 
-    @NotBlank(message = "필수값입니다.")
+    @NotNull(message = "필수값입니다.")
     private Long parentNodeId;
 
 }
