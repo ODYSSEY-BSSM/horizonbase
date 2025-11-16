@@ -19,7 +19,8 @@ public class ModifyNodeRequest {
     @NotBlank(message = "필수값입니다.")
     private String description;
 
-    @NotBlank(message = "필수값입니다.")
+    @Valid
+    @NotEmpty(message = "필수값입니다.")
     private List<ModifyNodeVO> nodes;
 
     @Valid
