@@ -27,9 +27,9 @@ public class ProblemService {
 
         Node node = problem.getNode();
 
-        String answer = request.getAnswer();
+        Integer correct = problem.getCorrect();
 
-        solve(answer, problem, node);
+        solve(correct, problem, node);
 
         return ProblemResponse.from(problem);
     }
@@ -46,9 +46,9 @@ public class ProblemService {
         return ProblemResponse.from(problem);
     }
 
-    private void solve(String answer, Problem problem, Node node){
-        if(problem.isCorrect(answer)){
-            node.solveProblem(problem, answer);
+    private void solve(Integer correct, Problem problem, Node node){
+        if(problem.isCorrect(correct)){
+            node.solveProblem(problem, correct);
         }
     }
 
