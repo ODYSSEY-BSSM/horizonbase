@@ -12,7 +12,7 @@ import odyssey.backend.domain.node.NodeType;
 @Getter
 public class ModifyNodeVO {
 
-    @NotBlank(message = "필수값입니다.")
+    @NotNull(message = "필수값입니다.")
     private Long id;
 
     @NotBlank(message = "필수값입니다.")
@@ -21,7 +21,7 @@ public class ModifyNodeVO {
     @NotBlank(message = "필수값입니다.")
     private String description;
 
-    @NotBlank(message = "필수값입니다.")
+    @NotNull(message = "필수값입니다.")
     private NodeType type;
 
     @NotNull(message = "필수값입니다.")
@@ -33,7 +33,6 @@ public class ModifyNodeVO {
     @NotBlank(message = "필수값입니다.")
     private String category;
 
-    @NotNull(message = "필수값입니다.")
     private Long parentNodeId;
 
 }
