@@ -21,7 +21,7 @@ public class AiService {
     @Value("${ai.base-url}")
     private String baseUrl;
 
-    public AiNodeListResponse generate(GenerateRoadmapRequest request){
+    public AiNodeListResponse generateRoadmap(GenerateRoadmapRequest request){
         try {
             return webClient.post()
                     .uri(baseUrl + "/create-roadmap")
