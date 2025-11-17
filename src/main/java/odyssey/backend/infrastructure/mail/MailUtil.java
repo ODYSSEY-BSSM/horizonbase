@@ -95,7 +95,7 @@ public class MailUtil {
                         <body>
                           <div class="email-container">
                             <div class="header">
-                              <h1>마루 인증 코드</h1>
+                              <h1>호라이즌 인증 코드</h1>
                             </div>
                             <div class="content">
                               <p>아래 인증 코드를 입력하여 본인 확인을 완료해주세요.</p>
