@@ -146,18 +146,21 @@ public class NodeService {
         List<Node> nodes = aiResponse.nodes()
                 .stream()
                 .map(aiNodeResponse ->
-                    new Node(
-                            aiNodeResponse.title(),
-                            aiNodeResponse.description(),
-                            100,
-                            100,
-                            aiNodeResponse.type(),
-                            aiNodeResponse.x(),
-                            aiNodeResponse.y(),
-                            Color.BLUE,
+                    Node.from(
+                            new NodeRequest(
+                                    aiNodeResponse.title(),
+                                    aiNodeResponse.description(),
+                                    100,
+                                    100,
+                                    aiNodeResponse.type(),
+                                    aiNodeResponse.x(),
+                                    aiNodeResponse.y(),
+                                    Color.BLUE,
+                                    aiNodeResponse.parentNodeId()
+                            ),
                             roadmap,
                             null
-                            )
+                    )
                 )
                 .toList();
 

@@ -89,7 +89,7 @@ public class Node {
         );
     }
 
-    public Node(
+    Node(
             String title, String description, int height, int width, NodeType type, int x, int y, Color color, Roadmap roadmap, Node parent) {
         this.title = title;
         this.description = description;
