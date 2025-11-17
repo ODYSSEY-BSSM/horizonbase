@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum UserExceptionProperty implements ErrorProperty {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
-    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "잘못된 비밀번호입니다."),
-    NOT_SCHOOL_EMAIL(HttpStatus.UNAUTHORIZED, "학교이메일으로만 할 수 있음");
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "잘못된 비밀번호입니다."),
+    NOT_SCHOOL_EMAIL(HttpStatus.BAD_REQUEST, "학교이메일으로만 할 수 있음");
 
     private final HttpStatus status;
     private final String message;
