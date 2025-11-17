@@ -1,7 +1,6 @@
 package odyssey.backend.presentation.websocket;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -15,7 +14,6 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class WebSocketMessagingController {
 
     private final SimpMessagingTemplate messagingTemplate;
@@ -28,8 +26,6 @@ public class WebSocketMessagingController {
             Principal principal
     ) {
         User user = extractUser(principal);
-
-        log.debug("노드 실시간 메시징 - 로드맵ID: {}, 노드ID: {}, 사용자: {}", roadmapId, nodeId, user.getUsername());
 
         messagingTemplate.convertAndSend(
                 "/topic/roadmap/" + roadmapId + "/nodes/" + nodeId,
