@@ -1,7 +1,6 @@
 package odyssey.backend.presentation.websocket;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.application.team.TeamService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.infrastructure.websocket.WebSocketSessionManager;
@@ -15,7 +14,6 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class WebSocketSubscriptionController {
 
     private final WebSocketSessionManager sessionManager;
@@ -28,7 +26,6 @@ public class WebSocketSubscriptionController {
                                 Principal principal) {
         User user = extractUser(principal);
         if (!teamService.isUserMemberOfTeam(user.getUuid(), teamId)) {
-            log.warn("팀 구독 권한 없음 - 사용자ID: {}, 팀ID: {}", user.getUuid(), teamId);
             throw new AccessDeniedException("해당 팀의 멤버가 아닙니다: " + teamId);
         }
 

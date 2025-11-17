@@ -2,7 +2,6 @@ package odyssey.backend.infrastructure.websocket;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.auth.exception.UserNotFoundException;
 import odyssey.backend.infrastructure.jwt.exception.InvalidTokenException;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
 
@@ -41,7 +39,6 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
                     User user = tokenService.getUserByUuid(uuid);
 
                     if (user == null) {
-                        log.error("WebSocket 인증 실패: uuid '{}'에 해당하는 사용자 없음", uuid);
                         throw new UserNotFoundException();
                     }
 
@@ -54,11 +51,9 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
 
                     accessor.setUser(authentication);
                 } catch (Exception e) {
-                    log.error("WebSocket 토큰 파싱 실패: {}", e.getMessage());
                     throw new InvalidTokenException();
                 }
             } else {
-                log.error("WebSocket 연결 시 토큰을 찾을 수 없음");
                 throw new TokenNotFoundException();
             }
         }

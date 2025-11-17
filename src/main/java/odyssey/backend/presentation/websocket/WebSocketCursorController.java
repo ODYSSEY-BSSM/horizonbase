@@ -1,7 +1,6 @@
 package odyssey.backend.presentation.websocket;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.websocket.dto.CursorPositionDto;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -15,7 +14,6 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class WebSocketCursorController {
 
     private final SimpMessagingTemplate messagingTemplate;
