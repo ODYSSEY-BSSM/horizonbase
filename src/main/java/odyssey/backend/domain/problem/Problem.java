@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.presentation.problem.dto.request.ProblemRequest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,8 +23,13 @@ public class Problem {
     @Column(nullable = false)
     private String title;
 
+    @ElementCollection
+    @CollectionTable(name = "tbl_problem_choice",
+            joinColumns = @JoinColumn(name = "problem_id"))
+    private List<String> choices = new ArrayList<>();
+
     @Column(nullable = false)
-    private String answer;
+    private Integer correct;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -31,9 +39,9 @@ public class Problem {
     @JoinColumn(name = "node_id", nullable = false)
     private Node node;
 
-    Problem(String title, String answer, Node node){
+    Problem(String title, List<String> choices, Integer correct, Node node){
         this.title = title;
-        this.answer = answer;
+        this.choices = choices;
         this.node = node;
         status = Status.UNRESOLVED;
     }
@@ -41,14 +49,15 @@ public class Problem {
     public static Problem from(ProblemRequest request, Node node){
         return new Problem(
                 request.getTitle(),
-                request.getAnswer(),
+                request.getChoices(),
+                request.getCorrect(),
                 node
         );
     }
 
-    public boolean isCorrect(String answer){
-        if(answer.equals(this.answer)){
-            status = Status.RESOLVED;
+    public boolean isCorrect(Integer correct){
+        if(this.correct.equals(correct)){
+            this.status = Status.RESOLVED;
             return true;
         }
         return false;

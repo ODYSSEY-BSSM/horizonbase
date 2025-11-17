@@ -128,8 +128,8 @@ public class Node {
         this.progress = (int)Math.round((progressCount / (double) totalProblems) * 100);
     }
 
-    public void solveProblem(Problem problem, String answer){
-        if(problem.isCorrect(answer)){
+    public void solveProblem(Problem problem, Integer correct){
+        if(problem.isCorrect(correct)){
             updateProgress();
             roadmap.updateProgress();
         }

@@ -1,6 +1,6 @@
 package odyssey.backend.presentation.problem.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SolveProblemRequest {
 
-    @NotBlank(message = "필수값입니다.")
-    private String answer;
+    @NotNull(message = "필수값입니다.")
+    private Integer answer;
 
 }
