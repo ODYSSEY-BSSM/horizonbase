@@ -23,8 +23,7 @@ public class DirectoryService {
         Directory parent = null;
 
         if (directoryRequest.getParentId() != null) {
-            parent = directoryRepository.findById(directoryRequest.getParentId())
-                    .orElseThrow(DirectoryNotFoundException::new);
+            parent = findDirectoryById(directoryRequest.getParentId());
         }
 
         Directory directory = Directory.from(directoryRequest, parent, user);
@@ -35,7 +34,7 @@ public class DirectoryService {
     }
 
     @Transactional
-    public DirectoryResponse updateDirectory(Long id, DirectoryRequest request, User user) {
+    public DirectoryResponse updateDirectory(Long id, DirectoryRequest request) {
         Directory directory = findDirectoryById(id);
 
         Directory parent = null;
@@ -63,8 +62,7 @@ public class DirectoryService {
         Directory parent = null;
         
         if (request.getParentId() != null) {
-            parent = directoryRepository.findById(request.getParentId())
-                    .orElseThrow(DirectoryNotFoundException::new);
+            parent = findDirectoryById(request.getParentId());
         }
         
         Directory directory = Directory.fromTeam(request, parent, teamId);

@@ -35,7 +35,7 @@ public class DirectoryController {
             @PathVariable Long directoryId,
             @Valid @RequestBody DirectoryRequest request,
             @AuthenticationPrincipal User user){
-        return CommonResponse.ok(directoryService.updateDirectory(directoryId, request, user));
+        return CommonResponse.ok(directoryService.updateDirectory(directoryId, request));
     }
 
     @DeleteMapping("/{directoryId}")
