@@ -15,4 +15,5 @@ public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
     Long countByUser(User user);
     void deleteByTeam(Team team);
     void deleteByUser(User user);
+    List<Roadmap> findByUserAndNameContains(User user, String name);
 }

@@ -7,6 +7,7 @@
     import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
     import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
     import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
+    import odyssey.backend.presentation.roadmap.dto.response.SimpleRoadmapResponse;
     import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
     import org.springframework.stereotype.Service;
 
@@ -17,7 +18,6 @@
     public class RoadmapService {
 
         private final RoadmapRepository roadmapRepository;
-
 
         public List<PersonalRoadmapResponse> findPersonalRoadmaps(User user) {
             return roadmapRepository.findByUserAndTeamIsNullOrderByLastAccessedAtDesc(user).stream()
@@ -44,6 +44,15 @@
             Long count = roadmapRepository.countByUser(user);
 
             return RoadmapCountResponse.from(count);
+        }
+
+        public List<SimpleRoadmapResponse> querySimpleRoadmaps(User user, String keyword) {
+            List<Roadmap> roadmaps = roadmapRepository.findByUserAndNameContains(user, keyword);
+
+            return roadmaps
+                    .stream()
+                    .map(SimpleRoadmapResponse::from)
+                    .toList();
         }
 
 
