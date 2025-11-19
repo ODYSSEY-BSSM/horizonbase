@@ -1,6 +1,7 @@
 package odyssey.backend.infrastructure.ai;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import odyssey.backend.infrastructure.ai.exception.FailedAiResponseException;
 import odyssey.backend.presentation.ai.dto.request.GenerateQuizRequest;
 import odyssey.backend.presentation.ai.dto.request.GenerateRoadmapRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AiService {
 
     private final WebClient webClient;
@@ -30,6 +32,7 @@ public class AiService {
                     .bodyToMono(AiNodeListResponse.class)
                     .block();
         }catch (Exception e){
+            log.error("AI 처리 중 알 수 없는 오류 발생: {}", e.getMessage(), e);
             throw new FailedAiResponseException();
         }
     }
@@ -43,6 +46,7 @@ public class AiService {
                     .bodyToMono(ModifyNodeResponse.class)
                     .block();
         }catch (Exception e){
+            log.error("AI 처리 중 알 수 없는 오류 발생: {}", e.getMessage(), e);
             throw new FailedAiResponseException();
         }
     }
@@ -56,6 +60,7 @@ public class AiService {
                     .bodyToMono(QuizResponse.class)
                     .block();
         }catch (Exception e){
+            log.error("AI 처리 중 알 수 없는 오류 발생: {}", e.getMessage(), e);
             throw new FailedAiResponseException();
         }
     }

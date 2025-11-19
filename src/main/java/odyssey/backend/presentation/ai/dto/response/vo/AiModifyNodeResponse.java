@@ -9,7 +9,7 @@ public record AiModifyNodeResponse(
         NodeType type,
         Integer x,
         Integer y,
-        String category,
-        Long parentId
+        Long parentId,
+        Boolean isEducation
 ) {
 }
