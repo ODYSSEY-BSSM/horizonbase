@@ -42,6 +42,7 @@ public class Problem {
     Problem(String title, List<String> choices, Integer correct, Node node){
         this.title = title;
         this.choices = choices;
+        this.correct = correct;
         this.node = node;
         status = Status.UNRESOLVED;
     }
