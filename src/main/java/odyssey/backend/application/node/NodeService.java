@@ -175,15 +175,21 @@ public class NodeService {
 
         nodeRepository.saveAll(nodes);
 
-        for (int i = 0; i < nodes.size(); i++){
-            Node node = nodes.get(i);
-            Long parentId = aiResponse.nodes().get(i).parentNodeId();
-            if (parentId != null){
-                Node parent = nodeRepository.findById(parentId)
-                        .orElseThrow(NodeNotFoundException::new);
-                node.setParent(parent);
+        List<Node> result = new ArrayList<>(nodes);
+        Map<Long, Node> resultMap = result.stream()
+                .collect(Collectors.toMap(Node::getId, n -> n));
+
+        aiResponse.nodes().forEach(vo -> {
+            Long nodeId = vo.id();
+            Long parentId = vo.parentNodeId();
+            if (parentId != null) {
+                Node child = resultMap.get(nodeId);
+                Node parent = resultMap.get(parentId);
+                if (child != null && parent != null) {
+                    child.setParent(parent);
+                }
             }
-        }
+        });
 
         return nodes.stream()
                 .map(NodeResponse::from)
@@ -251,15 +257,23 @@ public class NodeService {
         result.addAll(newNodes);
         result.addAll(existNodes);
 
-        for (int i = 0; i < result.size(); i++){
-            Node node = result.get(i);
-            Long parentId = aiResponse.nodes().get(i).parentId();
-            if (parentId != null){
-                Node parent = nodeRepository.findById(parentId)
-                        .orElseThrow(NodeNotFoundException::new);
-                node.setParent(parent);
+        Map<Long, Node> resultMap = result.stream()
+                .collect(Collectors.toMap(Node::getId, n -> n));
+
+        aiResponse.nodes().forEach(vo -> {
+            Long nodeId = vo.id();
+            Long parentId = vo.parentId();
+
+            if (parentId != null) {
+                Node child = resultMap.get(nodeId);
+                Node parent = resultMap.get(parentId);
+
+                if (child != null && parent != null) {
+                    child.setParent(parent);
+                }
             }
-        }
+        });
+
 
         return result
                 .stream()
