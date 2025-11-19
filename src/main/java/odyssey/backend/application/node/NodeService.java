@@ -22,6 +22,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -220,8 +222,45 @@ public class NodeService {
                     );
                 });
 
-        return existNodes
+        List<Node> newNodes = aiResponse.nodes()
                 .stream()
+                .filter(vo -> !nodeRepository.existsById(vo.id()))
+                .map(response -> Node.from(
+                            new NodeRequest(
+                                    response.title(),
+                                    response.description(),
+                                    100,
+                                    100,
+                                    response.type(),
+                                    response.x(),
+                                    response.y(),
+                                    Color.BLUE,
+                                    response.parentId()
+                            ),
+                            roadmap,
+                            null
+                ))
+                .toList();
+
+        nodeRepository.saveAll(newNodes);
+
+        List<Node> result = new ArrayList<>();
+        result.addAll(newNodes);
+        result.addAll(existNodes);
+
+        for (int i = 0; i < result.size(); i++){
+            Node node = result.get(i);
+            Long parentId = aiResponse.nodes().get(i).parentId();
+            if (parentId != null){
+                Node parent = nodeRepository.findById(parentId)
+                        .orElseThrow(NodeNotFoundException::new);
+                node.setParent(parent);
+            }
+        }
+
+        return result
+                .stream()
+                .sorted(Comparator.comparing(Node::getId))
                 .map(SimpleNodeResponse::from)
                 .toList();
 
