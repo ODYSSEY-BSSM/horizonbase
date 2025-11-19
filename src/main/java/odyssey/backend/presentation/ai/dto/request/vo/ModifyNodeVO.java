@@ -30,9 +30,9 @@ public class ModifyNodeVO {
     @NotNull(message = "필수값입니다.")
     private Integer y;
 
-    @NotBlank(message = "필수값입니다.")
-    private String category;
-
     private Long parentNodeId;
+
+    @NotNull(message = "필수값입니다.")
+    private Boolean isEducation;
 
 }
