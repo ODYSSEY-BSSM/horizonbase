@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.node.NodeService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.ai.dto.request.GenerateRoadmapRequest;
+import odyssey.backend.presentation.ai.dto.request.ModifyNodeRequest;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
+import odyssey.backend.presentation.node.dto.response.SimpleNodeResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
@@ -87,5 +89,16 @@ public class NodeController {
     ){
         return CommonResponse.ok(nodeService.generageAiNodes(roadmapId, request));
     }
+
+    @PutMapping("/ai")
+    @ResponseStatus(HttpStatus.OK)
+    public ListCommonResponse<SimpleNodeResponse> updateAiNodes(
+            @PathVariable Long roadmapId,
+            @RequestBody @Valid ModifyNodeRequest request,
+            @AuthenticationPrincipal User user
+    ){
+        return CommonResponse.ok(nodeService.modifyNodeByAi(roadmapId, request));
+    }
+
 
 }

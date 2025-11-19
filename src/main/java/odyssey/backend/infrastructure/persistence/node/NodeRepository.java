@@ -16,5 +16,8 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
     Optional<Node> findByIdAndRoadmapId(Long id, Long roadmapId);
 
     void deleteByRoadmapId(Long roadmapId);
+
+    List<Node> findAllByIdInAndRoadmapId(List<Long> ids, Long roadmapId);
+
 }
 

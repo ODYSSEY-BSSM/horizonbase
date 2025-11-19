@@ -9,15 +9,21 @@ import odyssey.backend.infrastructure.ai.AiService;
 import odyssey.backend.infrastructure.persistence.node.NodeRepository;
 import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.ai.dto.request.GenerateRoadmapRequest;
+import odyssey.backend.presentation.ai.dto.request.ModifyNodeRequest;
 import odyssey.backend.presentation.ai.dto.response.AiNodeListResponse;
+import odyssey.backend.presentation.ai.dto.response.ModifyNodeResponse;
+import odyssey.backend.presentation.ai.dto.response.vo.AiModifyNodeResponse;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
+import odyssey.backend.presentation.node.dto.response.SimpleNodeResponse;
 import odyssey.backend.shared.color.Color;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -179,6 +185,85 @@ public class NodeService {
         return nodes.stream()
                 .map(NodeResponse::from)
                 .toList();
+    }
+
+    @Transactional
+    public List<SimpleNodeResponse> modifyNodeByAi(Long roadmapId, ModifyNodeRequest request){
+        Roadmap roadmap = getRoadmapById(roadmapId);
+
+        roadmap.updateLastModifiedAt();
+
+        ModifyNodeResponse aiResponse = aiService.modifyNode(request);
+
+        List<Long> existNodeId = aiResponse.nodes()
+                .stream()
+                .map(AiModifyNodeResponse::id)
+                .toList();
+
+        List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId);
+
+        existNodes
+                .forEach(node -> {
+                    AiModifyNodeResponse info = aiResponse.nodes()
+                            .stream()
+                            .filter(vo -> vo.id().equals(node.getId()))
+                            .findFirst()
+                            .get();
+
+                    node.update(
+                            info.title(),
+                            info.description(),
+                            node.getHeight(),
+                            node.getWidth(),
+                            info.type(),
+                            info.x(),
+                            info.y(),
+                            node.getColor()
+                    );
+                });
+
+        List<Node> newNodes = aiResponse.nodes()
+                .stream()
+                .filter(vo -> !nodeRepository.existsById(vo.id()))
+                .map(response -> Node.from(
+                            new NodeRequest(
+                                    response.title(),
+                                    response.description(),
+                                    100,
+                                    100,
+                                    response.type(),
+                                    response.x(),
+                                    response.y(),
+                                    Color.BLUE,
+                                    response.parentId()
+                            ),
+                            roadmap,
+                            null
+                ))
+                .toList();
+
+        nodeRepository.saveAll(newNodes);
+
+        List<Node> result = new ArrayList<>();
+        result.addAll(newNodes);
+        result.addAll(existNodes);
+
+        for (int i = 0; i < result.size(); i++){
+            Node node = result.get(i);
+            Long parentId = aiResponse.nodes().get(i).parentId();
+            if (parentId != null){
+                Node parent = nodeRepository.findById(parentId)
+                        .orElseThrow(NodeNotFoundException::new);
+                node.setParent(parent);
+            }
+        }
+
+        return result
+                .stream()
+                .sorted(Comparator.comparing(Node::getId))
+                .map(SimpleNodeResponse::from)
+                .toList();
+
     }
 
 }
