@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.presentation.ai.dto.request.vo.ModifyNodeVO;
-import odyssey.backend.presentation.ai.dto.request.vo.NodeCourseRequest;
 
 import java.util.List;
 
@@ -22,9 +21,5 @@ public class ModifyNodeRequest {
     @Valid
     @NotEmpty(message = "필수값입니다.")
     private List<ModifyNodeVO> nodes;
-
-    @Valid
-    @NotEmpty(message = "필수값입니다.")
-    private List<NodeCourseRequest> courses;
 
 }
