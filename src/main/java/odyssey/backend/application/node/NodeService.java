@@ -9,10 +9,14 @@ import odyssey.backend.infrastructure.ai.AiService;
 import odyssey.backend.infrastructure.persistence.node.NodeRepository;
 import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.ai.dto.request.GenerateRoadmapRequest;
+import odyssey.backend.presentation.ai.dto.request.ModifyNodeRequest;
 import odyssey.backend.presentation.ai.dto.response.AiNodeListResponse;
+import odyssey.backend.presentation.ai.dto.response.ModifyNodeResponse;
+import odyssey.backend.presentation.ai.dto.response.vo.AiModifyNodeResponse;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.request.SubjectRequest;
 import odyssey.backend.presentation.node.dto.response.NodeResponse;
+import odyssey.backend.presentation.node.dto.response.SimpleNodeResponse;
 import odyssey.backend.shared.color.Color;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -179,6 +183,48 @@ public class NodeService {
         return nodes.stream()
                 .map(NodeResponse::from)
                 .toList();
+    }
+
+    @Transactional
+    public List<SimpleNodeResponse> modifyNodeByAi(Long roadmapId, ModifyNodeRequest request){
+        Roadmap roadmap = getRoadmapById(roadmapId);
+
+        roadmap.updateLastModifiedAt();
+
+        ModifyNodeResponse aiResponse = aiService.modifyNode(request);
+
+        List<Long> existNodeId = aiResponse.nodes()
+                .stream()
+                .map(AiModifyNodeResponse::id)
+                .toList();
+
+        List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId);
+
+        existNodes
+                .forEach(node -> {
+                    AiModifyNodeResponse info = aiResponse.nodes()
+                            .stream()
+                            .filter(vo -> vo.id().equals(node.getId()))
+                            .findFirst()
+                            .get();
+
+                    node.update(
+                            info.title(),
+                            info.description(),
+                            node.getHeight(),
+                            node.getWidth(),
+                            info.type(),
+                            info.x(),
+                            info.y(),
+                            node.getColor()
+                    );
+                });
+
+        return existNodes
+                .stream()
+                .map(SimpleNodeResponse::from)
+                .toList();
+
     }
 
 }
