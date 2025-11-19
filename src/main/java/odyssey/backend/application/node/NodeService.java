@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -173,15 +175,21 @@ public class NodeService {
 
         nodeRepository.saveAll(nodes);
 
-        for (int i = 0; i < nodes.size(); i++){
-            Node node = nodes.get(i);
-            Long parentId = aiResponse.nodes().get(i).parentNodeId();
-            if (parentId != null){
-                Node parent = nodeRepository.findById(parentId)
-                        .orElseThrow(NodeNotFoundException::new);
-                node.setParent(parent);
+        List<Node> result = new ArrayList<>(nodes);
+        Map<Long, Node> resultMap = result.stream()
+                .collect(Collectors.toMap(Node::getId, n -> n));
+
+        aiResponse.nodes().forEach(vo -> {
+            Long nodeId = vo.id();
+            Long parentId = vo.parentNodeId();
+            if (parentId != null) {
+                Node child = resultMap.get(nodeId);
+                Node parent = resultMap.get(parentId);
+                if (child != null && parent != null) {
+                    child.setParent(parent);
+                }
             }
-        }
+        });
 
         return nodes.stream()
                 .map(NodeResponse::from)
@@ -203,13 +211,13 @@ public class NodeService {
 
         List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId);
 
+        Map<Long, AiModifyNodeResponse> responseMap = aiResponse.nodes()
+                .stream()
+                .collect(Collectors.toMap(AiModifyNodeResponse::id, vo -> vo));
+
         existNodes
                 .forEach(node -> {
-                    AiModifyNodeResponse info = aiResponse.nodes()
-                            .stream()
-                            .filter(vo -> vo.id().equals(node.getId()))
-                            .findFirst()
-                            .get();
+                    AiModifyNodeResponse info = responseMap.get(node.getId());
 
                     node.update(
                             info.title(),
@@ -249,15 +257,23 @@ public class NodeService {
         result.addAll(newNodes);
         result.addAll(existNodes);
 
-        for (int i = 0; i < result.size(); i++){
-            Node node = result.get(i);
-            Long parentId = aiResponse.nodes().get(i).parentId();
-            if (parentId != null){
-                Node parent = nodeRepository.findById(parentId)
-                        .orElseThrow(NodeNotFoundException::new);
-                node.setParent(parent);
+        Map<Long, Node> resultMap = result.stream()
+                .collect(Collectors.toMap(Node::getId, n -> n));
+
+        aiResponse.nodes().forEach(vo -> {
+            Long nodeId = vo.id();
+            Long parentId = vo.parentId();
+
+            if (parentId != null) {
+                Node child = resultMap.get(nodeId);
+                Node parent = resultMap.get(parentId);
+
+                if (child != null && parent != null) {
+                    child.setParent(parent);
+                }
             }
-        }
+        });
+
 
         return result
                 .stream()
