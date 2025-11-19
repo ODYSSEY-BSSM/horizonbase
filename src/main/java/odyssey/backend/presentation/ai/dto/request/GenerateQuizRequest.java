@@ -16,7 +16,4 @@ public class GenerateQuizRequest {
     @NotBlank(message = "필수값입니다.")
     private String description;
 
-    @NotBlank(message = "필수값입니다.")
-    private String category;
-
 }
