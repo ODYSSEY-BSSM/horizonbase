@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.problem.ProblemService;
 import odyssey.backend.domain.auth.User;
+import odyssey.backend.presentation.ai.dto.request.GenerateQuizRequest;
 import odyssey.backend.presentation.problem.dto.request.ProblemRequest;
 import odyssey.backend.presentation.problem.dto.request.SolveProblemRequest;
 import odyssey.backend.presentation.problem.dto.response.ProblemResponse;
 import odyssey.backend.shared.response.CommonResponse;
+import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,6 +39,16 @@ public class ProblemController {
             @Valid @RequestBody SolveProblemRequest request,
             @AuthenticationPrincipal User user){
         return CommonResponse.ok(problemService.solveProblem(problemId, request));
+    }
+
+    @PostMapping("/ai")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ListCommonResponse<ProblemResponse> generateProblemByAi(
+            @PathVariable Long nodeId,
+            @Valid @RequestBody GenerateQuizRequest request,
+            @AuthenticationPrincipal User user
+    ){
+        return CommonResponse.ok(problemService.createProblemByAi(nodeId, request));
     }
 
 }
