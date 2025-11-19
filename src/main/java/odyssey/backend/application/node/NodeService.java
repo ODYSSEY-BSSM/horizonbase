@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -203,13 +205,13 @@ public class NodeService {
 
         List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId);
 
+        Map<Long, AiModifyNodeResponse> responseMap = aiResponse.nodes()
+                .stream()
+                .collect(Collectors.toMap(AiModifyNodeResponse::id, vo -> vo));
+
         existNodes
                 .forEach(node -> {
-                    AiModifyNodeResponse info = aiResponse.nodes()
-                            .stream()
-                            .filter(vo -> vo.id().equals(node.getId()))
-                            .findFirst()
-                            .get();
+                    AiModifyNodeResponse info = responseMap.get(node.getId());
 
                     node.update(
                             info.title(),
