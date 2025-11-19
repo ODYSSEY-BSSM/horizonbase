@@ -72,6 +72,7 @@ public class NodeService {
 
         return nodes.stream()
                 .filter(Node::isNotHaveParent)
+                .sorted(Comparator.comparing(Node::getId))
                 .map(NodeResponse::from)
                 .toList();
     }
