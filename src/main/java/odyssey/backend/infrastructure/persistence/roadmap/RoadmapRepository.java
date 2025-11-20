@@ -14,6 +14,7 @@ public interface RoadmapRepository extends JpaRepository<Roadmap, Long> {
     List<Roadmap> findByTeam_IdOrderByLastAccessedAtDesc(Long teamId);
     Long countByUser(User user);
     Long countByUserAndTeamIsNotNull(User user);
+    Long countTeamsByUser(User user);
     void deleteByTeam(Team team);
     void deleteByUser(User user);
 }
