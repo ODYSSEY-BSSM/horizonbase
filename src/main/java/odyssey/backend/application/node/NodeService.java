@@ -82,9 +82,7 @@ public class NodeService {
     }
 
     public NodeResponse getNodeByIdAndRoadmapId(Long nodeId, Long roadmapId) {
-        Node node = findByIdAndRoadmapId(nodeId, roadmapId);
-
-        return NodeResponse.from(node);
+        return NodeResponse.from(findByIdAndRoadmapId(nodeId, roadmapId));
     }
 
     @Transactional
