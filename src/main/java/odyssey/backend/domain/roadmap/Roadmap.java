@@ -140,4 +140,8 @@ public class Roadmap {
         return this.team.getId();
     }
 
+    public Boolean isCompleteProgress(){
+        return progress == 100;
+    }
+
 }
