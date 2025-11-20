@@ -30,9 +30,11 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-            String token = extractToken(accessor);
+            String token = accessor.getFirstNativeHeader("Authorization");
 
-            if (token != null) {
+            if (token != null && token.startsWith("Bearer ")) {
+                token = token.substring(7);
+
                 try {
                     Claims claims = tokenService.parseToken(token);
                     Long uuid = claims.get("uuid", Long.class);
@@ -59,38 +61,5 @@ public class WebSocketAuthChannelInterceptor implements ChannelInterceptor {
         }
 
         return message;
-    }
-
-    private String extractToken(StompHeaderAccessor accessor) {
-        String cookieHeader = accessor.getFirstNativeHeader("Cookie");
-
-        if (cookieHeader != null) {
-            String token = extractJwtFromCookie(cookieHeader);
-            if (token != null) {
-                return token;
-            }
-        }
-
-        String authHeader = accessor.getFirstNativeHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
-        }
-
-        return null;
-    }
-
-    private String extractJwtFromCookie(String cookieHeader) {
-        if (cookieHeader == null) {
-            return null;
-        }
-
-        String[] cookies = cookieHeader.split(";");
-        for (String cookie : cookies) {
-            cookie = cookie.trim();
-            if (cookie.startsWith("accessToken=")) {
-                return cookie.substring("accessToken=".length());
-            }
-        }
-        return null;
     }
 }
