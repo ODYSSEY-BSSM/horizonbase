@@ -7,6 +7,7 @@ import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -56,5 +57,24 @@ public class Directory {
     public void update(String name, Directory parent) {
         this.name = name;
         this.parent = parent;
+    }
+
+    public Integer roadmapCount(){
+        return roadmaps.size();
+    }
+
+    public Long completedRoadmapCount(){
+        return roadmaps
+                .stream()
+                .filter(Roadmap::isCompleteProgress)
+                .count();
+    }
+
+    public String getLastAcessedRoadmapName(){
+        return roadmaps
+                .stream()
+                .max(Comparator.comparing(Roadmap::getLastAccessedAt))
+                .map(Roadmap::getTitle)
+                .orElse("로드맵이 없어요");
     }
 }

@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.directory.DirectoryService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
+import odyssey.backend.presentation.directory.dto.response.DirectoryInfoResponse;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
 import odyssey.backend.presentation.directory.dto.response.TeamDirectoryResponse;
 import odyssey.backend.shared.response.CommonResponse;
+import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -76,4 +78,11 @@ public class DirectoryController {
         directoryService.deleteTeamDirectory(directoryId, teamId, user);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ListCommonResponse<DirectoryInfoResponse> getDirectories(
+            @AuthenticationPrincipal User user)
+    {
+        return CommonResponse.ok(directoryService.getDirectoryInfos(user));
+    }
 }
