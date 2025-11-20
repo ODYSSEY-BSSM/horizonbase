@@ -22,10 +22,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -157,7 +154,14 @@ public class NodeService {
                 .map(AiModifyNodeResponse::id)
                 .toList();
 
-        List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId);
+        List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId)
+                .stream()
+                .sorted(Comparator.comparing(Node::getId))
+                .toList();
+
+        Set<Long> existNodeIds = existNodes.stream()
+                .map(Node::getId)
+                .collect(Collectors.toSet());
 
         Map<Long, AiModifyNodeResponse> responseMap = aiResponse.nodes()
                 .stream()
@@ -181,7 +185,7 @@ public class NodeService {
 
         List<Node> newNodes = aiResponse.nodes()
                 .stream()
-                .filter(vo -> !nodeRepository.existsById(vo.id()))
+                .filter(vo -> !existNodeIds.contains(vo.id()))
                 .map(response -> Node.from(
                             new NodeRequest(
                                     response.title(),
@@ -202,25 +206,31 @@ public class NodeService {
         nodeRepository.saveAll(newNodes);
 
         List<Node> result = new ArrayList<>();
-        result.addAll(newNodes);
         result.addAll(existNodes);
+        result.addAll(newNodes);
 
-        Map<Long, Node> resultMap = result.stream()
-                .collect(Collectors.toMap(Node::getId, n -> n));
+        Map<Long, Node> aiIdToNode = new HashMap<>();
+        for (int i = 0; i < aiResponse.nodes().size(); i++) {
+            AiModifyNodeResponse vo = aiResponse.nodes().get(i);
+            Node node;
+            if (i < existNodes.size()) {
+                node = existNodes.get(i);
+            } else {
+                node = newNodes.get(i - existNodes.size());
+            }
+            aiIdToNode.put(vo.id(), node);
+        }
 
-        aiResponse.nodes().forEach(vo -> {
-            Long nodeId = vo.id();
-            Long parentId = vo.parentId();
-
-            if (parentId != null) {
-                Node child = resultMap.get(nodeId);
-                Node parent = resultMap.get(parentId);
-
+        for (AiModifyNodeResponse vo : aiResponse.nodes()) {
+            Long parentAiId = vo.parentId();
+            if (parentAiId != null) {
+                Node child = aiIdToNode.get(vo.id());
+                Node parent = aiIdToNode.get(parentAiId);
                 if (child != null && parent != null) {
                     child.setParent(parent);
                 }
             }
-        });
+        }
 
 
         return result

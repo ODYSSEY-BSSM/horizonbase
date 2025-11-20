@@ -4,6 +4,7 @@ import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.presentation.roadmap.dto.response.SimpleRoadmapResponse;
 
+import java.util.Comparator;
 import java.util.List;
 
 public record AiRoadmapResponse(
@@ -18,6 +19,7 @@ public record AiRoadmapResponse(
                 SimpleRoadmapResponse.from(roadmap),
                 nodes
                         .stream()
+                        .sorted(Comparator.comparing(Node::getId))
                         .map(NodeResponse::from)
                         .toList()
         );
