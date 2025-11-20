@@ -15,6 +15,7 @@ import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.infrastructure.persistence.team.TeamRepository;
 import odyssey.backend.presentation.ai.dto.request.GenerateRoadmapRequest;
 import odyssey.backend.presentation.ai.dto.response.AiNodeListResponse;
+import odyssey.backend.presentation.ai.dto.response.vo.AiNodeResponse;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.presentation.node.dto.response.AiRoadmapResponse;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
@@ -22,10 +23,9 @@ import odyssey.backend.shared.color.Color;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -85,25 +85,24 @@ public class GenerateAiRoadmapUseCase {
 
         nodeRepository.saveAll(nodes);
 
-        List<Node> result = new ArrayList<>(nodes);
-        Map<Long, Node> resultMap = result.stream()
-                .collect(Collectors.toMap(Node::getId, n -> n));
-
-        aiResponse.nodes().forEach(vo -> {
-            Long nodeId = vo.id();
+        Map<Long, Node> aiIdToNode = new HashMap<>();
+        for (int i = 0; i < aiResponse.nodes().size(); i++) {
+            aiIdToNode.put(aiResponse.nodes().get(i).id(), nodes.get(i));
+        }
+        for(AiNodeResponse vo : aiResponse.nodes()) {
             Long parentId = vo.parentNodeId();
-            if (parentId != null) {
-                Node child = resultMap.get(nodeId);
-                Node parent = resultMap.get(parentId);
+            if(parentId != null){
+                Node child = aiIdToNode.get(vo.id());
+                Node parent = aiIdToNode.get(parentId);
                 if (child != null && parent != null) {
                     child.setParent(parent);
                 }
             }
-        });
+        }
 
         return AiRoadmapResponse.from(
                 roadmap,
-                result
+                nodes
         );
     }
 
