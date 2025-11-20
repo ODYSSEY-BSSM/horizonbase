@@ -1,5 +1,5 @@
 오디세이
 
-Contributors - @leeguwnoooo, @hll2071
+Contributors - @leeguwnoooo, @hll2071, @justn-hyeok
 SpringBoot - ${spring-boot.version}
 Java - ${java.version}
