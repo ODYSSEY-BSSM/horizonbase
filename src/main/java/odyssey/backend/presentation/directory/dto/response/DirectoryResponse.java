@@ -8,6 +8,7 @@ import java.util.List;
 public record DirectoryResponse(
         Long id,
         String name,
+        String description,
         Long parentId,
         List<SimpleDirectoryResponse> directories,
         List<SimpleRoadmapResponse> roadmaps
@@ -16,6 +17,7 @@ public record DirectoryResponse(
         return new DirectoryResponse(
                 directory.getId(),
                 directory.getName(),
+                directory.getDescription(),
                 directory.getParent() != null ? directory.getParent().getId() : null,
                 directory.getChildren() != null
                         ? directory.getChildren().stream()

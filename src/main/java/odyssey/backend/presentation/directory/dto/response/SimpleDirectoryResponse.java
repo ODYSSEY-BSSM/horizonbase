@@ -4,12 +4,14 @@ import odyssey.backend.domain.directory.Directory;
 
 public record SimpleDirectoryResponse(
         Long id,
-        String name
+        String name,
+        String description
 ) {
     static public SimpleDirectoryResponse from(Directory directory) {
         return new SimpleDirectoryResponse(
                 directory.getId(),
-                directory.getName()
+                directory.getName(),
+                directory.getDescription()
         );
     }
 }
