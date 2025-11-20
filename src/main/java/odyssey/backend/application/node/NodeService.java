@@ -154,7 +154,14 @@ public class NodeService {
                 .map(AiModifyNodeResponse::id)
                 .toList();
 
-        List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId);
+        List<Node> existNodes = nodeRepository.findAllByIdInAndRoadmapId(existNodeId, roadmapId)
+                .stream()
+                .sorted(Comparator.comparing(Node::getId))
+                .toList();
+
+        Set<Long> existNodeIds = existNodes.stream()
+                .map(Node::getId)
+                .collect(Collectors.toSet());
 
         Map<Long, AiModifyNodeResponse> responseMap = aiResponse.nodes()
                 .stream()
@@ -178,7 +185,7 @@ public class NodeService {
 
         List<Node> newNodes = aiResponse.nodes()
                 .stream()
-                .filter(vo -> !nodeRepository.existsById(vo.id()))
+                .filter(vo -> !existNodeIds.contains(vo.id()))
                 .map(response -> Node.from(
                             new NodeRequest(
                                     response.title(),
