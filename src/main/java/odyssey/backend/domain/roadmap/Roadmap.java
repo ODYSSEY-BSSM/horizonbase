@@ -82,6 +82,8 @@ public class Roadmap {
         this.team = team;
         this.color = color;
         this.icon = icon;
+        updateLastAccessedAt();
+        updateLastModifiedAt();
     }
 
     public void update(String title, String description) {

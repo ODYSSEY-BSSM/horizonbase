@@ -32,8 +32,6 @@ public class RoadmapFacade {
                 Roadmap.from(request, directory, user, null)
         );
 
-        roadmap.updateLastModifiedAt();
-
         return PersonalRoadmapResponse.from(roadmap, user.getUuid());
     }
 
