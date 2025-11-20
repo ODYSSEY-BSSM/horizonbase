@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.application.directory.DirectoryService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
+import odyssey.backend.presentation.directory.dto.response.DirectoryInfoResponse;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
 import odyssey.backend.presentation.directory.dto.response.TeamDirectoryResponse;
 import odyssey.backend.shared.response.CommonResponse;
@@ -79,7 +80,7 @@ public class DirectoryController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ListCommonResponse<?> getDirectories(
+    public ListCommonResponse<DirectoryInfoResponse> getDirectories(
             @AuthenticationPrincipal User user)
     {
         return CommonResponse.ok(directoryService.getDirectoryInfos(user));
