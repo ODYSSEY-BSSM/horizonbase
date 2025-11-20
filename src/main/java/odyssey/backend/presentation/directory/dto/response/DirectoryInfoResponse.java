@@ -4,6 +4,7 @@ import odyssey.backend.domain.directory.Directory;
 
 public record DirectoryInfoResponse(
         Long id,
+        String description,
         String name,
         Integer roadmapCount,
         Long completedRoadmapCount,
@@ -13,6 +14,7 @@ public record DirectoryInfoResponse(
         return new DirectoryInfoResponse(
                 directory.getId(),
                 directory.getName(),
+                directory.getDescription(),
                 directory.roadmapCount(),
                 directory.completedRoadmapCount(),
                 directory.getLastAcessedRoadmapName()

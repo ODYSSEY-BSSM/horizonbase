@@ -8,6 +8,7 @@ import java.util.List;
 public record TeamDirectoryResponse(
         Long id,
         String name,
+        String description,
         Long teamId,
         List<SimpleRoadmapResponse> roadmaps
 ) {
@@ -15,6 +16,7 @@ public record TeamDirectoryResponse(
         return new TeamDirectoryResponse(
                 directory.getId(),
                 directory.getName(),
+                directory.getDescription(),
                 directory.getTeamId(),
                 directory.getRoadmaps() != null
                         ? directory.getRoadmaps().stream()

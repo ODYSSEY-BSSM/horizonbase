@@ -13,6 +13,8 @@ public class DirectoryRequest {
     @Size(max = 64)
     private String name;
 
+    private String description;
+
     private Long parentId;
 
 }
