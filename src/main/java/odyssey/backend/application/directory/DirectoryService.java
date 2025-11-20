@@ -7,10 +7,13 @@ import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.directory.exception.DirectoryNotFoundException;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
+import odyssey.backend.presentation.directory.dto.response.DirectoryInfoResponse;
 import odyssey.backend.presentation.directory.dto.response.DirectoryResponse;
 import odyssey.backend.presentation.directory.dto.response.TeamDirectoryResponse;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -97,6 +100,15 @@ public class DirectoryService {
         messagingTemplate.convertAndSend("/topic/directory/team/" + teamId + "/deleted", id);
         
         directoryRepository.deleteById(id);
+    }
+
+    public List<DirectoryInfoResponse> getDirectoryInfos(User user){
+        List<Directory> directories = directoryRepository.findDirectoriesByUser(user);
+
+        return directories
+                .stream()
+                .map(DirectoryInfoResponse::from)
+                .toList();
     }
 
 }

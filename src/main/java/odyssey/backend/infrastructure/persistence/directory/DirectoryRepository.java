@@ -14,4 +14,6 @@ public interface DirectoryRepository extends JpaRepository<Directory, Long> {
     void deleteByTeamId(Long teamId);
 
     void deleteByUser(User user);
+
+    List<Directory> findDirectoriesByUser(User user);
 }
