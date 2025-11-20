@@ -84,4 +84,12 @@ public class RoadmapController {
         return CommonResponse.ok(roadmapService.getRoadmapCount(user));
     }
 
+    @GetMapping("/count/teams")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<RoadmapCountResponse> getTeamRoadmapCount(
+            @AuthenticationPrincipal User user
+    ) {
+        return CommonResponse.ok(roadmapService.getTeamRoadmapCount(user));
+    }
+
 }

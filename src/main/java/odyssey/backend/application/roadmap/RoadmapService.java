@@ -46,5 +46,11 @@
             return RoadmapCountResponse.from(count);
         }
 
+        public RoadmapCountResponse getTeamRoadmapCount(User user) {
+            return RoadmapCountResponse.from(
+                    roadmapRepository.countByUserAndTeamIsNotNull(user)
+            );
+        }
+
 
     }
