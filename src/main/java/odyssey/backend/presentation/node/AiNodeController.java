@@ -26,7 +26,7 @@ public class AiNodeController {
             @RequestBody @Valid GenerateRoadmapRequest request,
             @AuthenticationPrincipal User user
     ){
-        return CommonResponse.ok(generateAiRoadmapUseCase.generageAiNodes(directoryId, teamId, request, user));
+        return CommonResponse.ok(generateAiRoadmapUseCase.generateAiNodes(directoryId, teamId, request, user));
     }
 
 }

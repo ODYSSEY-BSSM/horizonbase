@@ -38,7 +38,7 @@ public class GenerateAiRoadmapUseCase {
     private final AiService aiService;
 
     @Transactional
-    public AiRoadmapResponse generageAiNodes(Long directoryId, Long teamId, GenerateRoadmapRequest request, User user){
+    public AiRoadmapResponse generateAiNodes(Long directoryId, Long teamId, GenerateRoadmapRequest request, User user){
         Team team = null;
         if (teamId != null) {
             team = teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
