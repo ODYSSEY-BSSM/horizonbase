@@ -5,8 +5,8 @@
     import odyssey.backend.domain.roadmap.Roadmap;
     import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
     import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
+    import odyssey.backend.presentation.roadmap.dto.response.CountResponse;
     import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
-    import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
     import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
     import org.springframework.stereotype.Service;
 
@@ -40,15 +40,21 @@
             return PersonalRoadmapResponse.from(roadmap, user.getUuid());
         }
 
-        public RoadmapCountResponse getRoadmapCount(User user) {
+        public CountResponse getRoadmapCount(User user) {
             Long count = roadmapRepository.countByUser(user);
 
-            return RoadmapCountResponse.from(count);
+            return CountResponse.from(count);
         }
 
-        public RoadmapCountResponse getTeamRoadmapCount(User user) {
-            return RoadmapCountResponse.from(
+        public CountResponse getTeamRoadmapCount(User user) {
+            return CountResponse.from(
                     roadmapRepository.countByUserAndTeamIsNotNull(user)
+            );
+        }
+
+        public CountResponse getTeamCount(User user){
+            return CountResponse.from(
+                    roadmapRepository.countTeamsByUser(user)
             );
         }
 

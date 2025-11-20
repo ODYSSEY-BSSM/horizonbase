@@ -6,8 +6,8 @@ import odyssey.backend.application.roadmap.RoadmapFacade;
 import odyssey.backend.application.roadmap.RoadmapService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.presentation.roadmap.dto.response.CountResponse;
 import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
-import odyssey.backend.presentation.roadmap.dto.response.RoadmapCountResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
@@ -78,18 +78,26 @@ public class RoadmapController {
 
     @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<RoadmapCountResponse> getRoadmapCount(
+    public SingleCommonResponse<CountResponse> getRoadmapCount(
             @AuthenticationPrincipal User user
     ) {
         return CommonResponse.ok(roadmapService.getRoadmapCount(user));
     }
 
-    @GetMapping("/count/teams")
+    @GetMapping("/count/teams-roadmaps")
     @ResponseStatus(HttpStatus.OK)
-    public SingleCommonResponse<RoadmapCountResponse> getTeamRoadmapCount(
+    public SingleCommonResponse<CountResponse> getTeamRoadmapCount(
             @AuthenticationPrincipal User user
     ) {
         return CommonResponse.ok(roadmapService.getTeamRoadmapCount(user));
+    }
+
+    @GetMapping("/count/teams")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<CountResponse> getTeamCount(
+            @AuthenticationPrincipal User user
+    ){
+        return CommonResponse.ok(roadmapService.getTeamCount(user));
     }
 
 }
