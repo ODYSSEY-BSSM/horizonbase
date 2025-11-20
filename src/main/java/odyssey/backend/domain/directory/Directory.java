@@ -23,6 +23,8 @@ public class Directory {
 
     private String name;
 
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Directory parent;
@@ -40,15 +42,16 @@ public class Directory {
     private Long teamId;
 
     public static Directory from(DirectoryRequest request, Directory parent, User user) {
-        return new Directory(request.getName(), parent, user, null);
+        return new Directory(request.getName(), request.getDescription(), parent, user, null);
     }
 
     public static Directory fromTeam(DirectoryRequest request, Directory parent, Long teamId) {
-        return new Directory(request.getName(), parent, null, teamId);
+        return new Directory(request.getName(), request.getDescription(), parent, null, teamId);
     }
 
-    Directory(String name, Directory parent, User user, Long teamId) {
+    Directory(String name, String description, Directory parent, User user, Long teamId) {
         this.name = name;
+        this.description = description;
         this.parent = parent;
         this.user = user;
         this.teamId = teamId;
