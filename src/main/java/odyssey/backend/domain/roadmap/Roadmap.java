@@ -128,10 +128,6 @@ public class Roadmap {
         this.progress = (int)Math.round((resolvedProblems / (double) totalProblems) * 100);
     }
 
-    public String getColorCode(){
-        return this.color.getDescription();
-    }
-
     public String getIconCode(){
         return this.icon.getDescription();
     }
