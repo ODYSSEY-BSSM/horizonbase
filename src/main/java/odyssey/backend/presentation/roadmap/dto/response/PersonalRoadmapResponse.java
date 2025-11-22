@@ -1,11 +1,12 @@
 package odyssey.backend.presentation.roadmap.dto.response;
 
 import odyssey.backend.domain.roadmap.Roadmap;
+import odyssey.backend.shared.color.Color;
 
 public record PersonalRoadmapResponse(
         RoadmapResponseVO roadmapInfo,
         Long uuid,
-        String color,
+        Color color,
         String icon,
         int progress
 ) {
@@ -13,7 +14,7 @@ public record PersonalRoadmapResponse(
         return new PersonalRoadmapResponse(
                 RoadmapResponseVO.from(roadmap),
                 uuid,
-                roadmap.getColorCode(),
+                roadmap.getColor(),
                 roadmap.getIconCode(),
                 roadmap.getProgress()
         );
