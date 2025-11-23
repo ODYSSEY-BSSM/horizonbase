@@ -86,9 +86,11 @@ public class Roadmap {
         updateLastModifiedAt();
     }
 
-    public void update(String title, String description) {
+    public void update(String title, String description, Color color, Icon icon) {
         this.title = title;
         this.description = description;
+        this.color = color;
+        this.icon = icon;
         updateLastModifiedAt();
     }
 
@@ -138,6 +140,10 @@ public class Roadmap {
 
     public Boolean isCompleteProgress(){
         return progress == 100;
+    }
+
+    public Long getDirectoryId(){
+        return this.directory.getId();
     }
 
 }

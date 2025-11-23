@@ -11,7 +11,8 @@ public record RoadmapResponseVO(
         String description,
         LocalDate lastModifiedAt,
         LocalDateTime lastAccessedAt,
-        boolean isFavorite
+        boolean isFavorite,
+        Long directoryId
 ) {
     public static RoadmapResponseVO from(Roadmap roadmap) {
         return new RoadmapResponseVO(
@@ -20,7 +21,8 @@ public record RoadmapResponseVO(
                 roadmap.getDescription(),
                 roadmap.getLastModifiedAt(),
                 roadmap.getLastAccessedAt(),
-                roadmap.getIsFavorite()
+                roadmap.getIsFavorite(),
+                roadmap.getDirectoryId()
         );
     }
 }
