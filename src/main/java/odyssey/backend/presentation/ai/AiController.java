@@ -1,5 +1,6 @@
 package odyssey.backend.presentation.ai;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.infrastructure.ai.AiService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/ai")
+@Hidden
 public class AiController {
 
     private final AiService aiService;
