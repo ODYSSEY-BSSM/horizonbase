@@ -3,6 +3,7 @@ package odyssey.backend.application.section;
 import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.section.Section;
+import odyssey.backend.domain.section.exception.SectionNotFoundException;
 import odyssey.backend.infrastructure.persistence.node.NodeRepository;
 import odyssey.backend.infrastructure.persistence.section.SectionRepository;
 import odyssey.backend.presentation.section.dto.request.UpdateSectionRequest;
@@ -24,9 +25,9 @@ public class UpdateSectionUseCase {
         List<Node> nodes = nodeRepository.findAllById(request.getNodeIds());
 
         Section section = sectionRepository.findById(sectionId)
-                .orElseThrow(() -> new IllegalArgumentException("응응"));
+                .orElseThrow(SectionNotFoundException::new);
 
-        section.addNode(nodes);
+        section.updateSection(request, nodes);
 
         return SectionResponse.from(section);
     }
