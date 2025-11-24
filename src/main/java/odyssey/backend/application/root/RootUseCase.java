@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
-import odyssey.backend.presentation.directory.dto.response.SimpleDirectoryResponse;
+import odyssey.backend.presentation.directory.dto.response.RootDirectoryResponse;
 import odyssey.backend.presentation.root.dto.response.RootContentResponse;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,8 @@ public class RootUseCase {
     public RootContentResponse getRootContents(User user) {
         List<Directory> rootDirectories = directoryRepository.findByParentIsNullAndUser(user);
 
-        List<SimpleDirectoryResponse> directoryResponses = rootDirectories.stream()
-                .map(SimpleDirectoryResponse::from)
+        List<RootDirectoryResponse> directoryResponses = rootDirectories.stream()
+                .map(RootDirectoryResponse::from)
                 .toList();
 
         return RootContentResponse.from(directoryResponses);
@@ -29,8 +29,8 @@ public class RootUseCase {
     public RootContentResponse getTeamRootContents(User user, Long teamId) {
         List<Directory> rootDirectories = directoryRepository.findByParentIsNullAndTeamId(teamId);
 
-        List<SimpleDirectoryResponse> directoryResponses = rootDirectories.stream()
-                .map(SimpleDirectoryResponse::from)
+        List<RootDirectoryResponse> directoryResponses = rootDirectories.stream()
+                .map(RootDirectoryResponse::from)
                 .toList();
 
         return RootContentResponse.from(directoryResponses);
