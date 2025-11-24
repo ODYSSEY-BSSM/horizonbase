@@ -9,6 +9,7 @@ public record RootDirectoryResponse(
         Long id,
         String name,
         String description,
+        Integer roadmapCount,
         List<SimpleRoadmapResponse> roadmaps
 ) {
     public static RootDirectoryResponse from(Directory directory) {
@@ -16,6 +17,7 @@ public record RootDirectoryResponse(
                 directory.getId(),
                 directory.getName(),
                 directory.getDescription(),
+                directory.roadmapCount(),
                 directory.getRoadmaps()
                         .stream()
                         .map(SimpleRoadmapResponse::from)
