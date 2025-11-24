@@ -173,4 +173,11 @@ public class Node {
         parent.children.add(this);
     }
 
+    public void setSection(Section section) {
+        if(section == null){
+            return;
+        }
+        this.section = section;
+    }
+
 }
