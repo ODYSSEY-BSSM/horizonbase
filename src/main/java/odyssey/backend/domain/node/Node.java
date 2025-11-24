@@ -7,6 +7,7 @@ import odyssey.backend.domain.problem.Problem;
 import odyssey.backend.domain.problem.exception.CantCreateProblemException;
 import odyssey.backend.domain.problem.exception.MaxOfProblemException;
 import odyssey.backend.domain.roadmap.Roadmap;
+import odyssey.backend.domain.section.Section;
 import odyssey.backend.presentation.node.dto.request.NodeRequest;
 import odyssey.backend.shared.color.Color;
 
@@ -63,6 +64,10 @@ public class Node {
 
     @OneToMany(mappedBy = "node", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Problem> problems = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id")
+    private Section section;
 
     @Column(nullable = false)
     private Integer progress = 0;
