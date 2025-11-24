@@ -61,6 +61,7 @@ public class Problem {
             this.status = Status.RESOLVED;
             return true;
         }
+        this.status = Status.FAILED;
         return false;
     }
 
