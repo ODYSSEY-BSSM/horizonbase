@@ -8,12 +8,14 @@ import odyssey.backend.domain.directory.Directory;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.node.NodeType;
 import odyssey.backend.domain.problem.Problem;
+import odyssey.backend.domain.section.Section;
 import odyssey.backend.domain.team.Team;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.shared.color.Color;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,7 +46,7 @@ public class Roadmap {
     private LocalDateTime lastAccessedAt;
 
     @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Node> nodes;
+    private List<Node> nodes = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "directory_id", nullable = false)
@@ -60,6 +62,9 @@ public class Roadmap {
 
     @Enumerated(EnumType.STRING)
     private Color color;
+
+    @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Section> sections = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Icon icon;
