@@ -10,6 +10,7 @@ import odyssey.backend.domain.node.NodeType;
 import odyssey.backend.domain.problem.Problem;
 import odyssey.backend.domain.section.Section;
 import odyssey.backend.domain.team.Team;
+import odyssey.backend.domain.text.Text;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.shared.color.Color;
 
@@ -65,6 +66,9 @@ public class Roadmap {
 
     @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
+
+    @OneToMany(mappedBy = "roadmap", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Text> texts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Icon icon;

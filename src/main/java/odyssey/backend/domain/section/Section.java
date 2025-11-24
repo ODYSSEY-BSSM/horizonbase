@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import odyssey.backend.domain.node.Node;
 import odyssey.backend.domain.roadmap.Roadmap;
+import odyssey.backend.domain.text.Text;
 import odyssey.backend.presentation.section.dto.request.SectionRequest;
+import odyssey.backend.presentation.section.dto.request.UpdateSectionRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,9 @@ public class Section {
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Node> nodes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Text> texts = new ArrayList<>();
+
     public static Section from(SectionRequest request, Roadmap roadmap) {
         return new Section(
                 request.getName(),
@@ -57,14 +62,23 @@ public class Section {
         this.roadmap = roadmap;
     }
 
+    public void updateSection(UpdateSectionRequest request, List<Node> nodes){
+        this.name = request.getName();
+        this.x = request.getX();
+        this.y = request.getY();
+        this.width = request.getWidth();
+        this.height = request.getHeight();
+        addNode(nodes);
+    }
+
     public void addNode(List<Node> nodes){
         if (nodes == null || nodes.isEmpty()) {
             return;
         }
-        if (this.nodes == null) {
-            this.nodes = new ArrayList<>();
+        for (Node node : nodes) {
+            node.setSection(this);
+            this.nodes.add(node);
         }
-        this.nodes.addAll(nodes);
     }
 
 }
