@@ -23,14 +23,19 @@ public class Section {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private Integer x;
 
+    @Column(nullable = false)
     private Integer y;
 
+    @Column(nullable = false)
     private Integer width;
 
+    @Column(nullable = false)
     private Integer height;
 
     @ManyToOne(fetch = FetchType.LAZY)
