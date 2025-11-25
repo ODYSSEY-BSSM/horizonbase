@@ -68,6 +68,15 @@ public class RoadmapController {
         return CommonResponse.ok(roadmapFacade.toggleFavorite(id, user));
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<PersonalRoadmapResponse> getPersonalRoadmap(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User user
+    ) {
+        return CommonResponse.ok(roadmapService.getPersonalRoadmap(id, user));
+    }
+
     @GetMapping("/last-accessed")
     @ResponseStatus(HttpStatus.OK)
     public SingleCommonResponse<PersonalRoadmapResponse> getLastAccessedRoadmap(
