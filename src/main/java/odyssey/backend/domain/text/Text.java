@@ -51,10 +51,14 @@ public class Text {
         this.roadmap = roadmap;
     }
 
-    public void setSection(Section section){
-        if (section == null) return;
+    public void setSection(Section section) {
+        if (this.section != null) {
+            this.section.getTexts().remove(this);
+        }
+
         this.section = section;
-        if (!section.getTexts().contains(this)) {
+
+        if (section != null && !section.getTexts().contains(this)) {
             section.getTexts().add(this);
         }
     }
