@@ -22,11 +22,16 @@ public class UpdateTextUseCase {
         Text text = textRepository.findById(textId)
                 .orElseThrow(TextNotFoundException::new);
 
-        Section section = sectionRepository.findById(request.getSectionId())
-                .orElseThrow(SectionNotFoundException::new);
+        Section section = findSection(request.getSectionId());
 
         text.update(request, section);
 
         return TextResponse.from(text);
     }
+
+    private Section findSection(Long sectionId){
+        return sectionId == null ? null : sectionRepository.findById(sectionId)
+                .orElseThrow(SectionNotFoundException::new);
+    }
+
 }
