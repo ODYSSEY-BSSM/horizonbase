@@ -23,11 +23,7 @@ public class DirectoryService {
     private final SimpMessagingTemplate messagingTemplate;
 
     public DirectoryResponse createDirectory(DirectoryRequest directoryRequest, User user) {
-        Directory parent = null;
-
-        if (directoryRequest.getParentId() != null) {
-            parent = findDirectoryById(directoryRequest.getParentId());
-        }
+        Directory parent = findParent(directoryRequest.getParentId());
 
         Directory directory = Directory.from(directoryRequest, parent, user);
 
@@ -40,11 +36,8 @@ public class DirectoryService {
     public DirectoryResponse updateDirectory(Long id, DirectoryRequest request) {
         Directory directory = findDirectoryById(id);
 
-        Directory parent = null;
+        Directory parent = findDirectoryById(directory.getId());
 
-        if (request.getParentId() != null) {
-            parent = findDirectoryById(request.getParentId());
-        }
         directory.update(request.getName(), parent);
 
         return DirectoryResponse.from(directory);
@@ -62,11 +55,7 @@ public class DirectoryService {
     }
 
     public TeamDirectoryResponse createTeamDirectory(Long teamId, DirectoryRequest request, User user) {
-        Directory parent = null;
-        
-        if (request.getParentId() != null) {
-            parent = findDirectoryById(request.getParentId());
-        }
+        Directory parent = findDirectoryById(request.getParentId());
         
         Directory directory = Directory.fromTeam(request, parent, teamId);
         directoryRepository.save(directory);
@@ -82,10 +71,7 @@ public class DirectoryService {
     public TeamDirectoryResponse updateTeamDirectory(Long id, Long teamId, DirectoryRequest request, User user) {
         Directory directory = findDirectoryById(id);
         
-        Directory parent = null;
-        if (request.getParentId() != null) {
-            parent = findDirectoryById(request.getParentId());
-        }
+        Directory parent = findDirectoryById(directory.getId());
         
         directory.update(request.getName(), parent);
         TeamDirectoryResponse response = TeamDirectoryResponse.from(directory);
@@ -109,6 +95,10 @@ public class DirectoryService {
                 .stream()
                 .map(DirectoryInfoResponse::from)
                 .toList();
+    }
+
+    private Directory findParent(Long parentId) {
+        return parentId == null ? null : findDirectoryById(parentId);
     }
 
 }
