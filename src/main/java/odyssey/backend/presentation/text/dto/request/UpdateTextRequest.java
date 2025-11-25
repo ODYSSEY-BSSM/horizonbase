@@ -17,7 +17,6 @@ public class UpdateTextRequest {
     @NotNull(message = "필수값이빈다.")
     private Type type;
 
-    @NotNull(message = "필수값입니다.")
     private Long sectionId;
 
 }
