@@ -12,6 +12,7 @@ import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
 import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class RoadmapFacade {
     private final RoadmapRepository roadmapRepository;
     private final DirectoryService directoryService;
     private final TeamService teamService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Transactional
     public PersonalRoadmapResponse savePersonalRoadmap(RoadmapRequest request, User user){
@@ -41,13 +43,25 @@ public class RoadmapFacade {
 
         Directory directory = directoryService.findDirectoryById(request.getDirectoryId());
 
-        return TeamRoadmapResponse.from(roadmapRepository.save(
+        TeamRoadmapResponse response = TeamRoadmapResponse.from(roadmapRepository.save(
                 Roadmap.from(request, directory, user, team)), user.getUuid());
+
+        messagingTemplate.convertAndSend("/topic/roadmap/team/" + teamId + "/created", response);
+
+        return response;
     }
 
     @Transactional
     public void deleteRoadmapById(Long id) {
-        roadmapRepository.deleteById(id);
+        Roadmap roadmap = findRoadmapById(id);
+
+        if (roadmap.getTeam() != null) {
+            Long teamId = roadmap.getTeam().getId();
+            roadmapRepository.deleteById(id);
+            messagingTemplate.convertAndSend("/topic/roadmap/team/" + teamId + "/deleted", id);
+        } else {
+            roadmapRepository.deleteById(id);
+        }
     }
 
     private Roadmap findRoadmapById(Long id) {
@@ -68,7 +82,15 @@ public class RoadmapFacade {
 
         roadmap.update(request.getTitle(), request.getDescription(), request.getColor(), request.getIcon());
 
-        return PersonalRoadmapResponse.from(roadmap, user.getUuid());
+        PersonalRoadmapResponse response = PersonalRoadmapResponse.from(roadmap, user.getUuid());
+
+        if (roadmap.getTeam() != null) {
+            Long teamId = roadmap.getTeam().getId();
+            TeamRoadmapResponse teamResponse = TeamRoadmapResponse.from(roadmap, user.getUuid());
+            messagingTemplate.convertAndSend("/topic/roadmap/team/" + teamId + "/updated", teamResponse);
+        }
+
+        return response;
     }
 
     @Transactional
