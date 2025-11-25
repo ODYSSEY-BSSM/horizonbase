@@ -25,7 +25,7 @@ public class CreateSectionUseCase {
 
         SectionResponse response = SectionResponse.from(sectionRepository.save(Section.from(request, roadmap)));
 
-        if (roadmap.getTeam() == null) {
+        if (roadmap.getTeam() != null) {
             messagingTemplate.convertAndSend("/topic/section/roadmap/" + roadmapId + "/created", response);
         }
 

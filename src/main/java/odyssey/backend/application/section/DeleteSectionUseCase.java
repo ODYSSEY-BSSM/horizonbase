@@ -22,7 +22,9 @@ public class DeleteSectionUseCase {
 
         sectionRepository.deleteById(sectionId);
 
-        messagingTemplate.convertAndSend("/topic/section/roadmap/" + roadmapId + "/deleted", sectionId);
+        if (section.getRoadmap().getTeam() != null) {
+            messagingTemplate.convertAndSend("/topic/section/roadmap/" + roadmapId + "/deleted", sectionId);
+        }
     }
 
 }
