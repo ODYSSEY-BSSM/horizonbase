@@ -58,5 +58,12 @@
             );
         }
 
+        public PersonalRoadmapResponse getPersonalRoadmap(Long roadmapId, User user) {
+            Roadmap roadmap = roadmapRepository.findById(roadmapId)
+                    .orElseThrow(RoadmapNotFoundException::new);
+
+            return PersonalRoadmapResponse.from(roadmap, user.getUuid());
+        }
+
 
     }
