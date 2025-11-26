@@ -25,12 +25,13 @@ public class RoadmapController {
     private final RoadmapService roadmapService;
     private final RoadmapFacade roadmapFacade;
 
-    @GetMapping
+    @GetMapping("/directory-id")
     @ResponseStatus(HttpStatus.OK)
     public ListCommonResponse<PersonalRoadmapResponse> getPersonalRoadmaps(
+            @PathVariable Long directoryId,
             @AuthenticationPrincipal User user
     ) {
-        List<PersonalRoadmapResponse> roadmaps = roadmapService.findPersonalRoadmaps(user);
+        List<PersonalRoadmapResponse> roadmaps = roadmapService.findPersonalRoadmaps(user, directoryId);
         return CommonResponse.ok(roadmaps);
     }
 

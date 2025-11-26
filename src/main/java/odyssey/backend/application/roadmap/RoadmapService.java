@@ -2,8 +2,11 @@
 
     import lombok.RequiredArgsConstructor;
     import odyssey.backend.domain.auth.User;
+    import odyssey.backend.domain.directory.Directory;
+    import odyssey.backend.domain.directory.exception.DirectoryNotFoundException;
     import odyssey.backend.domain.roadmap.Roadmap;
     import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
+    import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
     import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
     import odyssey.backend.presentation.roadmap.dto.response.CountResponse;
     import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
@@ -17,10 +20,15 @@
     public class RoadmapService {
 
         private final RoadmapRepository roadmapRepository;
+        private final DirectoryRepository directoryRepository;
 
 
-        public List<PersonalRoadmapResponse> findPersonalRoadmaps(User user) {
-            return roadmapRepository.findByUserAndTeamIsNullOrderByLastAccessedAtDesc(user).stream()
+        public List<PersonalRoadmapResponse> findPersonalRoadmaps(User user, Long directoryId) {
+            Directory directory = directoryRepository.findById(directoryId)
+                    .orElseThrow(DirectoryNotFoundException::new);
+
+            return roadmapRepository.findByUserAndTeamIsNullAndDirectoryOrderByLastAccessedAtDesc(user, directory)
+                    .stream()
                     .map(roadmap -> PersonalRoadmapResponse.from(roadmap, user.getUuid()))
                     .toList();
         }
