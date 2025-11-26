@@ -16,8 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/roadmap")
@@ -25,17 +23,6 @@ public class RoadmapController {
 
     private final RoadmapService roadmapService;
     private final RoadmapFacade roadmapFacade;
-
-    @GetMapping("/directory-id")
-    @ResponseStatus(HttpStatus.OK)
-    public ListCommonResponse<PersonalRoadmapResponse> getPersonalRoadmaps(
-            @PathVariable Long directoryId,
-            @AuthenticationPrincipal User user
-    ) {
-        List<PersonalRoadmapResponse> roadmaps = roadmapService.findPersonalRoadmaps(user, directoryId);
-        return CommonResponse.ok(roadmaps);
-    }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -117,6 +104,15 @@ public class RoadmapController {
             @AuthenticationPrincipal User user
     ){
         return CommonResponse.ok(roadmapService.getRoadmaps(user));
+    }
+
+    @GetMapping("/directoryId")
+    @ResponseStatus(HttpStatus.OK)
+    public ListCommonResponse<RoadmapResponse> getRoadmapsByDirectory(
+            @AuthenticationPrincipal User user,
+            @RequestParam(name = "directoryId") Long directoryId
+    ){
+        return CommonResponse.ok(roadmapService.getRoadmapsByDirectory(user, directoryId));
     }
 
 

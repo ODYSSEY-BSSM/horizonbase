@@ -8,10 +8,7 @@
     import odyssey.backend.domain.roadmap.exception.RoadmapNotFoundException;
     import odyssey.backend.infrastructure.persistence.directory.DirectoryRepository;
     import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
-    import odyssey.backend.presentation.roadmap.dto.response.CountResponse;
-    import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
-    import odyssey.backend.presentation.roadmap.dto.response.RoadmapResponse;
-    import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
+    import odyssey.backend.presentation.roadmap.dto.response.*;
     import org.springframework.stereotype.Service;
 
     import java.util.List;
@@ -79,6 +76,28 @@
             return roadmaps.stream()
                     .map(RoadmapResponse::from)
                     .toList();
+        }
+
+        public List<RoadmapResponse> getRoadmapsByDirectory(User user, Long directoryId) {
+            Directory directory = directoryRepository.findById(directoryId)
+                    .orElseThrow(DirectoryNotFoundException::new);
+
+            List<Roadmap> roadmaps = roadmapRepository.findByUserAndDirectory(user, directory);
+
+            return roadmaps.stream()
+                    .map(RoadmapResponse::from)
+                    .toList();
+        }
+
+        public TeamRoadmapListResponse getTeamRoadmapsByDirectory(User user, Long directoryId) {
+            Directory directory = directoryRepository.findById(directoryId)
+                    .orElseThrow(DirectoryNotFoundException::new);
+
+            List<Roadmap> roadmaps =  roadmapRepository.findByUserAndDirectory(user, directory);
+
+            return TeamRoadmapListResponse.from(
+                    roadmaps
+            );
         }
 
 

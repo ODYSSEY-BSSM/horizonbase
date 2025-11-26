@@ -6,6 +6,7 @@ import odyssey.backend.application.roadmap.RoadmapFacade;
 import odyssey.backend.application.roadmap.RoadmapService;
 import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
+import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapListResponse;
 import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
@@ -39,6 +40,16 @@ public class TeamRoadmapController {
             @PathVariable("teamId") Long teamId
     ){
         return CommonResponse.ok(roadmapService.findTeamRoadmaps(user, teamId));
+    }
+
+    @GetMapping("/directory-id")
+    @ResponseStatus(HttpStatus.OK)
+    public SingleCommonResponse<TeamRoadmapListResponse> getTeamRoadmapsByDirectory(
+            @AuthenticationPrincipal User user,
+            @RequestParam(name = "directoryId") Long directoryId,
+            @PathVariable("teamId") Long teamId
+    ){
+        return CommonResponse.ok(roadmapService.getTeamRoadmapsByDirectory(user, directoryId));
     }
 
 }
