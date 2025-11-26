@@ -1,4 +1,4 @@
-package odyssey.backend.presentation.roadmap.dto.response;
+package odyssey.backend.presentation.roadmap.dto.response.vo;
 
 import odyssey.backend.domain.roadmap.Roadmap;
 

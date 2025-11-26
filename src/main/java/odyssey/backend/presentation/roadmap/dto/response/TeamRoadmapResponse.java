@@ -1,6 +1,7 @@
 package odyssey.backend.presentation.roadmap.dto.response;
 
 import odyssey.backend.domain.roadmap.Roadmap;
+import odyssey.backend.presentation.roadmap.dto.response.vo.RoadmapResponseVO;
 import odyssey.backend.shared.color.Color;
 
 public record TeamRoadmapResponse(
