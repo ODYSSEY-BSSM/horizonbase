@@ -33,10 +33,8 @@
                     .toList();
         }
 
-        public List<TeamRoadmapResponse> findTeamRoadmaps(User user, Long teamId, Long directoryId) {
-            Directory directory = directoryRepository.findById(directoryId)
-                    .orElseThrow(DirectoryNotFoundException::new);
-            return roadmapRepository.findByTeam_IdAndDirectoryOrderByLastAccessedAtDesc(teamId, directory)
+        public List<TeamRoadmapResponse> findTeamRoadmaps(User user, Long teamId) {
+            return roadmapRepository.findByTeam_IdOrderByLastAccessedAtDesc(teamId)
                     .stream()
                     .map(roadmap -> TeamRoadmapResponse.from(roadmap, user.getUuid()))
                     .toList();

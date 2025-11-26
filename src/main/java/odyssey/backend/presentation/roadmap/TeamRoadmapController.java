@@ -32,14 +32,13 @@ public class TeamRoadmapController {
         return CommonResponse.ok(roadmapFacade.saveTeamRoadmap(request, user, teamId));
     }
 
-    @GetMapping("/{directory-id}")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ListCommonResponse<TeamRoadmapResponse> getTeamRoadmaps(
             @AuthenticationPrincipal User user,
-            @PathVariable Long directoryId,
             @PathVariable("teamId") Long teamId
     ){
-        return CommonResponse.ok(roadmapService.findTeamRoadmaps(user, teamId, directoryId));
+        return CommonResponse.ok(roadmapService.findTeamRoadmaps(user, teamId));
     }
 
 }
