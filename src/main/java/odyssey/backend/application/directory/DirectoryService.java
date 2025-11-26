@@ -13,6 +13,7 @@ import odyssey.backend.presentation.directory.dto.response.TeamDirectoryResponse
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -88,8 +89,18 @@ public class DirectoryService {
         directoryRepository.deleteById(id);
     }
 
-    public List<DirectoryInfoResponse> getDirectoryInfos(User user){
+    public List<DirectoryInfoResponse> getDirectoryInfos(User user, String sort){
         List<Directory> directories = directoryRepository.findDirectoriesByUser(user);
+        if(sort != null){
+            switch(sort){
+                case "name" -> directories.sort(Comparator.comparing(Directory::getName));
+                case "latest" -> directories.sort(Comparator.comparing(Directory::getCreatedAt));
+                default -> directories.sort(Comparator.comparing(Directory::getName));
+            }
+        }
+        else{
+            directories.sort(Comparator.comparing(Directory::getName));
+        }
 
         return directories
                 .stream()

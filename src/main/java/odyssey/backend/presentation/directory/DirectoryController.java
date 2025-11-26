@@ -81,8 +81,10 @@ public class DirectoryController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ListCommonResponse<DirectoryInfoResponse> getDirectories(
-            @AuthenticationPrincipal User user)
+            @AuthenticationPrincipal User user,
+            @RequestParam(name = "sort", required = false) String sort)
     {
-        return CommonResponse.ok(directoryService.getDirectoryInfos(user));
+        return CommonResponse.ok(directoryService.getDirectoryInfos(user, sort));
     }
+
 }
