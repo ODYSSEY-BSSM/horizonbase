@@ -33,9 +33,9 @@ public class  ProblemService {
 
         Node node = problem.getNode();
 
-        Integer correct = problem.getCorrect();
+        Integer answer = request.getAnswer();
 
-        solve(correct, problem, node);
+        solve(answer, problem, node);
 
         return ProblemResponse.from(problem);
     }
