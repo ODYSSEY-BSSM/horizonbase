@@ -1,7 +1,7 @@
 package odyssey.backend.presentation.directory.dto.response;
 
 import odyssey.backend.domain.directory.Directory;
-import odyssey.backend.presentation.roadmap.dto.response.SimpleRoadmapResponse;
+import odyssey.backend.presentation.roadmap.dto.response.SecondSimpleRoadmapResponse;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public record RootDirectoryResponse(
         String name,
         String description,
         Integer roadmapCount,
-        List<SimpleRoadmapResponse> roadmaps
+        List<SecondSimpleRoadmapResponse> roadmaps
 ) {
     public static RootDirectoryResponse from(Directory directory) {
         return new RootDirectoryResponse(
@@ -20,7 +20,7 @@ public record RootDirectoryResponse(
                 directory.roadmapCount(),
                 directory.getRoadmaps()
                         .stream()
-                        .map(SimpleRoadmapResponse::from)
+                        .map(SecondSimpleRoadmapResponse::from)
                         .toList()
         );
     }
