@@ -7,6 +7,7 @@ import odyssey.backend.domain.auth.User;
 import odyssey.backend.domain.roadmap.Roadmap;
 import odyssey.backend.presentation.directory.dto.request.DirectoryRequest;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -41,6 +42,8 @@ public class Directory {
     @Column(name = "team_id")
     private Long teamId;
 
+    private LocalDateTime createdAt;
+
     public static Directory from(DirectoryRequest request, Directory parent, User user) {
         return new Directory(request.getName(), request.getDescription(), parent, user, null);
     }
@@ -55,6 +58,7 @@ public class Directory {
         this.parent = parent;
         this.user = user;
         this.teamId = teamId;
+        createdAt = LocalDateTime.now();
     }
 
     public void update(String name, Directory parent) {
