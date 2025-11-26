@@ -56,7 +56,7 @@ public class DirectoryService {
     }
 
     public TeamDirectoryResponse createTeamDirectory(Long teamId, DirectoryRequest request, User user) {
-        Directory parent = findDirectoryById(request.getParentId());
+        Directory parent = findParent(request.getParentId());
         
         Directory directory = Directory.fromTeam(request, parent, teamId);
         directoryRepository.save(directory);
