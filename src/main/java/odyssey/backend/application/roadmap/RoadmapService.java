@@ -10,6 +10,7 @@
     import odyssey.backend.infrastructure.persistence.roadmap.RoadmapRepository;
     import odyssey.backend.presentation.roadmap.dto.response.CountResponse;
     import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
+    import odyssey.backend.presentation.roadmap.dto.response.RoadmapResponse;
     import odyssey.backend.presentation.roadmap.dto.response.TeamRoadmapResponse;
     import org.springframework.stereotype.Service;
 
@@ -71,6 +72,13 @@
                     .orElseThrow(RoadmapNotFoundException::new);
 
             return PersonalRoadmapResponse.from(roadmap, user.getUuid());
+        }
+
+        public List<RoadmapResponse> getRoadmaps(User user) {
+            List<Roadmap> roadmaps = roadmapRepository.findByUserOrTeamIn(user, user.getTeams());
+            return roadmaps.stream()
+                    .map(RoadmapResponse::from)
+                    .toList();
         }
 
 
