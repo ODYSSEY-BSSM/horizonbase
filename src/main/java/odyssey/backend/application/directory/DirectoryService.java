@@ -37,7 +37,7 @@ public class DirectoryService {
     public DirectoryResponse updateDirectory(Long id, DirectoryRequest request) {
         Directory directory = findDirectoryById(id);
 
-        Directory parent = findDirectoryById(directory.getId());
+        Directory parent = findParent(request.getParentId());
 
         directory.update(request.getName(), parent);
 
