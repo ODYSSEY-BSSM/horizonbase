@@ -8,6 +8,7 @@ import odyssey.backend.domain.auth.User;
 import odyssey.backend.presentation.roadmap.dto.request.RoadmapRequest;
 import odyssey.backend.presentation.roadmap.dto.response.CountResponse;
 import odyssey.backend.presentation.roadmap.dto.response.PersonalRoadmapResponse;
+import odyssey.backend.presentation.roadmap.dto.response.RoadmapResponse;
 import odyssey.backend.shared.response.CommonResponse;
 import odyssey.backend.shared.response.ListCommonResponse;
 import odyssey.backend.shared.response.SingleCommonResponse;
@@ -109,5 +110,14 @@ public class RoadmapController {
     ){
         return CommonResponse.ok(roadmapService.getTeamCount(user));
     }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ListCommonResponse<RoadmapResponse> getAllRoadmaps(
+            @AuthenticationPrincipal User user
+    ){
+        return CommonResponse.ok(roadmapService.getRoadmaps(user));
+    }
+
 
 }
