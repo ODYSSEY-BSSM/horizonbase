@@ -72,7 +72,7 @@ public class DirectoryService {
     public TeamDirectoryResponse updateTeamDirectory(Long id, Long teamId, DirectoryRequest request, User user) {
         Directory directory = findDirectoryById(id);
         
-        Directory parent = findDirectoryById(directory.getId());
+        Directory parent = findParent(request.getParentId());
         
         directory.update(request.getName(), parent);
         TeamDirectoryResponse response = TeamDirectoryResponse.from(directory);
