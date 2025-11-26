@@ -19,5 +19,7 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
 
     List<Node> findAllByIdInAndRoadmapId(List<Long> ids, Long roadmapId);
 
+    Long countByIsEducationTrue();
+
 }
 

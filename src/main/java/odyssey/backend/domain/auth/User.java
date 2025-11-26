@@ -3,6 +3,7 @@ package odyssey.backend.domain.auth;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import odyssey.backend.domain.auth.exception.NotSchoolEmailException;
 import odyssey.backend.domain.team.Team;
 import odyssey.backend.presentation.user.dto.request.SignUpRequest;
 
@@ -57,6 +58,11 @@ public class User {
         this.password = password;
     }
 
+    public void validEmail(String email){
+        if(!email.endsWith("@bssm.hs.kr")){
+            throw new NotSchoolEmailException();
+        }
+    }
 }
 
 
