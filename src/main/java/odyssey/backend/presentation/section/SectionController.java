@@ -27,7 +27,7 @@ public class SectionController {
 
     @PostMapping
     public SingleCommonResponse<SectionResponse> createSection(
-            @PathVariable Long roadmapId,
+            @PathVariable(value = "roadmap-id") Long roadmapId,
             @RequestBody SectionRequest request,
             @AuthenticationPrincipal User user)
     {
@@ -36,15 +36,15 @@ public class SectionController {
 
     @GetMapping("/{section-id}")
     public SingleCommonResponse<SimpleSectionResponse> getSection(
-            @PathVariable Long sectionId,
+            @PathVariable(value = "section-id") Long sectionId,
             @AuthenticationPrincipal User user
     ){
         return CommonResponse.ok(getSectionInfoUseCase.getSectionInfo(sectionId));
     }
 
     @PatchMapping("/{section-id}")
-    public SingleCommonResponse<SectionResponse> UpdateSection(
-            @PathVariable Long sectionId,
+    public SingleCommonResponse<SectionResponse> updateSection(
+            @PathVariable(value = "section-id") Long sectionId,
             @RequestBody UpdateSectionRequest request,
             @AuthenticationPrincipal User user
     ){
@@ -52,8 +52,8 @@ public class SectionController {
     }
 
     @DeleteMapping("/{section-id}")
-    public void UpdateSection(
-            @PathVariable Long sectionId,
+    public void deleteSection(
+            @PathVariable(value = "section-id") Long sectionId,
             @AuthenticationPrincipal User user
     ){
         deleteSectionUseCase.deleteSection(sectionId);

@@ -26,7 +26,7 @@ public class TextController {
 
     @PostMapping
     public SingleCommonResponse<TextResponse> createText(
-            @PathVariable Long roadmapId,
+            @PathVariable(value = "roadmap-id") Long roadmapId,
             @RequestBody TextRequest request,
             @AuthenticationPrincipal User user
     ){
