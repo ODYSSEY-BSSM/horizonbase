@@ -11,7 +11,7 @@ public record TextInfo(
         Long sectionId
 ) {
     public static TextInfo from(Text text){
-        Long sectionId = text.getSection().getId() != null ? text.getSection().getId() : null;
+        Long sectionId = text.getSection() == null ? null : text.getSection().getId();
         return new TextInfo(text.getId(), text.getText(), text.getType(), text.getRoadmapId(),  sectionId);
     }
 

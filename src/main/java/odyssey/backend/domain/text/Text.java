@@ -72,4 +72,5 @@ public class Text {
         this.type = request.getType();
         setSection(section);
     }
+
 }
